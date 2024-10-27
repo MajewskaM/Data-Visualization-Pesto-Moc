@@ -8,8 +8,9 @@ continents = ['Africa', 'Asia', 'Europe', 'Asia (excl. China and India)', 'North
 income = ['High-income countries', 'Low-income countries', 'Lower-middle-income countries','Upper-middle-income countries']
 world = ['World']
 
+not_country = continents + income + world 
 continents_data = data[data['Entity'].isin(continents)]
-countries_data = data[~data['Entity'].isin(continents)]
+countries_data = data[~data['Entity'].isin(not_country)]
 
 income_of_country = data[data['Entity'].isin(income)]
 world_emissions = data[data['Entity'].isin(world)]
