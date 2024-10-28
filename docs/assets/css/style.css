@@ -131,3 +131,50 @@ footer {
 html {
     scroll-behavior: smooth;
 }
+
+
+/* Basic styling for the bar chart */
+#chart_2022 .bar {
+    fill: steelblue;
+    transition: fill 0.3s;
+}
+
+#chart_2022 .bar.un_hoover {
+    fill: gray;
+}
+
+#chart_2022 .bar.hoover {
+    fill: orange;
+}
+
+/* Styles Specific to Decade Chart Page */
+#decade-chart .bar {
+    fill: darkred;
+    transition: fill 0.3s;
+}
+
+#decade-chart .bar.un_hoover {
+    fill: lightgray;
+}
+
+#decade-chart .bar.hoover {
+    fill: tomato;
+}
+.axis-label {
+    font-size: 12px;
+}
+.title {
+    font-size: 16px;
+    text-anchor: middle;
+}
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    visibility: hidden;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top 10 Most Polluting Countries</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <link rel="stylesheet" href="docs/assets/css/style.css">
+</head>
+<body>
+    <div id="chart_2022"></div>
+    <div id="decade-chart"></div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const margin = { top: 40, right: 20, bottom: 80, left: 80 };
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        const tooltip = d3.select("#tooltip");
+
+        function createBarChart(svgContainer, data, title, showYearInTooltip) {
+            const svg = d3.select(svgContainer)
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(data.map(d => `${d.Entity}-${d.Year}`))  // id for each bar
+                .range([0, width])
+                .padding(0.1);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d["CO2 emissions"])]).nice()
+                .range([height, 0]);
+
+            svg.selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(`${d.Entity}-${d.Year}`))  // id for positioning
+                .attr("y", d => y(d["CO2 emissions"]))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d["CO2 emissions"]))
+                .on("mouseover", function(event, d) {
+                    const tooltipContent = showYearInTooltip
+                        ? `Country: ${d.Entity}<br>Year: ${d.Year}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`
+                        : `Country: ${d.Entity}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`;
+
+                    tooltip.style("visibility", "visible")
+                        .html(tooltipContent)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+
+                    d3.selectAll(`${svgContainer} .bar`).classed("un_hoover", true); // bars -> unhover
+                    d3.select(this).classed("un_hoover", false).classed("hoover", true); // hovered bar to hoover
+                })
+                .on("mousemove", function(event) {
+                    tooltip.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.style("visibility", "hidden");
+                    // Remove classes only from bars of the current chart
+                    d3.selectAll(`${svgContainer} .bar`).classed("un_hoover", false).classed("hoover", false);
+                });
+
+            // X-axis
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(d => d.split('-')[0])) // Show only country name
+                .selectAll("text")
+                .attr("transform", "rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Y-axis
+            svg.append("g")
+                .call(d3.axisLeft(y).ticks(10))
+                .append("text")
+                .attr("class", "axis-label")
+                .attr("y", -40)
+                .attr("x", -height / 2)
+                .attr("dy", ".75em")
+                .style("text-anchor", "middle")
+                .text("CO₂ Emissions (Million Metric Tons)");
+
+            // Chart title
+            svg.append("text")
+                .attr("class", "title")
+                .attr("x", width / 2)
+                .attr("y", -20)
+                .text(title);
+        }
+
+        // Load and process the CSV data
+        d3.csv("dataset/countries_data.csv", d => ({
+            Entity: d.Entity,
+            Year: +d.Year,
+            "CO2 emissions": +d["Annual CO₂ emissions (per capita)"]
+        })).then(data => {
+            const data2022 = data.filter(d => d.Year === 2022);
+            const top10_2022 = data2022.sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"]).slice(0, 10);
+
+            createBarChart("#chart_2022", top10_2022, "Top 10 Most Polluting Countries in 2022 by CO₂ Emissions", false);
+
+            const dataDecade = data.filter(d => d.Year >= 2013 && d.Year <= 2022);
+            const topEmissionsEachYear = [];
+            for (let year = 2013; year <= 2022; year++) {
+                const yearData = dataDecade.filter(d => d.Year === year);
+                const topForYear = yearData.sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"]).slice(0, 5);
+                topEmissionsEachYear.push(...topForYear);
+            }
+
+            const top10_decade = topEmissionsEachYear
+                .sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"])
+                .slice(0, 10);
+
+            createBarChart("#decade-chart", top10_decade, "Top 10 Highest CO₂ Emissions in Last Decade (2013-2022)", true);
+
+        }).catch(error => {
+            console.error("Error loading the CSV file:", error);
+        });
+    </script>
+</body>
+</html>
