@@ -12,7 +12,7 @@
     <div class="tooltip" id="tooltip"></div>
 
     <script>
-        const margin = { top: 40, right: 20, bottom: 80, left: 80 };
+        const margin = { top: 50, right: 20, bottom: 80, left: 80 };
         const width = 600 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
@@ -75,23 +75,32 @@
                 .attr("transform", "rotate(-45)")
                 .style("text-anchor", "end");
 
-            // Y-axis
-            svg.append("g")
-                .call(d3.axisLeft(y).ticks(10))
-                .append("text")
+            const yAxis = svg.append("g").call(d3.axisLeft(y).ticks(10));
+            // Add y-axis label in the top-left corner
+            svg.append("text")
                 .attr("class", "axis-label")
-                .attr("y", -40)
-                .attr("x", -height / 2)
-                .attr("dy", ".75em")
-                .style("text-anchor", "middle")
-                .text("CO₂ Emissions (Million Metric Tons)");
+                .attr("transform", "rotate(-90)")    // Rotate the text 90 degrees counter-clockwise
+                .attr("x", -height / 2)              // Center the text vertically along the y-axis
+                .attr("y", -margin.left + 35)        // Position it to the left of the chart
+                .attr("dy", "1em")                   // Adjust for padding
+                .style("font-size", "10px")
+                .style("text-anchor", "middle")      // Center-align the text horizontally after rotation
+                .text("[ tonnes per person ]");
 
             // Chart title
+            const titleLines = title.split("\n");
             svg.append("text")
                 .attr("class", "title")
                 .attr("x", width / 2)
                 .attr("y", -20)
-                .text(title);
+                .style("text-anchor", "middle")
+                .selectAll("tspan")
+                .data(titleLines)
+                .enter()
+                .append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", (d, i) => i * 20)
+                .text(d => d);
         }
 
         // Load and process the CSV data
@@ -103,7 +112,7 @@
             const data2022 = data.filter(d => d.Year === 2022);
             const top10_2022 = data2022.sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"]).slice(0, 10);
 
-            createBarChart("#chart_2022", top10_2022, "Top 10 Most Polluting Countries in 2022 by CO₂ Emissions", false);
+            createBarChart("#chart_2022", top10_2022, "Annual CO₂ emissions (per capita) tonnes per person\nTop 10 Countries in 2022", false);
 
             const dataDecade = data.filter(d => d.Year >= 2013 && d.Year <= 2022);
             const topEmissionsEachYear = [];
@@ -117,7 +126,7 @@
                 .sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"])
                 .slice(0, 10);
 
-            createBarChart("#decade-chart", top10_decade, "Top 10 Highest CO₂ Emissions in Last Decade (2013-2022)", true);
+            createBarChart("#decade-chart", top10_decade, "Annual CO₂ emissions (per capita) tonnes per person\nTop 10 Countries in Last Decade (2013-2022)", true);
 
         }).catch(error => {
             console.error("Error loading the CSV file:", error);

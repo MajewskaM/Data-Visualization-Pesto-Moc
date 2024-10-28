@@ -135,7 +135,7 @@ html {
 
 /* Basic styling for the bar chart */
 #chart_2022 .bar {
-    fill: steelblue;
+    fill: #003f5c;
     transition: fill 0.3s;
 }
 
@@ -144,12 +144,12 @@ html {
 }
 
 #chart_2022 .bar.hoover {
-    fill: orange;
+    fill: #ef5675;
 }
 
 /* Styles Specific to Decade Chart Page */
 #decade-chart .bar {
-    fill: darkred;
+    fill: #003f5c;
     transition: fill 0.3s;
 }
 
@@ -158,7 +158,7 @@ html {
 }
 
 #decade-chart .bar.hoover {
-    fill: tomato;
+    fill: #ef5675;
 }
 .axis-label {
     font-size: 12px;
