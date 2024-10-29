@@ -178,3 +178,19 @@ html {
     font-size: 12px;
     visibility: hidden;
 }
+
+.year-timeline {
+    margin-top: 20px;
+}
+.year {
+    stroke: gray;
+    stroke-width: 1.5;
+}
+.year-label {
+    fill: black;
+    font-size: 12px;
+}
+.timeline-line {
+    stroke: black;
+    stroke-width: 2;
+}

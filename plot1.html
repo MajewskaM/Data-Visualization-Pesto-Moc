@@ -9,6 +9,7 @@
 <body>
     <div id="chart_2022"></div>
     <div id="decade-chart"></div>
+    <div class="year-timeline" id="year-timeline"></div>
     <div class="tooltip" id="tooltip"></div>
 
     <script>
@@ -18,18 +19,29 @@
 
         const tooltip = d3.select("#tooltip");
 
-        function createBarChart(svgContainer, data, title, showYearInTooltip) {
+        function createBarChart(svgContainer, data, title, useTimeScale) {
             const svg = d3.select(svgContainer)
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            if (useTimeScale) {
+                data.forEach(d => {
+                    d.Year = new Date(d.Year, 0, 1); // January 1st for each year
+                });
+            }
 
-            const x = d3.scaleBand()
-                .domain(data.map(d => `${d.Entity}-${d.Year}`))  // id for each bar
-                .range([0, width])
-                .padding(0.1);
+            // Conditionally define the x scale as either a time or band scale
+            const x = useTimeScale
+                ? d3.scaleTime()
+                    .domain(d3.extent(data, d => d.Year))  // Set to the range of years in the data
+                    .range([0, width])
+                : d3.scaleBand()
+                    .domain(data.map(d => `${d.Entity}-${d.Year}`))  // Use country-year as ID for bars
+                    .range([0, width])
+                    .padding(0.1);
 
             const y = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d["CO2 emissions"])]).nice()
@@ -40,14 +52,12 @@
                 .enter()
                 .append("rect")
                 .attr("class", "bar")
-                .attr("x", d => x(`${d.Entity}-${d.Year}`))  // id for positioning
+                .attr("x", d => useTimeScale ? x(d.Year) : x(`${d.Entity}-${d.Year}`))
                 .attr("y", d => y(d["CO2 emissions"]))
-                .attr("width", x.bandwidth())
+                .attr("width", useTimeScale ? width / data.length - 1 : x.bandwidth())
                 .attr("height", d => height - y(d["CO2 emissions"]))
                 .on("mouseover", function(event, d) {
-                    const tooltipContent = showYearInTooltip
-                        ? `Country: ${d.Entity}<br>Year: ${d.Year}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`
-                        : `Country: ${d.Entity}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`;
+                    const tooltipContent = `Country: ${d.Entity}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`;
 
                     tooltip.style("visibility", "visible")
                         .html(tooltipContent)
@@ -70,7 +80,7 @@
             // X-axis
             svg.append("g")
                 .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).tickFormat(d => d.split('-')[0])) // Show only country name
+                .call(useTimeScale ? d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")) : d3.axisBottom(x).tickFormat(d => d.split('-')[0]))
                 .selectAll("text")
                 .attr("transform", "rotate(-45)")
                 .style("text-anchor", "end");
@@ -103,6 +113,52 @@
                 .text(d => d);
         }
 
+        function createYearTimeline(data) {
+            const timelineHeight = 10;  // Height of the timeline
+            const timelineSvg = d3.select("#year-timeline")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", timelineHeight + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top - 40})`); // Adjust vertical position
+
+            const years = d3.range(2013, 2023); // Range from 2013 to 2022
+            const x = d3.scaleBand()
+                .domain(years)
+                .range([0, width])
+                .padding(0.1);
+            
+            timelineSvg.append("line")
+                .attr("class", "timeline-line")
+                .attr("x1", 0)
+                .attr("x2", width)
+                .attr("y1", timelineHeight / 2)  // Centered vertically
+                .attr("y2", timelineHeight / 2);
+
+            // Draw lines for each year
+            timelineSvg.selectAll(".year")
+                .data(years)
+                .enter()
+                .append("line")
+                .attr("class", "year")
+                .attr("x1", d => x(d) + x.bandwidth() / 2)
+                .attr("x2", d => x(d) + x.bandwidth() / 2)
+                .attr("y1", 0)
+                .attr("y2", timelineHeight)
+                .attr("stroke", "gray");
+
+            // Draw year labels
+            timelineSvg.selectAll(".year-label")
+                .data(years)
+                .enter()
+                .append("text")
+                .attr("class", "year-label")
+                .attr("x", d => x(d) + x.bandwidth() / 2)
+                .attr("y", timelineHeight + 15) // Position below the timeline
+                .attr("text-anchor", "middle")
+                .text(d => d);
+        }
+
         // Load and process the CSV data
         d3.csv("dataset/countries_data.csv", d => ({
             Entity: d.Entity,
@@ -118,16 +174,15 @@
             const topEmissionsEachYear = [];
             for (let year = 2013; year <= 2022; year++) {
                 const yearData = dataDecade.filter(d => d.Year === year);
-                const topForYear = yearData.sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"]).slice(0, 5);
+                const topForYear = yearData.sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"]).slice(0, 1);
                 topEmissionsEachYear.push(...topForYear);
             }
 
             const top10_decade = topEmissionsEachYear
-                .sort((a, b) => b["CO2 emissions"] - a["CO2 emissions"])
                 .slice(0, 10);
 
             createBarChart("#decade-chart", top10_decade, "Annual CO₂ emissions (per capita) tonnes per person\nTop 10 Countries in Last Decade (2013-2022)", true);
-
+            createYearTimeline(topEmissionsEachYear);
         }).catch(error => {
             console.error("Error loading the CSV file:", error);
         });
