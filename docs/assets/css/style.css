@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f5f5f5;
     color: #333;
+    box-sizing: border-box;
 }
 
 header {
@@ -14,6 +15,8 @@ header {
     justify-content: space-between;
     text-align: center;
     color: white;
+    margin-left: 200px; /* Matches sidebar width for proper alignment */
+    padding: 0px;
 }
 
 header::before {
@@ -86,6 +89,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 220px; /* Matches sidebar width for proper alignment */
 }
 
 section {
@@ -128,12 +132,13 @@ footer {
     background-color: rgba(51, 51, 51, 0.8);
     color: white;
     margin-top: 20px;
+    margin-left: 200px; /* Matches sidebar width for proper alignment */
+    padding: 20px;
 }
 
 html {
     scroll-behavior: smooth;
 }
-
 
 /* Basic styling for the bar chart */
 #chart_2022 .bar {
@@ -181,23 +186,162 @@ html {
     visibility: hidden;
 }
 
-.timeChoice {
-    margin: 0 20px;
-    font-size: 16px;
+#decade-chart {
+    height: 400px;
+    width: 600px; /* Set a width to align with content */
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    padding-top: 20px;
+    padding-left: 10px;
+    z-index: 1000; /* Ensures sidebar is above other content */
+}
+
+.sidebar h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    font-size: 1em;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.sidebar a:hover {
+    color: #51c49a;
+    background-color: #444;
+    cursor: pointer;
+}
+
+#assignment1_site{
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+#assignment1_site .chart-section-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; /* Keep space between chart and description */
+    margin-bottom: 20px; /* Space between sections */
+}
+
+#chart_2022, #decade-chart {
+    width: 600px; /* Ensure both charts are of the same width */
+}
+
+.chart-section-container section {
+    display: grid;
+    grid-template-rows: auto 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 500px; /* Adjust width as necessary */
+    margin-left: 80px;
+}
+
+.legend {
+    grid-row: 2 / 4; /* Span across two rows */
+    grid-column: 1;
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.legend h2{
+    border-bottom: none;
+}
+
+.explanation, .description {
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.explanation {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.description {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.title {
+    grid-column: 1 / 3; /* Span both columns */
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#section_with_selector section{
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px; /* Reduced gap */
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 500px; /* Adjust width as necessary */
+    margin-left: 80px;
+}
+
+#section_with_selector .legend {
+    grid-row: 3 / 5;
+}
+
+#section_with_selector .explanation {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#section_with_selector .description {
+    grid-column: 2;
+    grid-row: 4;
+}
+
+#section_with_selector .title {
+    grid-column: 1 / 3; /* Span both columns */
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.timeChoice {
+    grid-row: 2;
+    grid-column: 1 / 3;
+    gap: 10px;
+    font-size: 16px;
+    display: flex;
+    height: 50px;
     align-items: center;
 }
 
 .timeChoice label {
     font-weight: bold;
     color: #333;
-    margin-bottom: -20px;
+    font-size: 16px;
 }
 
 .timeChoice select {
     padding: 8px 12px;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #f0f0f0;
@@ -212,16 +356,4 @@ html {
 .timeChoice select:focus {
     outline: none; /* Removes default outline */
     border: 1px solid darkblue; /* Green border on focus */
-}
-
-.timespan_chart {
-    display: flex; 
-    align-items: center; /* Vertically centers the elements */
-    margin: 20px;
-    height: 400px; /* Adjust to fit the chart */
-}
-
-#decade-chart {
-    height: 400px;
-    width: 600px; /* Set a width to align with content */
 }

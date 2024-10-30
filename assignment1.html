@@ -2,25 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Top 10 Most Polluting Countries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project | PestoMoc</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <link rel="stylesheet" href="docs/assets/css/style.css">
-    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
+
 </head>
 <body>
-    <div id="chart_2022"></div>
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <a href="index.html">Home</a>
+        <a href="#project-description">Project Description</a>
+        <a href="#assignment1">Assignment 1</a>
+        <a href="#assignment2">Assignment 2</a>
+    </div>
+
+<main id="assignment1_site">
+
+    <div class="chart-section-container">
+        <div id="chart_2022"></div>
+        <section class="clickable-section">
+            <h2 class="title">
+                <span>Emission of CO<sub>2</sub> (per capita) in 2022.</span><br>
+                <span>Top 10 Countries</span>
+            </h2>
+            <div class="legend">
+                <h2>Legend</h2>
+            </div>
+            <div class="explanation">
+                <p>Data at hand</p>
+                <p>
+                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                </p>
+            </div>
+            <div class="description">
+                <p>Data at hand</p>
+                <p>
+                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                </p>
+            </div>
+        </section>
+    </div>
     
-    <div class="timespan_chart">
+    <div class="chart-section-container" id="section_with_selector">
         <div id="decade-chart"></div>
-        <div class="timeChoice">
-            <label for="timeRange">Select Time Range: </label>
-            <p></p>
-            <select id="timeRange">
-                <option value="5years">Last 5 Years</option>
-                <option value="10years" selected>Last Decade</option>
-                <option value="20years">Last 2 Decades</option>
-            </select>
-        </div>
+        <section class="clickable-section">
+            <h2 class="title">
+                <span>Emission of CO<sub>2</sub> (per capita) for specified timespan.</span><br>
+                <span>Top 10 Countries</span>
+            </h2>
+            <div class="timeChoice">
+                <label for="timeRange">Select Time Range: </label>
+                <p></p>
+                <select id="timeRange">
+                    <option value="5years">Last 5 Years</option>
+                    <option value="10years" selected>Last Decade</option>
+                    <option value="20years">Last 2 Decades</option>
+                </select>
+            </div>
+            <div class="legend">
+                <h2>Legend</h2>
+            </div>
+            <div class="explanation">
+                <p>Data at hand</p>
+                <p>
+                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                </p>
+            </div>
+            <div class="description">
+                <p>Data at hand</p>
+                <p>
+                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                </p>
+            </div>
+        </section>
     </div>
 
     <div class="tooltip" id="tooltip"></div>
@@ -98,24 +155,20 @@
                 .attr("y", height)
                 .attr("height", 0)
                 .on("mouseover", function(event, d) {
-                    // Change other bars in this chart to gray
                     d3.selectAll(`${svgContainer} .bar`)
                         .filter(b => b.Entity !== d.Entity)
                         .attr("class", "bar un_hoover");
 
-                    // Highlight the hovered bar
                     d3.select(this).attr("class", "bar hoover");
 
-                    // Tooltip visibility and styling
                     tooltip.style("visibility", "visible")
                         .html(`Country: ${d.Entity}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mouseout", function() {
-                    // Reset all bars in this chart to original color
-                    d3.selectAll(`${svgContainer} .bar`) // Only target bars in the current svgContainer
-                        .attr("class", "bar"); // Reset to original class
+                    d3.selectAll(`${svgContainer} .bar`)
+                        .attr("class", "bar");
 
                     tooltip.style("visibility", "hidden");
                 })
@@ -124,7 +177,6 @@
                 .attr("y", d => y(d["CO2 emissions"]))
                 .attr("height", d => height - y(d["CO2 emissions"]));
 
-            // Update existing bars with smooth transition
             bars.transition()
                 .duration(750)
                 .attr("x", d => x(d.Entity))
@@ -132,7 +184,6 @@
                 .attr("width", x.bandwidth())
                 .attr("height", d => height - y(d["CO2 emissions"]));
 
-            // Smoothly transition exiting bars by shrinking their height to zero
             bars.exit()
                 .transition()
                 .duration(750)
@@ -178,5 +229,12 @@
             loadAndDrawChart(d3.select(this).property("value"));
         });
     </script>
+    
+</main>
+
+<footer>
+    <p>&copy; 2024 | PestoMoc</p>
+</footer>
+
 </body>
 </html>
