@@ -142,7 +142,7 @@ html {
 }
 
 #chart_2022 .bar.un_hoover {
-    fill: gray;
+    fill: lightgray;
 }
 
 #chart_2022 .bar.hoover {
@@ -181,18 +181,47 @@ html {
     visibility: hidden;
 }
 
-.year-timeline {
-    margin-top: 20px;
+.timeChoice {
+    margin: 0 20px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.year {
-    stroke: gray;
-    stroke-width: 1.5;
+
+.timeChoice label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: -20px;
 }
-.year-label {
-    fill: black;
-    font-size: 12px;
+
+.timeChoice select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    transition: all 0.3s ease;
 }
-.timeline-line {
-    stroke: black;
-    stroke-width: 2;
+
+.timeChoice select:hover {
+    background-color: #e0e0e0; /* Darken on hover */
+    cursor: pointer;
+}
+
+.timeChoice select:focus {
+    outline: none; /* Removes default outline */
+    border: 1px solid darkblue; /* Green border on focus */
+}
+
+.timespan_chart {
+    display: flex; 
+    align-items: center; /* Vertically centers the elements */
+    margin: 20px;
+    height: 400px; /* Adjust to fit the chart */
+}
+
+#decade-chart {
+    height: 400px;
+    width: 600px; /* Set a width to align with content */
 }
