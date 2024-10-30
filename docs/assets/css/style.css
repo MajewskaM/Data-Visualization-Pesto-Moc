@@ -140,9 +140,12 @@ html {
     scroll-behavior: smooth;
 }
 
+#chart_2022, #decade-chart {
+    width: 600px;
+}
 /* Basic styling for the bar chart */
 #chart_2022 .bar {
-    fill: #003f5c;
+    fill: rgba(38, 79, 11, 0.9);
     transition: fill 0.3s;
 }
 
@@ -151,12 +154,12 @@ html {
 }
 
 #chart_2022 .bar.hoover {
-    fill: #ef5675;
+    fill: rgba(38, 79, 11, 0.9);
 }
 
 /* Styles Specific to Decade Chart Page */
 #decade-chart .bar {
-    fill: #003f5c;
+    fill: rgba(38, 79, 11, 0.9);
     transition: fill 0.3s;
 }
 
@@ -165,7 +168,7 @@ html {
 }
 
 #decade-chart .bar.hoover {
-    fill: #ef5675;
+    fill: rgba(38, 79, 11, 0.9);
 }
 .axis-label {
     font-size: 12px;
@@ -249,7 +252,7 @@ html {
     grid-template-columns: 1fr 2fr;
     gap: 10px;
     padding: 20px;
-    border: 2px solid black;
+    border: 2px solid rgb(134, 134, 134);
     border-radius: 20px;
     width: 500px; /* Adjust width as necessary */
     margin-left: 80px;
@@ -258,19 +261,25 @@ html {
 .legend {
     grid-row: 2 / 4; /* Span across two rows */
     grid-column: 1;
-    border: 1px solid black;
+    border: 1px solid rgb(134, 134, 134);
     border-radius: 15px;
     text-align: center;
 }
 
 .legend h2{
     border-bottom: none;
+    margin-top: 10px;
 }
 
 .explanation, .description {
-    border: 1px solid black;
+    border: 1px solid rgb(134, 134, 134);
     border-radius: 15px;
     padding: 10px;
+}
+
+.explanation h2, .description h2{
+    border-bottom: none;
+    margin-top: 0px;
 }
 
 .explanation {
@@ -296,7 +305,6 @@ html {
     grid-template-columns: 1fr 2fr;
     gap: 10px; /* Reduced gap */
     padding: 20px;
-    border: 2px solid black;
     border-radius: 20px;
     width: 500px; /* Adjust width as necessary */
     margin-left: 80px;
@@ -356,4 +364,54 @@ html {
 .timeChoice select:focus {
     outline: none; /* Removes default outline */
     border: 1px solid darkblue; /* Green border on focus */
+}
+
+.additional_window {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.window-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.openExplWindow{
+    background-color: #c0c0c0;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 130px;
+    height: 40px;
+    font-weight:600;
+}
+
+.openExplWindow:hover{
+    background-color: rgba(93, 190, 28, 0.9);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
 }

@@ -25,19 +25,21 @@
         <div id="chart_2022"></div>
         <section class="clickable-section">
             <h2 class="title">
-                <span>Emission of CO<sub>2</sub> (per capita) in 2022.</span><br>
+                <span>Emission of CO<sub>2</sub> (per capita) in 2022</span><br>
                 <span>Top 10 Countries</span>
             </h2>
             <div class="legend">
                 <h2>Legend</h2>
             </div>
             <div class="explanation">
-                <p>Data at hand</p>
+                <h2>Comment</h2>
+                <p>The chart shows the countries that rank in the top 10 in terms of CO2 emissions in 2022.</p>
                 <p>
-                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                    <button class="openExplWindow" data-modal="window1">Read more</button>
                 </p>
             </div>
             <div class="description">
+                <h2>Explanation</h2>
                 <p>Data at hand</p>
                 <p>
                     <a href="plot2_1.html" class="btn" target="_blank">View</a>
@@ -50,7 +52,7 @@
         <div id="decade-chart"></div>
         <section class="clickable-section">
             <h2 class="title">
-                <span>Emission of CO<sub>2</sub> (per capita) for specified timespan.</span><br>
+                <span>Emission of CO<sub>2</sub> (per capita) for specified timespan</span><br>
                 <span>Top 10 Countries</span>
             </h2>
             <div class="timeChoice">
@@ -66,12 +68,14 @@
                 <h2>Legend</h2>
             </div>
             <div class="explanation">
+                <h2>Comment</h2>
                 <p>Data at hand</p>
                 <p>
                     <a href="plot2_1.html" class="btn" target="_blank">View</a>
                 </p>
             </div>
             <div class="description">
+                <h2>Explanation</h2>
                 <p>Data at hand</p>
                 <p>
                     <a href="plot2_1.html" class="btn" target="_blank">View</a>
@@ -81,6 +85,18 @@
     </div>
 
     <div class="tooltip" id="tooltip"></div>
+
+    <div id="window1" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Comment</h2>
+            <p>Chart shows the countries that rank in the top 10 in terms of CO2 emissions in 2022. 
+                <br><br>
+                A database of countries from around the world with CO2 emissions in 2022 was analyzed. All data was presented in tones per person (which indicates the average of CO2 emissions that accrue per person in 2022 presented in tones).
+                <br><br>
+                We can clearly notice based on this bar chart that the biggest emission is produced by Qatar - which was 36,7 tonnes per person. </p>
+        </div>
+    </div>
 
     <script>
         const margin = { top: 50, right: 20, bottom: 100, left: 80 };
@@ -196,13 +212,13 @@
             let filePath, title;
             if (timeRange === "5years") {
                 filePath = "dataset/countries_emissions_5.csv";
-                title = "Average of annual CO₂ emissions in the past 5 years (2018-2022)\nTop 10 Countries";
+                title = "Avg of annual CO₂ emissions in the past 5 years (2018-2022)\nTop 10 Countries";
             } else if (timeRange === "10years") {
                 filePath = "dataset/countries_emissions_10.csv";
-                title = "Average of annual CO₂ emissions in the past decade (2013-2022)\nTop 10 Countries";
+                title = "Avg of annual CO₂ emissions in the past decade (2013-2022)\nTop 10 Countries";
             } else if (timeRange === "20years") {
                 filePath = "dataset/countries_emissions_20.csv";
-                title = "Average of annual CO₂ emissions in the past 2 decades(2003-2022)\nTop 10 Countries";
+                title = "Avg of annual CO₂ emissions in the past 2 decades(2003-2022)\nTop 10 Countries";
             }
 
             d3.csv(filePath, d => ({
@@ -227,6 +243,24 @@
 
         d3.select("#timeRange").on("change", function() {
             loadAndDrawChart(d3.select(this).property("value"));
+        });
+
+        const openModalButtons = document.querySelectorAll(".openExplWindow");
+        const closeButtons = document.querySelectorAll(".close-btn");
+
+        openModalButtons.forEach(button => {
+            button.onclick = function() {
+                const windowId = this.getAttribute("data-modal");
+                const window = document.getElementById(windowId);
+                window.style.display = "block";
+            }
+        });
+
+        closeButtons.forEach(button => {
+            button.onclick = function() {
+                const window = this.closest(".additional_window");
+                window.style.display = "none";
+            }
         });
     </script>
     
