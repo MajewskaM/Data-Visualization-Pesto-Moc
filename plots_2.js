@@ -13,7 +13,7 @@
         const tooltip_2 = d3.select(".tooltip2");
         let allData = []; 
 
-        d3.csv("datasets/all_emitters_2022.csv").then(data => {
+        d3.csv("dataset/all_emitters_2022.csv").then(data => {
             allData = data;
             updateChart("2022", 5);
         });
