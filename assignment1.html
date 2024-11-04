@@ -33,16 +33,16 @@
             </div>
             <div class="explanation">
                 <h2>Comment</h2>
-                <p>The chart shows the countries that rank in the top 10 in terms of CO2 emissions in 2022.</p>
+                <p>The chart shows countries that rank in the top 10 in terms of CO2 emissions in 2022.</p>
                 <p>
                     <button class="openExplWindow" data-modal="window1">Read more</button>
                 </p>
             </div>
             <div class="description">
                 <h2>Explanation</h2>
-                <p>Data at hand</p>
+                <p>Chart created based on file "co-emission-per-capita.csv".</p>
                 <p>
-                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                    <button class="openExplWindow" data-modal="window2">Read more</button>
                 </p>
             </div>
         </section>
@@ -71,14 +71,14 @@
                 <h2>Comment</h2>
                 <p>Data at hand</p>
                 <p>
-                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                    <button class="openExplWindow" data-modal="window3">Read more</button>
                 </p>
             </div>
             <div class="description">
                 <h2>Explanation</h2>
                 <p>Data at hand</p>
                 <p>
-                    <a href="plot2_1.html" class="btn" target="_blank">View</a>
+                    <button class="openExplWindow" data-modal="window4">Read more</button>
                 </p>
             </div>
         </section>
@@ -90,11 +90,60 @@
         <div class="window-content">
             <span class="close-btn">&times;</span>
             <h2>Comment</h2>
-            <p>Chart shows the countries that rank in the top 10 in terms of CO2 emissions in 2022. 
+            <p>
+                Chart shows countries that rank in the top 10 in terms of CO2 emissions in 2022. 
                 <br><br>
                 A database of countries from around the world with CO2 emissions in 2022 was analyzed. All data was presented in tones per person (which indicates the average of CO2 emissions that accrue per person in 2022 presented in tones).
                 <br><br>
-                We can clearly notice based on this bar chart that the biggest emission is produced by Qatar - which was 36,7 tonnes per person. </p>
+                We can clearly notice based on this bar chart that the biggest emission is produced by Qatar - which was 36,7 tonnes per person. 
+            </p>
+        </div>
+    </div>
+
+    <div id="window2" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Explanation</h2>
+            <p>
+                Chart created based on file "co-emission-per-capita.csv". 
+                <br><br>
+                After the analysis of dataset we noticed that it contains the mix of 3 cathegories - countries, continents and emission due income.
+                <br><br>
+                For this specific chart only data that was needed was informations about countries that is why using python language we were able to split the data and retrieve rows needed.
+                <br>
+                Next dataset was sorted and loaded to d3.js to make a visualization. In this case in form of bar chart.
+            </p>
+        </div>
+    </div>
+
+    <div id="window3" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Comment</h2>
+            <p>Chart shows the countries that rank in the top 10 in terms of CO2 emissions in last 5 years, decade or 2 decades (depends on user choice of visualization). 
+                <br><br>
+                A database of countries from around the world with CO2 emissions in 2022 was analyzed. All data was presented in tones per person (which indicates the average of CO2 emissions that accrue per person in 2022 presented in tones).
+                <br><br>
+                We can clearly notice based on this bar chart that:
+                <ul>
+                    <li>the biggest emission in last 5 years is produced by Qatar - which was 18,51 per person.</li>
+                    <li>the biggest emission in last decade is produced by Qatar - which was 37,53 per person.</li>
+                    <li>the biggest emission in last 2 decades is produced by Qatar - which was 88,13 per person.</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <div id="window4" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Explanation</h2>
+            <p>Charts created based on file "co-emission-per-capita.csv". 
+                <br><br>
+                After the analysis of dataset we noticed that it contains the mix of 3 cathegories - countries, continents and emission due income.
+                <br><br>
+                For this specific chart only data that was needed was informations about countries that is why using python language we were able to split the data and retrieve rows needed.
+            </p>
         </div>
     </div>
 
