@@ -98,24 +98,20 @@
                 .attr("y", height)
                 .attr("height", 0)
                 .on("mouseover", function(event, d) {
-                    // Change other bars in this chart to gray
                     d3.selectAll(`${svgContainer} .bar`)
                         .filter(b => b.Entity !== d.Entity)
                         .attr("class", "bar un_hoover");
 
-                    // Highlight the hovered bar
                     d3.select(this).attr("class", "bar hoover");
 
-                    // Tooltip visibility and styling
                     tooltip.style("visibility", "visible")
                         .html(`Country: ${d.Entity}<br>CO₂ Emissions: ${d["CO2 emissions"].toFixed(2)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mouseout", function() {
-                    // Reset all bars in this chart to original color
-                    d3.selectAll(`${svgContainer} .bar`) // Only target bars in the current svgContainer
-                        .attr("class", "bar"); // Reset to original class
+                    d3.selectAll(`${svgContainer} .bar`)
+                        .attr("class", "bar");
 
                     tooltip.style("visibility", "hidden");
                 })
@@ -124,7 +120,6 @@
                 .attr("y", d => y(d["CO2 emissions"]))
                 .attr("height", d => height - y(d["CO2 emissions"]));
 
-            // Update existing bars with smooth transition
             bars.transition()
                 .duration(750)
                 .attr("x", d => x(d.Entity))
@@ -132,7 +127,6 @@
                 .attr("width", x.bandwidth())
                 .attr("height", d => height - y(d["CO2 emissions"]));
 
-            // Smoothly transition exiting bars by shrinking their height to zero
             bars.exit()
                 .transition()
                 .duration(750)
