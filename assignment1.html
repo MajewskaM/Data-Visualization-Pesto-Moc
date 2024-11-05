@@ -358,6 +358,40 @@
     </script>
     <script src = "plots_2.js"></script>
     
+    <div class="heatmap">
+        <h1>CO₂ emissions from fossil fuels and land-use change (2022)</h1>
+        <svg id="heatmap"></svg>
+    </div class="additional_window">
+    <div id="window5" class="window-content">
+        <div>
+            <h2>Comment</h2>
+            <p>
+                The chart shows the top 10 countries in terms of CO2 emissions in 2022. It includes three categories: 
+                Annual CO2 emissions, Annual CO2 emissions from land-use change, and Annual CO2 emissions including land-use change. 
+            </p>
+            <h2>Select year</h2>
+            <p>
+                <select id="year-select">
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    
+                </select>
+                <button id="load-data">Load Data</button>
+            
+            </p>
+        </div>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="plot3.js"></script>
+    
 </main>
 
 <footer>
