@@ -30,7 +30,7 @@ const svg4 = d3.select("#heatmap")
 function loadData(year) {
     // Load the data for the selected year
     const fileName = `dataset/top_10_countries_${year}.csv`;
-
+    
     d3.csv(fileName).then(data => {
         // Process the data
         const countries = Array.from(new Set(data.map(d => d.Entity)));
@@ -83,43 +83,33 @@ function loadData(year) {
             .domain([d3.min(longData, d => d.value), 0, d3.max(longData, d => d.value)])
             .range(["green", "white", "red"]);  // Green for negative, white for zero, red for positive
 
-        // Create a tooltip3 (Make sure it's initially visible and on top of everything)
+        // Create a tooltip3
         const tooltip3 = d3.select("body").append("div")
-            .style("opacity", 0)  // Start with 0 opacity, will show on hover
-            .attr("class", "tooltip3")
-            .style("position", "absolute")  // Position the tooltip absolute
-            .style("background-color", "rgba(255, 255, 255, 0.8)")  // Semi-transparent background
-            .style("border", "1px solid #ccc")
-            .style("padding", "8px")
-            .style("border-radius", "4px")
-            .style("pointer-events", "none")  // Prevent the tooltip from interfering with mouse events
-            .style("z-index", 1000);  // Ensure the tooltip is on top of other elements
+            .style("opacity", 0)
+            .attr("class", "tooltip3");
 
         // Mouse events for tooltip
-        const mouseover = function(event, d) {
-            rects.style("opacity", 0.5);  // Reduce opacity of all other cells
-            d3.select(this).style("opacity", 1);  // Highlight the hovered cell
-            tooltip3.style("opacity", 1);  // Show the tooltip
+        const mouseover = function (event, d) {
+            rects.style("opacity", 0.5);
+            d3.select(this).style("opacity", 1);
+            tooltip3.style("opacity", 1);
         };
 
-        const mousemove = function(event, d) {
-            const [xPos, yPos] = d3.pointer(event);  // Get mouse position relative to the SVG element
-
-            // Adjust tooltip position based on mouse location
+        const mousemove = function (event, d) {
             tooltip3
                 .html(`Country: ${d.Entity}<br>Type: ${d.type}<br>Value: ${formatNumber(d.value)} million tons`)
-                .style("left", (xPos + 10) + "px")  // Offset the tooltip slightly to avoid overlap
-                .style("top", (yPos - 10) + "px");  // Offset vertically
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
         };
 
-        const mouseleave = function(event, d) {
-            rects.style("opacity", 0.8);  // Restore opacity of all cells
-            tooltip3.style("opacity", 0);  // Hide the tooltip
+        const mouseleave = function (event, d) {
+            rects.style("opacity", 0.8);
+            tooltip3.style("opacity", 0);
         };
 
-        // Add the squares (rectangles) for the heatmap
+        // Add the squares (rectangles)
         const rects = svg4.selectAll()
-            .data(longData, function(d) { return d.Entity + ':' + d.type; })
+            .data(longData, function (d) { return d.Entity + ':' + d.type; })
             .enter()
             .append("rect")
             .attr("x", d => x(d.Entity))
@@ -136,7 +126,7 @@ function loadData(year) {
 
         // Add text inside each rectangle (centered text)
         svg4.selectAll("text")
-            .data(longData, function(d) { return d.Entity + ':' + d.type; })
+            .data(longData, function (d) { return d.Entity + ':' + d.type; })
             .enter()
             .append("text")
             .attr("x", d => x(d.Entity) + x.bandwidth() / 2)  // Center horizontally
