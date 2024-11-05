@@ -149,6 +149,49 @@
 
     <div class="tooltip2"></div>
     <div class="chart-section-container">
+        <svg id="chart_1"></svg>
+            
+        
+    </div>
+    <section class="clickable-section">
+        <h2 class="title">
+            <span>Countries Emission of CO<sub>2</sub> (per capita) in different regions</span><br>
+        </h2>
+        <div class="timeChoice">
+            <label for="topCountries1">Select Number of TOP countries: </label>
+            <p></p>
+            <select id="topCountries1">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
+            </select>
+            <label for="yearInput1">Select Year: </label>
+            <p></p>
+            <!--CHART NEEDS SCALING!-->
+            <select id="yearInput1">
+                <option value="2002">2002</option>
+                <option value="2007">2007</option>
+                <option value="2012">2012</option>
+                <option value="2017">2017</option>
+                <option value="2022" selected>2022</option>
+            </select>
+        </div>
+    
+        <div id="continentFilters1" style="margin-bottom: 10px;">
+            <label><input type="checkbox" value="Asia" checked> Asia</label>
+            <label><input type="checkbox" value="Europe" checked> Europe</label>
+            <label><input type="checkbox" value="North America" checked> North America</label>
+            <label><input type="checkbox" value="Oceania" checked> Oceania</label>
+            <label><input type="checkbox" value="Africa" checked> Africa</label>
+            <label><input type="checkbox" value="South America" checked> South America</label>
+        </div>
+
+    </section>
+
+
+    <div class="chart-section-container">
         <svg id="chart_2"></svg>
             
         
@@ -158,19 +201,19 @@
             <span>Countries Emission of CO<sub>2</sub> (per capita) in different regions</span><br>
         </h2>
         <div class="timeChoice">
-            <label for="topCountries">Select Number of TOP countries: </label>
+            <label for="topCountries2">Select Number of TOP countries: </label>
             <p></p>
-            <select id="topCountries">
+            <select id="topCountries2">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5" selected>5</option>
             </select>
-            <label for="yearInput">Select Year: </label>
+            <label for="yearInput2">Select Year: </label>
             <p></p>
             <!--CHART NEEDS SCALING!-->
-            <select id="yearInput">
+            <select id="yearInput2">
                 <option value="2002">2002</option>
                 <option value="2007">2007</option>
                 <option value="2012">2012</option>
@@ -179,7 +222,7 @@
             </select>
         </div>
     
-        <div id="continentFilters" style="margin-bottom: 10px;">
+        <div id="continentFilters2" style="margin-bottom: 10px;">
             <label><input type="checkbox" value="Asia" checked> Asia</label>
             <label><input type="checkbox" value="Europe" checked> Europe</label>
             <label><input type="checkbox" value="North America" checked> North America</label>
