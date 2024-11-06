@@ -22,7 +22,7 @@ header {
 
 header::before {
     content: "";
-    background: url('/docs/assets/img/co2.jpg') no-repeat center center/cover;
+    background: url('https://github .com/MajewskaM/Data Visualization Pesto Moc/blob/page design/docs/assets/img/co 2px;.jpg?raw=true') no-repeat center center/cover;
     opacity: 0.85;
     position: absolute;
     top: 0;
@@ -627,7 +627,7 @@ html {
 
 #page_bcg{
     background-color: rgb(190, 230, 187);
-    background-image: url('/docs/assets/img/background.jpg'); /* Example for image background */
+    background-image: url('https://github.com/MajewskaM/Data-Visualization-Pesto-Moc/blob/page-design/docs/assets/img/background.jpg?raw=true'); /* Example for image background */
     background-size: cover;
     background-repeat: no-repeat;
 }
