@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Plot from CSV</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <h2 class="chart-title">Percentage Plot from CSV Data</h2>
+
+  <!-- Dropdown menu for selecting year -->
+  <div class="dropdown-container">
+    <label for="year-select">Select Year: </label>
+    <select id="year-select" class="year-select">
+      <option value="2022">2022</option>
+      <option value="2020">2020</option>
+      <option value="2015">2015</option>
+      <option value="2010">2010</option>
+      <option value="2000">2000</option>
+    </select>
+  </div>
+
+  <!-- Buttons for selecting number of top countries to display -->
+  <div class="button-container">
+    <button class="top-country-button" data-top="1">Top 1</button>
+    <button class="top-country-button" data-top="2">Top 2</button>
+    <button class="top-country-button" data-top="3">Top 3</button>
+    <button class="top-country-button" data-top="4">Top 4</button>
+    <button class="top-country-button" data-top="5">Top 5</button>
+  </div>
+
+  <!-- SVG container for chart -->
+  <svg width="800" height="500"></svg>
+
+  <script src="plot2_5.js"></script>
+</body>
+
+</html>
