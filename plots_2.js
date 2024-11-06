@@ -2,23 +2,23 @@
         const transitionDuration = 800;
 
         const margin2 = {top: 100, right: 100, bottom: 40, left: 100},
-            width2 =  window.innerWidth*0.80 - margin2.left - margin2.right,
+            width2 =  window.innerWidth*0.85 - margin2.left - margin2.right,
             height2 = 550 - margin2.top - margin2.bottom;
-        const margin1 = {top: 80, right: 100, bottom: 40, left: 100},
-            width1 =  window.innerWidth*0.80 - margin2.left - margin2.right,
+        const margin1 = {top: 100, right: 100, bottom: 40, left: 100},
+            width1 =  window.innerWidth*0.85 - margin2.left - margin2.right,
             height1 = 550 - margin2.top - margin2.bottom;
 
         const legendWidth1 = width1/2;
         const legendHeight1 = 20;
-        const svgHeight = height1 + legendHeight1 + 180;
+        const svgHeight = height1 + legendHeight1 + 70;
         const numberBars = 7;
 
         
-        const legendWidth2 = width2;
+        const legendWidth2 = width2 - 50;
         const legendHeight2 = 20;
         const legendPadding = 40;
-        const legendX = 0; // X position of the legend
-        const legendY = height2 + 40; // Initial Y position of the legend
+        const legendX = 0;
+        const legendY = height2 + 40;
 
         // svgs for both charts
         const svg1 = d3.select("#chart_1")
@@ -31,7 +31,7 @@
 
         const svg2 = d3.select("#chart_2")
         .attr("width", width2 + margin2.left + margin2.right)
-        .attr("height", height2 + (numberBars*(legendPadding+legendHeight2)) + margin2.top + margin2.bottom)
+        .attr("height", height2 + (numberBars*(legendPadding+legendHeight2)) + margin2.top + margin2.bottom - 30)
         .append("g")
         .attr("transform", `translate(${margin2.left},${margin2.top})`);
 
@@ -41,18 +41,19 @@
         loadDataFromFile("2022", "#chart_2");
 
         // Attach event listeners to inputs
-        d3.select("#yearInput1").on("input", handleInputChange("chart_1"));
-        d3.select("#yearInput2").on("input", handleInputChange("chart_2"));
+        d3.select("#yearInput1").on("input", handleInputChange("#chart_1"));
+        d3.select("#yearInput2").on("input", handleInputChange("#chart_2"));
 
         // Refactor the handleInputChange function
         function handleInputChange(chart) {
             return function() {
                 let selectedYear;
-                if (chart === "chart_1") {
+                if (chart === "#chart_1") {
                     selectedYear = d3.select("#yearInput1").property("value");
                 } else {
                     selectedYear = d3.select("#yearInput2").property("value");
                 }
+                console.log(selectedYear)
                 loadDataFromFile(selectedYear, chart);
             };
         }
@@ -106,8 +107,6 @@
    
         }
         
-        
-
         function formatNumber(number) {
             if (number >= 1e9) {
                 return (number / 1e9).toFixed(2) + 'B';
@@ -146,29 +145,29 @@
                 .sort(([continentA, dataA], [continentB, dataB]) => {
                     const totalEmissionsA = dataA.totalEmissions;
                     const totalEmissionsB = dataB.totalEmissions;
-                    return totalEmissionsB - totalEmissionsA; // Sort by total emissions
+                    return totalEmissionsB - totalEmissionsA;
                 });
 
 
             
             const countriesEmissions = processedData.filter(d => d.Entity !== "Others" && d.Entity !== "Total Emissions");
-            const maxPopulation = d3.max(countriesEmissions, d => d.Population);
-            const minPopulation = d3.min(countriesEmissions, d => d.Population);
+            const maxEmission = d3.max(countriesEmissions, d => d.Annual_CO2_emissions_per_capita);
+            const minEmission = d3.min(countriesEmissions, d => d.Annual_CO2_emissions_per_capita);
 
             const otherCountriesEmissions = processedData.filter(d => d.Entity === "Others"); 
-            const maxPopulationOthers = d3.max(otherCountriesEmissions, d => d.Population);
-            const minPopulationOthers = d3.min(otherCountriesEmissions, d => d.Population);
+            const maxEmissionOthers = d3.max(otherCountriesEmissions, d => d.Annual_CO2_emissions_per_capita);
+            const minEmissionOthers = d3.min(otherCountriesEmissions, d => d.Annual_CO2_emissions_per_capita);
 
             //d3.interpolateHslLong("#e3c57f", "#eb4034")
             const colorScale = d3.scaleSequential(d3.interpolateHslLong("#a55dd9", "#dbb265")) 
-                .domain([minPopulation, maxPopulation]);
+                .domain([minEmission, maxEmission]);
 
             //d3.interpolateHslLong("#e3c57f", "#eb4034")
             const colorScaleOther = d3.scaleSequential(d3.interpolateHslLong("#c4c4c4", "#575757")) 
-                    .domain([minPopulationOthers, maxPopulationOthers]);
+                    .domain([minEmissionOthers, maxEmissionOthers]);
 
             const xScale = d3.scaleLinear()
-                .domain([0, d3.max(continentEntries, ([_, { totalEmissions }]) => totalEmissions)])
+                .domain([0, d3.max(continentEntries, ([_, { totalEmissions }]) => totalEmissions+15)])
                 .range([0, width1]);
 
             const yScale = d3.scaleBand()
@@ -206,7 +205,7 @@
                             .attr("y", 0)
                             .attr("height", yScale.bandwidth())
                             .attr("width", xScale(v.Annual_CO2_emissions_per_capita))
-                            .attr("fill", isOther? colorScaleOther(v.Population) : colorScale(v.Population))
+                            .attr("fill", isOther? colorScaleOther(v.Annual_CO2_emissions_per_capita) : colorScale(v.Annual_CO2_emissions_per_capita))
                             .attr("opacity", 1)
                             .on("mouseover", (event) => {
                                 svg1.selectAll(".bar").attr("opacity", 0.3);
@@ -218,7 +217,7 @@
                                 tooltip_2.transition().duration(200).style("opacity", .9);
                                 let desc  = `${v.Entity}: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 if (isOther){
-                                    desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                    desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 }
                                 tooltip_2.html(desc)
                                     .style("left", (event.pageX + 10) + "px")
@@ -276,11 +275,11 @@
             .attr("font-size", "16px")
             .style("font-family", "Fira Sans")
             .style("font-weight", "normal")
-            .text(`CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries Comparing to other Continents`); // Set the subtitle content
+            .text(`Annual CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries across different Continents`); // Set the subtitle content
 
             const legend = svg1.append("g")
                 .attr("class", "legend")
-                .attr("transform", `translate(${0}, ${height1 + 90})`);
+                .attr("transform", `translate(${-30}, ${height1 + 90})`);
             
             legend.append("defs")
                 .append("linearGradient")
@@ -289,7 +288,7 @@
                 .data(d3.range(0, 1.05, 0.05))
                 .enter().append("stop")
                 .attr("offset", d => `${d * 100}%`)
-                .attr("stop-color", d => colorScale(d * maxPopulation));
+                .attr("stop-color", d => colorScale(d * maxEmission));
                 
             legend.append("rect")
                 .attr("width", legendWidth1)
@@ -297,10 +296,10 @@
                 .style("fill", "url(#color-gradient)");
 
                 const legendIntervals = 5;
-                const populationStep = (maxPopulation - minPopulation) / legendIntervals;
+                const emissionStep = (maxEmission - minEmission) / legendIntervals;
 
                 for (let i = 0; i <= legendIntervals; i++) {
-                    const populationValue = minPopulation + i * populationStep;
+                    const emissionValue = minEmission + i * emissionStep;
                     const xPosition = (legendWidth1 / legendIntervals) * i;
                     
                     legend.append("line")
@@ -318,7 +317,7 @@
                         .attr("y", legendHeight1 + 20)
                         .style("font-size", "12px")
                         .style("text-anchor", "middle")
-                        .text(formatNumber(populationValue));
+                        .text(`${formatNumber(emissionValue)}t`);
                 }
             
             
@@ -329,11 +328,11 @@
                     .style("font-size", "14px")
                     .style("text-anchor", "middle")
                     .style("font-weight", "bold")
-                    .text("Country Population");
+                    .text("Country CO₂ Emissions per Capita");
                 
                 const othersLegend = svg1.append("g")
                     .attr("class", "legend")
-                    .attr("transform", `translate(${0}, ${height1 + 200})`);
+                    .attr("transform", `translate(${legendWidth1 + 30}, ${height1 + 90})`);
                 
                 othersLegend.append("defs")
                     .append("linearGradient")
@@ -342,7 +341,7 @@
                     .data(d3.range(0, 1.05, 0.05))
                     .enter().append("stop")
                     .attr("offset", d => `${d * 100}%`)
-                    .attr("stop-color", d => colorScaleOther(d * maxPopulationOthers));
+                    .attr("stop-color", d => colorScaleOther(d * maxEmissionOthers));
                     
                 othersLegend.append("rect")
                     .attr("width", legendWidth1)
@@ -350,10 +349,10 @@
                     .style("fill", "url(#color-gradient-grey)");
 
 
-                const populationStepOthers = (maxPopulationOthers - minPopulationOthers) / legendIntervals;
+                const emissionStepOthers = (maxEmissionOthers - minEmissionOthers) / legendIntervals;
 
                     for (let i = 0; i <= legendIntervals; i++) {
-                        const populationValue = minPopulationOthers + i * populationStepOthers;
+                        const emissionValue = minEmissionOthers + i * emissionStepOthers;
                         const xPosition = (legendWidth1 / legendIntervals) * i;
                         
                         othersLegend.append("line")
@@ -371,7 +370,7 @@
                             .attr("y", legendHeight1 + 20)
                             .style("font-size", "12px")
                             .style("text-anchor", "middle")
-                            .text(formatNumber(populationValue));
+                            .text(`${formatNumber(emissionValue)}t`);
                     }
             
             
@@ -382,23 +381,7 @@
                     .style("font-size", "14px")
                     .style("text-anchor", "middle")
                     .style("font-weight", "bold")
-                    .text("Other countries (CO₂ emissions per capita as a weighted average)");
-            
-                // const othersLegend = svg1.append("g")
-                //     .attr("class", "others-legend")
-                //     .attr("transform", `translate(${0}, ${height1 + 160})`);
-
-                // othersLegend.append("rect")
-                // .attr("width", 20)
-                // .attr("height", 20)
-                // .style("fill",othersGreyColor);
-
-                // othersLegend.append("text")
-                // .attr("x", 30)
-                // .attr("y", 12)
-                // .text("Other countries (CO₂ emissions per capita as a weighted average)")
-                // .style("font-size", "15px")
-                // .style("alignment-baseline", "middle");
+                    .text("Other Countries CO₂ Emissions per Capita (weighted average)");
 
         }
 
@@ -428,7 +411,7 @@
                 .sort(([continentA, dataA], [continentB, dataB]) => {
                     const totalEmissionsA = dataA.totalEmissions;
                     const totalEmissionsB = dataB.totalEmissions;
-                    return totalEmissionsB - totalEmissionsA; // Sort by total emissions
+                    return totalEmissionsB - totalEmissionsA;
                 });
 
 
@@ -448,7 +431,6 @@
             for (let i = 0; i < numberBars; i++) {
                 const emissionsArray = [];
                 const populationArray = [];
-
 
                 for (const [continent, data] of continentData.entries()) {
 
@@ -479,15 +461,16 @@
                 }
             }
 
-            console.log(colorsScalesPopulations)
             
-            const addOffset = 120;
-            const xDistancesBars = addOffset*numberBars;
+            console.log(emissionsStatsPerIndex)
+            
+            const addOffset = 10;
             const xAxisWidth = emissionsStatsPerIndex.reduce((sum, stats) => sum + stats.max, 0);
             console.log(xAxisWidth)
+            
 
             const xScale = d3.scaleLinear()
-                .domain([0, xAxisWidth+addOffset])
+                .domain([0, xAxisWidth+addOffset+200])
                 .range([0, width2]);
 
             const yScale = d3.scaleBand()
@@ -496,7 +479,8 @@
                 .padding(0.1);
 
             const maxOfAllMaxes = emissionsStatsPerIndex.reduce((max, stats) => Math.max(max, stats.max), -Infinity);
-            const barsDistance = maxOfAllMaxes + addOffset;
+            console.log(maxOfAllMaxes)
+            const barsDistance = xScale(maxOfAllMaxes) + addOffset;
             let xOffset = 0;
             let xOffsets = [];
 
@@ -505,6 +489,7 @@
                  xOffsets.push(xOffset);
                  xOffset = xOffset + barsDistance;
             }
+            console.log(xOffsets)
                 svg2.selectAll(".bar-group")
                     .data(continentEntries)
                     .enter().append("g")
@@ -534,7 +519,7 @@
                                     tooltip_2.transition().duration(200).style("opacity", .9);
                                     let desc  = `${v.Entity}: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     if (isOther){
-                                        desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                        desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     }
                                     tooltip_2.html(desc)
                                         .style("left", (event.pageX + 10) + "px")
@@ -605,7 +590,7 @@
                 .attr("y", -70)
                 .attr("text-anchor", "middle")
                 .attr("font-size", "20px")
-                .text(`CO2 Emissions Per Capita in ${selectedYear} - Top 5 Countries Comparing to other Regions`);
+                .text(`RISING POPULATIONS, RISING EMISSIONS: CO₂ Impact Across Continents (2000-2022)`);
 
             svg2.append("text")
             .attr("class", "subtitle")
@@ -615,39 +600,30 @@
             .attr("font-size", "16px")
             .style("font-family", "Fira Sans")
             .style("font-weight", "normal")
-            .text(`CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries Comparing to other Continents`); // Set the subtitle content
-
-            // TO DO subtitle: CO₂ Emissions per Capita by Region in 2022", top emitters Asia leading in CO2 emissionsjaki 
-
-            // Exclude the last two entries in colorsScalesPopulations for calculating the maximum range
+            .text(`CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries across different Continents`);
 
             const slicedData = colorsScalesPopulations.slice(0, -2);
             console.log(slicedData)
             const maxPopulationRange = Math.max(...slicedData.map(d => d.max - d.min));
 
-
-
             const legend = svg2.append("g")
                 .attr("class", "legend")
                 .attr("transform", `translate(${legendX}, ${legendY})`);
 
-            
-            // Label for the rank
             legend.append("text")
             .attr("x", legendWidth2 / 2)
-            .attr("y", -15)
+            .attr("y", 0)
             .attr("font-size", "14px")
             .attr("text-anchor", "middle")
             .style("font-weight", "bold")
-            .text(`Populations among top emitters`);
+            .text(`Total Populations of TOP Emitting Countries`);
 
-            // Loop through color scales and create each legend item with proportional width
-            colorsScalesPopulations.forEach((scaleData, index) => {
-                // Calculate the width of the bar based on its population range
+            const countriesData = (colorsScalesPopulations).slice(0,-2);
+            countriesData.forEach((scaleData, index) => {
+
                 const populationRange = scaleData.max - scaleData.min;
                 const barWidth = (populationRange / maxPopulationRange) * legendWidth2;
 
-                // Create a gradient for the color scale
                 const gradient = legend.append("defs")
                     .append("linearGradient")
                     .attr("id", `gradient${index}`)
@@ -664,36 +640,119 @@
                     .attr("offset", "100%")
                     .attr("stop-color", scaleData.colorScale(scaleData.max));
 
-                // Draw the gradient bar with proportional width
                 legend.append("rect")
                     .attr("x", 0)
-                    .attr("y", index * (legendHeight2 + legendPadding))
+                    .attr("y", 10+index * (legendHeight2 + legendPadding))
                     .attr("width", barWidth)
                     .attr("height", legendHeight2)
                     .style("fill", `url(#gradient${index})`);
 
-                // Add text labels for min and max population with consistent positioning
                 legend.append("text")
-                    .attr("x", -10) // Positioning left of the bar
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+                    .attr("x", -10)
+                    .attr("y", 10+index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
                     .attr("font-size", "12px")
                     .attr("text-anchor", "end")
-                    .text(d3.format(",")(scaleData.min));
+                    .text(formatNumber(scaleData.min));
 
                 legend.append("text")
-                    .attr("x", barWidth + 10) // Positioning right of the bar
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+                    .attr("x", barWidth + 10)
+                    .attr("y", 10+index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
                     .attr("font-size", "12px")
                     .attr("text-anchor", "start")
-                    .text(d3.format(",")(scaleData.max));
-
-                // Optionally, add rank labels on the left side of each bar
-                legend.append("text")
-                    .attr("x", -40) // Positioning far left as rank label
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-                    .attr("font-size", "12px")
-                    .attr("text-anchor", "end")
-                    .style("font-weight", "bold")
-                    .text(`Rank ${index + 1}`);
+                    .text(formatNumber(scaleData.max));
             });
+
+            legend.append("text")
+            .attr("x", legendWidth2 / 2)
+            .attr("y", 45+4 * (legendHeight2 + legendPadding) + legendHeight2 / 2)
+            .attr("font-size", "14px")
+            .attr("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text(`Total Population "Others" Countries`);
+
+        const gradientOthers = legend.append("defs")
+            .append("linearGradient")
+            .attr("id", `gradient${5}`)
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+        
+            const otherSlice = colorsScalesPopulations[5];
+            gradientOthers.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", otherSlice.colorScale(otherSlice.min));
+
+            gradientOthers.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", otherSlice.colorScale(otherSlice.max));
+
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 10+5 * (legendHeight2 + legendPadding))
+            .attr("width", legendWidth2)
+            .attr("height", legendHeight2)
+            .style("fill", `url(#gradient${5})`);
+
+        legend.append("text")
+            .attr("x", -10)
+            .attr("y", 10+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+            .attr("font-size", "12px")
+            .attr("text-anchor", "end")
+            .text(formatNumber(otherSlice.min));
+
+        legend.append("text")
+            .attr("x", legendWidth2 + 10)
+            .attr("y", 10+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+            .attr("font-size", "12px")
+            .attr("text-anchor", "start")
+            .text(formatNumber(otherSlice.max));
+
+            legend.append("text")
+            .attr("x", legendWidth2 / 2)
+            .attr("y", 45+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2)
+            .attr("font-size", "14px")
+            .attr("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text(`Total Population of Continents`);
+            
+        const totalSlice = colorsScalesPopulations[6];
+        const gradientTotal = legend.append("defs")
+            .append("linearGradient")
+            .attr("id", `gradient${6}`)
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+
+            gradientTotal.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", totalSlice.colorScale(totalSlice.min));
+
+            gradientTotal.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", totalSlice.colorScale(totalSlice.max));
+
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 10+6 * (legendHeight2 + legendPadding))
+            .attr("width", legendWidth2)
+            .attr("height", legendHeight2)
+            .style("fill", `url(#gradient${6})`);
+
+        legend.append("text")
+            .attr("x", -10)
+            .attr("y", 10+6 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+            .attr("font-size", "12px")
+            .attr("text-anchor", "end")
+            .text(formatNumber(totalSlice.min));
+
+        legend.append("text")
+            .attr("x", legendWidth2 + 10)
+            .attr("y", 10+6 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+            .attr("font-size", "12px")
+            .attr("text-anchor", "start")
+            .text(formatNumber(totalSlice.max));
+
+
         }

@@ -89,7 +89,6 @@ nav {
 }
 
 main {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -226,12 +225,11 @@ html {
     position: fixed;
     top: 0;
     left: 0;
-    width: 200px;
+    width: 220px;
     height: 100%;
     background-color: rgb(39, 48, 40);
     color: white;
     padding-top: 20px;
-    padding-left: 10px;
     z-index: 1000; /* Ensures sidebar is above other content */
     box-sizing: border-box;
     display: flex;
@@ -243,6 +241,7 @@ html {
     color: white;
     text-decoration: none;
     padding: 10px 0;
+    padding-left: 8px;
     font-size: 1em;
     transition: color 0.3s, background-color 0.3s;
 }
@@ -253,11 +252,18 @@ html {
     cursor: pointer;
 }
 
+.active {
+    color: #51c49a;
+    background-color: #444;
+    cursor: pointer;
+}
+
 .sidebar img{
     width: 75%;
     height: auto;   
     padding-top: 0px;
-    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-bottom: 25px;
     
 }
 
@@ -269,7 +275,6 @@ html {
     height: 50px;
     background-color: rgb(39, 48, 40);
     color: white;
-    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content:right;
@@ -282,7 +287,7 @@ html {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 15px;
     text-decoration: none;
 }
 
@@ -293,7 +298,6 @@ html {
 }
 
 #assignment1_site{
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -321,6 +325,24 @@ html {
     border-radius: 20px;
     width: 100%; /* Adjust width as necessary */
     margin-left: 80px;
+}
+
+
+.chart-section-container-wide{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+}
+
+.center-section {
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid rgb(134, 134, 134);
+    border-radius: 20px;
+    width:80%;
 }
 
 .legend {
@@ -427,6 +449,7 @@ html {
     border: 1px solid darkblue; /* Green border on focus */
 }
 
+
 .additional_window {
     display: none;
     position: fixed;
@@ -444,8 +467,7 @@ html {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
+    width: 50%;
     border-radius: 8px;
 }
 
@@ -474,6 +496,55 @@ html {
 .close-btn:focus {
     color: black;
     text-decoration: none;
+}
+
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.filters label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 7px;  
+}
+
+.filters input[type="checkbox"] {
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border-radius: 2px;
+    border: 2px solid #444;
+    background-color: #cacaca;
+    transition: background-color 0.2s, border-color 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.filters input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #388E3C;
+}
+
+.comments-explanation {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+#wide{
+    margin-bottom: 15px;
+}
+
+.chart-section-container-wide .timeChoice{
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .tasks-container {
