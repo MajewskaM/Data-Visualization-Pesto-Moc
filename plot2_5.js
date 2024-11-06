@@ -31,7 +31,7 @@ function updateChart(year, topCount) {
   svg.selectAll('*').remove();
 
   // Load the data for the selected year
-  d3.csv(`Datasets/2/continent_emissions_${year}.csv`).then(function(data) {
+  d3.csv(`dataset/2/continent_emissions_${year}.csv`).then(function(data) {
     console.log(`Loaded data for ${year}`, data);  // Debug log for loaded data
 
     // Parse the 'Annual_CO2_emissions_per_capita' values as numbers
