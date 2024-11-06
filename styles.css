@@ -1,0 +1,41 @@
+.bar {
+    fill: steelblue;
+  }
+  
+  .axis-label {
+    font-size: 14px;
+  }
+  
+  .chart-title {
+    text-anchor: middle;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .button-container {
+    margin: 20px 0;
+  }
+  
+  .year-select {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .top-country-button {
+    padding: 10px;
+    font-size: 14px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+  }
+  
+  .top-country-button:hover {
+    background-color: #ddd;
+  }
+  
+  .dropdown-container {
+    margin: 20px 0;
+  }
+  
