@@ -255,12 +255,11 @@ html {
 }
 
 .sidebar img{
-    width: 60%;
+    width: 75%;
     height: auto;   
     padding-top: 0px;
-    align-self: center;
     margin-bottom: 50px;
-    margin-left: -20px;
+    
 }
 
 .topbar{
@@ -299,6 +298,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 5%;
 }
 
 #assignment1_site .chart-section-container {
@@ -535,4 +535,22 @@ html {
 
 #page1_click, #page2_click{
     box-shadow: none;
+}
+
+#page1_click h2, #page2_click h2{
+    font-size: 1.1em;
+}
+
+#quote{
+    font-size: 1.5em;
+    font-family: Dancing Script, cursive;
+    border-bottom: none
+
+}
+
+#description{
+    font-size: 1.2em;
+    font-family: 'Fira Sans', sans-serif;
+    border-bottom: none;
+    padding-top: 10%;
 }
