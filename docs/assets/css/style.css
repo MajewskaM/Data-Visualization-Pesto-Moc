@@ -22,7 +22,7 @@ header {
 
 header::before {
     content: "";
-    background: url('/docs/assets/img/co2.jpg') no-repeat center center/cover;
+    background: url('github.com/MajewskaM/Data-Visualization-Pesto-Moc/blob/page-design/docs/assets/img/co2.jpg') no-repeat center center/cover;
     opacity: 0.85;
     position: absolute;
     top: 0;
