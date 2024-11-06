@@ -611,3 +611,10 @@ html {
     width: 40px;
     height: 40px;
 }
+
+#page_bcg{
+    background-color: rgb(190, 230, 187);
+    background-image: url('/docs/assets/img/background.jpg'); /* Example for image background */
+    background-size: cover;
+    background-repeat: no-repeat;
+}
