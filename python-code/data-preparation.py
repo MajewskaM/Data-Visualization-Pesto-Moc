@@ -2,8 +2,8 @@ import pandas as pd
 
 
 # loading the datasets
-emissions_data = pd.read_csv('dataset/countries_data_with_continents.csv', encoding='utf-8')
-population_data = pd.read_csv('dataset/world_population.csv', encoding='utf-8')  # Assuming a population dataset with columns 'Country', 'Year', 'Population'
+emissions_data = pd.read_csv('dataset/2/countries_data_with_continents.csv', encoding='utf-8')
+population_data = pd.read_csv('dataset/2/world_population.csv', encoding='utf-8')  # Assuming a population dataset with columns 'Country', 'Year', 'Population'
 
 emissions_data.rename(columns={'Annual CO₂ emissions (per capita)': 'Annual_CO2_emissions_per_capita'}, inplace=True)
 
@@ -33,6 +33,13 @@ emissions_data.rename(columns={'Annual CO₂ emissions (per capita)': 'Annual_CO
 
 # filtering for non-zero emissions
 emissions_data = emissions_data[emissions_data['Annual_CO2_emissions_per_capita'] > 0]
+
+# Renaming specific countries in processed_data
+emissions_data['Entity'] = emissions_data['Entity'].replace({
+    'Micronesia (country)': 'Micronesia',
+    'Sint Maarten (Dutch part)': 'Sint Maarten',
+    'Czechia' : 'Czech Republic'
+})
 
 # we need to reshape population data to a long format
 population_long = population_data.melt(
@@ -92,9 +99,40 @@ def calculate_emissions_per_continent(df, year):
 
     return pd.concat(result, ignore_index=True)
 
+countries_to_exclude = [
+    "Cote d'Ivoire", 
+    "Bonaire Sint Eustatius and Saba", 
+    "Saint Helena", 
+    "Kosovo"
+]
+
+data = data[~data['Entity'].isin(countries_to_exclude)]
+
 for year in selected_years:
     year_data = data[data['Year'] == year]
-    processed_data = calculate_emissions_per_continent(year_data, year)
+    processed_data = calculate_emissions_per_continent(year_data, year) 
     processed_data.to_csv(f'dataset/2/continent_emissions_{year}.csv', index=False)
 
 
+# countries with no population information
+# countries_with_zero_population = data[data['Population'].isnull()]
+# print(countries_with_zero_population)
+
+### CHANGES IN world_population.csv
+
+
+# Republic of the Congo -> Congo
+# DR Congo - > Democratic Republic of Congo
+# Timor-Leste - > East Timor
+# Macau -> Macao
+
+### CHANGES TO BE INTRODUCED IN processed_data
+# Micronesia (country) - > rename to Micronesia
+# Sint Maarten (Dutch part) -> rename Sint Maarten
+# Czechia - > rename to Czech Republic
+
+# United States - ',' removed from capital name
+
+# Cote d'Ivoire, Bonaire Sint Eustatius and Saba - excluded due to lack of population data
+# Saint Helena - excluded due to no data to an island
+# Kosovo - excluded no data Kosovo declared its independence from Serbia on February 17, 2008
