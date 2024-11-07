@@ -1,3 +1,4 @@
+// Function to format numbers (e.g., 1e6 to 1M, 1e9 to 1B, etc.)
 function formatNumber(value) {
     const absValue = Math.abs(value); // Get the absolute value
 
@@ -19,7 +20,6 @@ const margin3 = { top: 60, right: 220, bottom: 60, left: 400 },
     width3 = 1500 - margin3.left - margin3.right,
     height3 = 600 - margin3.top - margin3.bottom;
 
-// Append the svg object to the body of the page
 const svg4 = d3.select("#heatmap")
     .attr("width", width3 + margin3.left + margin3.right)
     .attr("height", height3 + margin3.top + margin3.bottom)
@@ -84,37 +84,37 @@ function loadData(year) {
             .range(["green", "white", "red"]);  // Green for negative, white for zero, red for positive
 
         // Create a tooltip3 (Make sure it's initially visible and on top of everything)
-        const tooltip3 = d3.select("body").append("div")
+        const tooltip7 = d3.select("body").append("div")
             .style("opacity", 0)  // Start with 0 opacity, will show on hover
-            .attr("class", "tooltip3")
+            .attr("class", "tooltip7")
             .style("position", "absolute")  // Position the tooltip absolute
-            .style("background-color", "rgba(255, 255, 255, 0.8)")  // Semi-transparent background
+            .style("background-color", "rgba(255, 255, 255, 0.9)")  // Semi-transparent background
             .style("border", "1px solid #ccc")
             .style("padding", "8px")
             .style("border-radius", "4px")
             .style("pointer-events", "none")  // Prevent the tooltip from interfering with mouse events
-            .style("z-index", 1000);  // Ensure the tooltip is on top of other elements
+            .style("visibility", "hidden"); // Initially hidden
 
         // Mouse events for tooltip
         const mouseover = function(event, d) {
             rects.style("opacity", 0.5);  // Reduce opacity of all other cells
             d3.select(this).style("opacity", 1);  // Highlight the hovered cell
-            tooltip3.style("opacity", 1);  // Show the tooltip
+            tooltip7.transition().duration(200).style("opacity", 1);  // Show the tooltip
         };
 
         const mousemove = function(event, d) {
             const [xPos, yPos] = d3.pointer(event);  // Get mouse position relative to the SVG element
 
             // Adjust tooltip position based on mouse location
-            tooltip3
+            tooltip7
                 .html(`Country: ${d.Entity}<br>Type: ${d.type}<br>Value: ${formatNumber(d.value)} million tons`)
                 .style("left", (xPos + 10) + "px")  // Offset the tooltip slightly to avoid overlap
-                .style("top", (yPos - 10) + "px");  // Offset vertically
+                .style("top", (yPos + 10) + "px");  // Offset vertically to avoid tooltip covering the mouse
         };
 
         const mouseleave = function(event, d) {
             rects.style("opacity", 0.8);  // Restore opacity of all cells
-            tooltip3.style("opacity", 0);  // Hide the tooltip
+            tooltip7.transition().duration(200).style("opacity", 0);  // Hide the tooltip
         };
 
         // Add the squares (rectangles) for the heatmap
@@ -141,7 +141,7 @@ function loadData(year) {
             .append("text")
             .attr("x", d => x(d.Entity) + x.bandwidth() / 2)  // Center horizontally
             .attr("y", d => y(d.type) + y.bandwidth() / 2)    // Center vertically
-            .attr("dy", ".35em")  // Adjust vertical alignment to center text
+            .attr("dy", ".35em")  // Adjust vertical alignment to center
             .attr("text-anchor", "middle")  // Center the text horizontally
             .text(d => {
                 // Only display formatted value if it's a valid number
@@ -179,13 +179,11 @@ function loadData(year) {
             .attr("y1", "0%")
             .attr("x2", "0%")
             .attr("y2", "100%");
-
-        // Define color stops for the gradient (Green -> White -> Red)
         gradient.append("stop").attr("offset", "0%").attr("stop-color", "green");
         gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");
         gradient.append("stop").attr("offset", "100%").attr("stop-color", "red");
 
-        // Append labels for the legend
+        // Add labels for the legend
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", 10)
@@ -206,14 +204,6 @@ function loadData(year) {
             .text("Positive Emissions")
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
-
-        // Find the minimum and maximum values
-        const minValue = d3.min(longData, d => d.value);
-        const maxValue = d3.max(longData, d => d.value);
-
-        // Print min and max values to the console
-        console.log(`Minimum Value: ${formatNumber(minValue)} million tons`);
-        console.log(`Maximum Value: ${formatNumber(maxValue)} million tons`);
     });
 }
 
@@ -222,6 +212,6 @@ loadData(2022);
 
 // Add event listener for the year selection dropdown and the "Load Data" button
 document.getElementById("load-data").addEventListener("click", () => {
-    const selectedYear = document.getElementById("year-select").value;
+    const selectedYear = document.getElementById("year-select3").value;
     loadData(selectedYear);
 });

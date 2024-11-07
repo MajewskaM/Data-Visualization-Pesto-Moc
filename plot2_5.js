@@ -154,7 +154,7 @@ function updateChart(year, topCount) {
 }
 
 // Add event listener for year dropdown menu
-document.getElementById('year-select').addEventListener('change', function() {
+document.getElementById('year-select2_5').addEventListener('change', function() {
   selectedYear = this.value;
   updateChart(selectedYear, selectedTop);
 });
