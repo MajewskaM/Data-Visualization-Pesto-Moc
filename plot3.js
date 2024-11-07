@@ -204,6 +204,15 @@ function loadData(year) {
             .text("Positive Emissions")
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
+        // Add unit label at the bottom of the heatmap
+        svg4.append("text")
+        .attr("x", width3 / 2)  // Position it in the center horizontally
+        .attr("y", height3 + 40)  // Position it slightly below the heatmap
+        .attr("text-anchor", "middle")  // Center the text
+        .style("font-size", "14px")  // Adjust font size
+        .style("font-weight", "bold")  // Make the text bold for better visibility
+        .text("Unit: Tons");
+
     });
 }
 
@@ -214,4 +223,5 @@ loadData(2022);
 document.getElementById("load-data").addEventListener("click", () => {
     const selectedYear = document.getElementById("year-select3").value;
     loadData(selectedYear);
+    
 });
