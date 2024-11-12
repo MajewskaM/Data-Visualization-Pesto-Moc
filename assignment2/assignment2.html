@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project | PestoMoc</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <link rel="stylesheet" href="docs/assets/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
+
+</head>
+<body >
+
+    <div class="sidebar">
+        <img src="docs/assets/img/pesto_logo.png">
+        <a href="index.html"> Home</a>
+        <a href="assignment1.html">Insights on CO₂ Emissions</a>
+        <a href="assignment2.html" class="active"> Assignment 2</a>
+    </div>
+
+    <div class="topbar">
+        <a href="project_desc.html">Project</a>
+        <a href="team_intro.html">Team</a>
+    </div>
+
+<main id="assignment1_site">
+
+    <div class="chart-section-container">
+        <div id="chart_2022"></div>
+        <section class="clickable-section">
+            <h2 class="title">
+                <span>Emission of CO<sub>2</sub> (per capita) in 2022</span><br>
+                <span>Top 10 Countries</span>
+            </h2>
+            <div class="explanation">
+                <h2>Comment</h2>
+                <p>The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022.</p>
+                <p>
+                    <button class="openExplWindow" data-modal="window1">Read more</button>
+                </p>
+            </div>
+            <div class="description">
+                <h2>Explanation</h2>
+                <p>The chart was created based on data from the file co-emission-per-capita.csv.</p>
+                <p>
+                    <button class="openExplWindow" data-modal="window2">Read more</button>
+                </p>
+            </div>
+        </section>
+    </div>
+    
+    <div class="chart-section-container" id="section_with_selector">
+        <div id="decade-chart"></div>
+        <section class="clickable-section">
+            <h2 class="title">
+                <span>Emission of CO<sub>2</sub> (per capita) for specified timespan</span><br>
+                <span>Top 10 Countries</span>
+            </h2>
+            <div class="timeChoice">
+                <label for="timeRange">Select Time Range: </label>
+                <p></p>
+                <select id="timeRange">
+                    <option value="5years">Last 5 Years</option>
+                    <option value="10years" selected>Last Decade</option>
+                    <option value="20years">Last 2 Decades</option>
+                </select>
+            </div>
+            <div class="explanation">
+                <h2>Comment</h2>
+                <p>
+                    This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita. <br>
+                    The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022)</p>
+                <p>
+                    <button class="openExplWindow" data-modal="window3">Read more</button>
+                </p>
+            </div>
+            <div class="description">
+                <h2>Explanation</h2>
+                <p>The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data.</p>
+                <p>
+                    <button class="openExplWindow" data-modal="window4">Read more</button>
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <div id="window1" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Comment</h2>
+            <p>
+                The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022. <br><br>
+                The data represents the average annual CO₂ emissions per person, measured in tonnes. <br>
+                This per capita metric highlights the environmental impact at an individual level rather than a total country-wide level, providing insights into the average carbon footprint per person in each country.<br><br>
+                From the bar chart, it's clear that Qatar leads with the highest emissions, reaching 36.7 tonnes per person.
+            </p>
+        </div>
+    </div>
+    
+</main>
+
+<footer>
+    <p>&copy; Data Visualization | Unige 2024/2025</p>
+</footer>
+
+</body>
+</html>

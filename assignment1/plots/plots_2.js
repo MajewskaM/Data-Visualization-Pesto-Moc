@@ -80,15 +80,15 @@
         function loadDataFromFile(selectedYear, chart){
             let filePath;
             if (selectedYear === "2000") {
-                filePath = "dataset/2/continent_emissions_2000.csv";
+                filePath = "dataset/1_2/continent_emissions_2000.csv";
             } else if (selectedYear === "2010") {
-                filePath = "dataset/2/continent_emissions_2010.csv";
+                filePath = "dataset/1_2/continent_emissions_2010.csv";
             } else if (selectedYear === "2015") {
-                filePath = "dataset/2/continent_emissions_2015.csv";
+                filePath = "dataset/1_2/continent_emissions_2015.csv";
             } else if (selectedYear === "2020") {
-                filePath = "dataset/2/continent_emissions_2020.csv";
+                filePath = "dataset/1_2/continent_emissions_2020.csv";
             } else if (selectedYear === "2022") {
-                filePath = "dataset/2/continent_emissions_2022.csv";
+                filePath = "dataset/1_2/continent_emissions_2022.csv";
             }
             d3.csv(filePath).then(data => {
                 data.forEach(d => {

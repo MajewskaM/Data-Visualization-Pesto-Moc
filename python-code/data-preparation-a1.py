@@ -2,8 +2,8 @@ import pandas as pd
 
 
 # loading the datasets
-emissions_data = pd.read_csv('dataset/2/countries_data_with_continents.csv', encoding='utf-8')
-population_data = pd.read_csv('dataset/2/world_population.csv', encoding='utf-8')  # Assuming a population dataset with columns 'Country', 'Year', 'Population'
+emissions_data = pd.read_csv('assignment1/dataset/1_2/countries_data_with_continents.csv', encoding='utf-8')
+population_data = pd.read_csv('assignment1/dataset/1_2/world_population.csv', encoding='utf-8')  # Assuming a population dataset with columns 'Country', 'Year', 'Population'
 
 emissions_data.rename(columns={'Annual CO₂ emissions (per capita)': 'Annual_CO2_emissions_per_capita'}, inplace=True)
 
@@ -111,7 +111,7 @@ data = data[~data['Entity'].isin(countries_to_exclude)]
 for year in selected_years:
     year_data = data[data['Year'] == year]
     processed_data = calculate_emissions_per_continent(year_data, year) 
-    processed_data.to_csv(f'dataset/2/continent_emissions_{year}.csv', index=False)
+    processed_data.to_csv(f'assignment1/dataset/1_2/continent_emissions_{year}.csv', index=False)
 
 
 # countries with no population information

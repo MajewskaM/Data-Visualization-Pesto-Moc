@@ -110,13 +110,13 @@ const margin = { top: 50, right: 20, bottom: 100, left: 80 };
         function loadAndDrawChart(timeRange) {
             let filePath, title;
             if (timeRange === "5years") {
-                filePath = "dataset/countries_emissions_5.csv";
+                filePath = "dataset/1_1/countries_emissions_5.csv";
                 title = "Avg of annual CO₂ emissions in the past 5 years (2018-2022)\nTop 10 Countries";
             } else if (timeRange === "10years") {
-                filePath = "dataset/countries_emissions_10.csv";
+                filePath = "dataset/1_1/countries_emissions_10.csv";
                 title = "Avg of annual CO₂ emissions in the past decade (2013-2022)\nTop 10 Countries";
             } else if (timeRange === "20years") {
-                filePath = "dataset/countries_emissions_20.csv";
+                filePath = "dataset/1_1/countries_emissions_20.csv";
                 title = "Avg of annual CO₂ emissions in the past 2 decades(2003-2022)\nTop 10 Countries";
             }
 
@@ -129,7 +129,7 @@ const margin = { top: 50, right: 20, bottom: 100, left: 80 };
             }).catch(error => console.error("Error loading CSV:", error));
         }
 
-        d3.csv("dataset/countries_data.csv", d => ({
+        d3.csv("dataset/1_1/countries_data.csv", d => ({
             Entity: d.Entity,
             Year: +d.Year,
             "CO2 emissions": +d["Annual CO₂ emissions (per capita)"]
