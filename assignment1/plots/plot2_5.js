@@ -118,7 +118,7 @@ function updateChart(year, topCount) {
           tooltip6.transition().duration(200).style('opacity', 1);
           tooltip6.html(
             `<strong>Country:</strong> ${d.Entity}<br>
-             <strong>Emissions per Capita:</strong> ${d.Annual_CO2_emissions_per_capita.toFixed(2)}<br>
+             <strong>Emissions per Capita:</strong> ${d.Annual_CO2_emissions_per_capita.toFixed(2)} billion tons<br>
              <strong>Percentage of Total:</strong> ${d.percentage.toFixed(2)}%`
           )
           .style('left', (event.pageX + 10) + 'px')
@@ -138,7 +138,7 @@ function updateChart(year, topCount) {
       .attr('y', height5 + margin5.bottom - 10)
       .attr('text-anchor', 'middle')
       .attr('class', 'axis-label')
-      .text('Percentage of Total CO2 Emissions');
+      .text('Percentage of Total CO2 Emissions (Billion t)');
 
     // Add the Y-axis label (continent names)
     svg6.append('text')
@@ -154,7 +154,7 @@ function updateChart(year, topCount) {
 }
 
 // Add event listener for year dropdown menu
-document.getElementById('year-select').addEventListener('change', function() {
+document.getElementById('year-select2_5').addEventListener('change', function() {
   selectedYear = this.value;
   updateChart(selectedYear, selectedTop);
 });

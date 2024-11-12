@@ -1,3 +1,4 @@
+// Function to format numbers (e.g., 1e6 to 1M, 1e9 to 1B, etc.)
 function formatNumber(value) {
     const absValue = Math.abs(value); // Get the absolute value
 
@@ -19,7 +20,6 @@ const margin3 = { top: 60, right: 220, bottom: 60, left: 400 },
     width3 = 1500 - margin3.left - margin3.right,
     height3 = 600 - margin3.top - margin3.bottom;
 
-// Append the svg object to the body of the page
 const svg4 = d3.select("#heatmap")
     .attr("width", width3 + margin3.left + margin3.right)
     .attr("height", height3 + margin3.top + margin3.bottom)
@@ -131,7 +131,7 @@ function loadData(year) {
             .append("text")
             .attr("x", d => x(d.Entity) + x.bandwidth() / 2)  // Center horizontally
             .attr("y", d => y(d.type) + y.bandwidth() / 2)    // Center vertically
-            .attr("dy", ".35em")  // Adjust vertical alignment to center text
+            .attr("dy", ".35em")  // Adjust vertical alignment to center
             .attr("text-anchor", "middle")  // Center the text horizontally
             .text(d => {
                 // Only display formatted value if it's a valid number
@@ -169,13 +169,11 @@ function loadData(year) {
             .attr("y1", "0%")
             .attr("x2", "0%")
             .attr("y2", "100%");
-
-        // Define color stops for the gradient (Green -> White -> Red)
         gradient.append("stop").attr("offset", "0%").attr("stop-color", "green");
         gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");
         gradient.append("stop").attr("offset", "100%").attr("stop-color", "red");
 
-        // Append labels for the legend
+        // Add labels for the legend
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", 10)
@@ -196,14 +194,15 @@ function loadData(year) {
             .text("Positive Emissions")
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
+        // Add unit label at the bottom of the heatmap
+        svg4.append("text")
+        .attr("x", width3 / 2)  // Position it in the center horizontally
+        .attr("y", height3 + 40)  // Position it slightly below the heatmap
+        .attr("text-anchor", "middle")  // Center the text
+        .style("font-size", "14px")  // Adjust font size
+        .style("font-weight", "bold")  // Make the text bold for better visibility
+        .text("Unit: Tons");
 
-        // Find the minimum and maximum values
-        const minValue = d3.min(longData, d => d.value);
-        const maxValue = d3.max(longData, d => d.value);
-
-        // Print min and max values to the console
-        console.log(`Minimum Value: ${formatNumber(minValue)} million tons`);
-        console.log(`Maximum Value: ${formatNumber(maxValue)} million tons`);
     });
 }
 
@@ -212,6 +211,7 @@ loadData(2022);
 
 // Add event listener for the year selection dropdown and the "Load Data" button
 document.getElementById("load-data").addEventListener("click", () => {
-    const selectedYear = document.getElementById("year-select").value;
+    const selectedYear = document.getElementById("year-select3").value;
     loadData(selectedYear);
+    
 });
