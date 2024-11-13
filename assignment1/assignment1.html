@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project | PestoMoc</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <link rel="stylesheet" href="docs/assets/css/style.css">
+    <link rel="stylesheet" href="../docs/assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
 
 </head>
 <body >
 
     <div class="sidebar">
-        <img src="docs/assets/img/pesto_logo.png">
-        <a href="index.html"> Home</a>
+        <img src="../docs/assets/img/pesto_logo.png">
+        <a href="../index.html"> Home</a>
         <a href="assignment1.html"  class="active">Insights on CO₂ Emissions</a>
-        <a href="#assignment2"> Assignment 2</a>
+        <a href="../assignment2/assignment2.html"> Assignment 2</a>
     </div>
 
     <div class="topbar">
-        <a href="project_desc.html">Project</a>
-        <a href="team_intro.html">Team</a>
+        <a href="../project_desc.html">Project</a>
+        <a href="../team_intro.html">Team</a>
     </div>
 
 <main id="assignment1_site">
@@ -150,11 +150,11 @@
     </div>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="plot1.js"></script>
+    <script src="plots/plot1.js"></script>
 
     <div style="height: 4px; background-color: rgb(104, 104, 104); width: 100%; margin: 20px 0;"></div>
 
-    <div class="chart-section-container-wide">
+    <div class="chart-section-container-wide" id="data">
 
         <section class="center-section">
             <div class="comments-explenation">
@@ -240,9 +240,14 @@
             <div class="comments-explenation">
                 <div class="explanation" id="wide">
                     <h2>Comments</h2>
-                    <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters...
-                        <br>
-                        <br>
+                    <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
+                        <ul>
+                            <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                            <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                            <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                            <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                            <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+                        </ul>
                         <button class="openExplWindow" data-modal="window2_1_comment">Read more</button>
                     </p>
                 </div>
@@ -266,7 +271,7 @@
         <div class="window-content">
             <span class="close-btn">&times;</span>
             <h2>Comment</h2>
-            <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters...
+            <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
                 <ul>
                     <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
                     <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
@@ -274,10 +279,7 @@
                     <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
                     <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
                 </ul>
-                Overall trend: decrease in CO₂ emissions per capita over the years in each continent
-                The data shows that regions like Asia and Africa, 
-                are experiencing higher absolute emissions due to their larger populations.
-                Additionally countries with the greatest population like Russia or USA have been placed high among TOP emiting countries across 2000-2022.
+                Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
             </p>
         </div>
     </div>
@@ -329,10 +331,8 @@
             <div class="comments-explenation">
                 <div class="explanation" id="wide">
                     <h2>Comments</h2>
-                    <p>Based on two above plots it can be observed that Asia and Africa, with larger populations,
-                          contribute to global emissions primarily through a larger cumulative effect rather than 
-                          high individual emission rates.
-                        <br>
+                    <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21,28 CO2 per capita and 
+                        biggest population of all analysed countries - 282.40M. <br>
                         <br>
                         <button class="openExplWindow" data-modal="window2_2_comments">Read more</button>
                     </p>
@@ -354,15 +354,19 @@
         <div class="window-content">
             <span class="close-btn">&times;</span>
             <h2>Comment</h2>
-            <p>Based on two above plots it can be observed that Asia and Africa, with larger populations,
+            <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21,28 CO2 per capita and 
+                biggest population of all analysed countries - 282.40M. When analysing data year by year we see
+                that the population increases (in deed of all countries, we can see maximums per each continent). 
+                From 2010 to now on, United Stated, with population of 311.18M is not top emitter anymore in North America.
+                <br><br> Usually we can see that countries with top emissions are not marked with color as the largest 
+               populations among other emitters. We can conclude the trend of countries that they started to be more 
+               and more aware of the CO2 emissions impact on the environment - some rules have been implemented!
+               <br><br>Based on two above plots it can be observed that Asia (mostly leading in total emissions), with larger population (look at the population values at total bar, and its color comparing to other continents),
                 contribute to global emissions primarily through a larger cumulative effect rather than 
-                high individual emission rates.
+                high individual emission rates (the width of the total bar!)
                 <br><br>The "Others" section and its averaged emission shows that many countries outside the top five emitters in each continent, with large number of its total population,
-                 generally have no big influence and have lower emissions per capita.
-                 <br><br>
-                 North America’s top emitters have high per capita emissions despite a relatively smaller population (not including United States) than Asia's top emitters. 
-                 Conversely, Africa with large total population has a lower per capita emission across all of its countries (looking at the Total Bar).
-            </p>
+                 generally have no big influence and have lower emissions per capita.                
+                </p>
         </div>
     </div>
 
@@ -378,7 +382,7 @@
             </div>
     </div>
 
-    <script src = "plots_2.js"></script>
+    <script src = "plots/plots_2.js"></script>
 
     <div style="height: 4px; background-color: rgb(104, 104, 104); width: 100%; margin: 20px 0;"></div>
 
@@ -387,8 +391,8 @@
       
         <!-- Dropdown menu for selecting year -->
         <div class="dropdown-container">
-          <label for="year-select">Select Year: </label>
-          <select id="year-select" class="year-select">
+          <label for="year-select2_5">Select Year: </label>
+          <select id="year-select2_5" class="year-select2_5">
             <option value="2022">2022</option>
             <option value="2020">2020</option>
             <option value="2015">2015</option>
@@ -409,7 +413,7 @@
         <!-- SVG container for chart -->
         <svg id="perc"></svg>
       
-        <script src="plot2_5.js"></script>
+        <script src="plots/plot2_5.js"></script>
       </body>
     
     <div class="heatmap">
@@ -425,7 +429,7 @@
             </p>
             <h2>Select year</h2>
             <p>
-                <select id="year-select">
+                <select id="year-select3">
                     <option value="2022">2022</option>
                     <option value="2021">2021</option>
                     <option value="2020">2020</option>
@@ -444,10 +448,10 @@
         </div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="plot3.js"></script>
+    <script src="plots/plot3.js"></script>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="add_window_handl.js"></script>
+    <script src="plots/add_window_handl.js"></script>
     
 </main>
 

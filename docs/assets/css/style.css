@@ -105,6 +105,12 @@ section {
     max-width: 800px;
 }
 
+#data{
+    margin-bottom: 0px;
+    margin-top: 20px;
+    padding: 0;
+}
+
 h2 {
     font-family: 'Roboto Slab', serif;
     color: #4CAF50;
@@ -135,7 +141,7 @@ footer {
     background-color: rgba(51, 51, 51, 0.8);
     color: white;
     margin-top: 20px;
-    margin-left: 200px; /* Matches sidebar width for proper alignment */
+    margin-left: 220px;
     padding: 20px;
 }
 
@@ -192,6 +198,14 @@ html {
     visibility: hidden;
 }
 
+.page-line {
+    background-color: rgba(113, 163, 116, 0.447);
+    padding: 20px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 .tooltip2 {
     position: absolute;
     padding: 8px;
@@ -206,9 +220,7 @@ html {
 .tooltip3{
     position: absolute;
     text-align: center;
-    width: 120px;
     height: auto;
-    padding: 5px;
     font: 12px sans-serif;
     background: lightsteelblue;
     border: 0px;
@@ -357,6 +369,7 @@ html {
     border: 2px solid rgb(134, 134, 134);
     border-radius: 20px;
     width:80%;
+    margin:0;
 }
 
 .legend {
@@ -446,7 +459,7 @@ html {
 
 .timeChoice select {
     padding: 8px 12px;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #f0f0f0;
@@ -566,6 +579,7 @@ html {
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 40px;
+    padding-top: 30px;
 }
 
 .tasks-section {
@@ -597,6 +611,7 @@ html {
     width: 130%;
     height: auto; 
     transition: transform 0.5s ease; 
+    border-radius: 5px;
 }
 
 .tasks-section:hover .zoom-image {
