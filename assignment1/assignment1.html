@@ -383,8 +383,6 @@
     <script src = "plots/plots_2.js"></script>
 
     <div style="height: 4px; background-color: rgb(104, 104, 104); width: 100%; margin: 20px 0;"></div>
-
-    <body>
         <h2 class="chart-title">Percentage Plot from CSV Data</h2>
       
         <!-- Dropdown menu for selecting year -->
@@ -412,9 +410,17 @@
         <svg id="perc"></svg>
       
         <script src="plots/plot2_5.js"></script>
-      </body>
+
+        <div id="window5" class="window-content">
+            <div>
+                <h2>Comment</h2>
+                <p>
+                    This bar chart provides a clear visual representation of CO2 emissions by continent for the year 2022. It highlights the top 1 to top 5 countries within each continent, showing their contributions to the total CO2 emissions. Asia stands out with the highest emissions, followed by Europe and North America. This breakdown helps in understanding the regional distribution of emissions and identifying key contributors.</p>
+               
+            </div>
+        </div>
     
-    <div class="heatmap">
+    <div class="heatmap" style="width: 100%">
         <h1>CO₂ emissions from fossil fuels and land-use change (2022)</h1>
         <svg id="heatmap"></svg>
     </div class="additional_window">
@@ -444,6 +450,7 @@
             
             </p>
         </div>
+    </div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="plots/plot3.js"></script>
