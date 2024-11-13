@@ -1,12 +1,15 @@
 
         const transitionDuration = 800;
+        const windowWidth = window.innerWidth - 220 - 100;
+        const margin1 = { top: 100, right: 50, bottom: 50, left: 100};
+        const width1 = windowWidth - margin1.left - margin1.right;
+        const height1 = window.innerHeight * 0.7 - margin1.top - margin1.bottom;
+        
+        const margin2 = { top: 150, right: 50, bottom: 40, left: 100};
+        const width2 = windowWidth - margin2.left - margin2.right;
+        const height2 = window.innerHeight * 0.7 - margin2.top - margin2.bottom;
 
-        const margin2 = {top: 100, right: 100, bottom: 40, left: 100},
-            width2 =  window.innerWidth*0.85 - margin2.left - margin2.right,
-            height2 = 550 - margin2.top - margin2.bottom;
-        const margin1 = {top: 100, right: 100, bottom: 40, left: 100},
-            width1 =  window.innerWidth*0.85 - margin2.left - margin2.right,
-            height1 = 550 - margin2.top - margin2.bottom;
+        
 
         const legendWidth1 = width1/2;
         const legendHeight1 = 20;
@@ -176,18 +179,23 @@
                 .padding(0.1);
 
             const lineIntervals = d3.range(20, xScale.domain()[1], 20);
-            lineIntervals.forEach(value => {
-                svg1.append("line")
-                    .attr("x1", xScale(value))
-                    .attr("x2", xScale(value))
+                svg1.selectAll(".grid-line")
+                    .data(lineIntervals)
+                    .enter()
+                    .append("line")
+                    .attr("class", "grid-line")
                     .attr("y1", 0)
                     .attr("y2", height1)
+                    .attr("x1", d => xScale(d))
+                    .attr("x2", d => xScale(d))
                     .attr("stroke", "gray")
                     .attr("stroke-width", 1)
                     .style("stroke-dasharray", "4 4")
+                    .attr("opacity", 0)
+                    .transition().duration(400)
                     .attr("opacity", 0.5);
-            });
 
+            
             svg1.selectAll(".bar-group")
                 .data(continentEntries)
                 .enter().append("g")
@@ -279,7 +287,7 @@
 
             const legend = svg1.append("g")
                 .attr("class", "legend")
-                .attr("transform", `translate(${-30}, ${height1 + 90})`);
+                .attr("transform", `translate(${margin1.left * (-0.5)}, ${height1 + 90})`);
             
             legend.append("defs")
                 .append("linearGradient")
@@ -612,7 +620,7 @@
 
             legend.append("text")
             .attr("x", legendWidth2 / 2)
-            .attr("y", -10)
+            .attr("y", -5)
             .attr("font-size", "14px")
             .attr("text-anchor", "middle")
             .style("font-weight", "bold")
@@ -643,22 +651,22 @@
 
                 legend.append("rect")
                     .attr("x", 0)
-                    .attr("y", 10+index * (legendHeight2 + legendPadding))
+                    .attr("y", 20+index * (legendHeight2 + legendPadding))
                     .attr("width", barWidth)
                     .attr("height", legendHeight2)
                     .style("fill", `url(#gradient${index})`);
 
                 legend.append("line")
                     .attr("x1", 0)
-                    .attr("y1", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 - 4)
+                    .attr("y1", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 5)
                     .attr("x2", 0)
-                    .attr("y2", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 +24)
+                    .attr("y2", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 35)
                     .attr("stroke", "black")
                     .attr("stroke-width", 1);
 
                 legend.append("text")
                     .attr("x", barWidth/2 + 7)
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
+                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
                     .attr("font-size", "12px")
                     .attr("text-anchor", "end")
                     .style("font-weight", "bold")
@@ -666,14 +674,14 @@
 
                 legend.append("text")
                     .attr("x", -10)
-                    .attr("y", 10+index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
                     .attr("font-size", "12px")
                     .attr("text-anchor", "end")
                     .text(formatNumber(scaleData.min));
 
                 legend.append("text")
                     .attr("x", barWidth + 10)
-                    .attr("y", 10+index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
+                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
                     .attr("font-size", "12px")
                     .attr("text-anchor", "start")
                     .text(formatNumber(scaleData.max));
