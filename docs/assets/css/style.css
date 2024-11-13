@@ -10,7 +10,7 @@ body {
 
 header {
     position: relative;
-    height: 60vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -58,6 +58,7 @@ header p {
     background-color: rgba(93, 190, 28, 0.9);
     color: white;
     padding: 10px 30px;
+    margin-bottom: 30px;
     border-radius: 5px;
     text-decoration: none;
     margin-bottom: 30px;
@@ -717,3 +718,15 @@ html {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.tooltip_alluvial {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
