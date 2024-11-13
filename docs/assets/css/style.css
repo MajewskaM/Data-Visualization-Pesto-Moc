@@ -338,6 +338,7 @@ html {
     border-radius: 20px;
     width: 100%; /* Adjust width as necessary */
     margin-left: 80px;
+    align-items: center;
 }
 
 
