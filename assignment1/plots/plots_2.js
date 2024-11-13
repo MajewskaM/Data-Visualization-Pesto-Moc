@@ -31,7 +31,7 @@
 
         const svg2 = d3.select("#chart_2")
         .attr("width", width2 + margin2.left + margin2.right)
-        .attr("height", height2 + (numberBars*(legendPadding+legendHeight2)) + margin2.top + margin2.bottom - 30)
+        .attr("height", height2 + (numberBars*(legendPadding+legendHeight2) + 5) + margin2.top + margin2.bottom - 30)
         .append("g")
         .attr("transform", `translate(${margin2.left},${margin2.top})`);
 
@@ -590,7 +590,7 @@
                 .attr("y", -70)
                 .attr("text-anchor", "middle")
                 .attr("font-size", "20px")
-                .text(`RISING POPULATIONS, RISING EMISSIONS: CO₂ Impact Across Continents (2000-2022)`);
+                .text(`RISING POPULATIONS, RISING AWARENESS, STABILIZING EMISSIONS: CO₂ Impact Across Continents (2000-2022)`);
 
             svg2.append("text")
             .attr("class", "subtitle")
@@ -612,17 +612,18 @@
 
             legend.append("text")
             .attr("x", legendWidth2 / 2)
-            .attr("y", 0)
+            .attr("y", -10)
             .attr("font-size", "14px")
             .attr("text-anchor", "middle")
             .style("font-weight", "bold")
-            .text(`Total Populations of TOP Emitting Countries`);
+            .text(`Total Populations of TOP5 Emitting Countries`);
 
             const countriesData = (colorsScalesPopulations).slice(0,-2);
             countriesData.forEach((scaleData, index) => {
 
                 const populationRange = scaleData.max - scaleData.min;
                 const barWidth = (populationRange / maxPopulationRange) * legendWidth2;
+
 
                 const gradient = legend.append("defs")
                     .append("linearGradient")
@@ -646,6 +647,22 @@
                     .attr("width", barWidth)
                     .attr("height", legendHeight2)
                     .style("fill", `url(#gradient${index})`);
+
+                legend.append("line")
+                    .attr("x1", 0)
+                    .attr("y1", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 - 4)
+                    .attr("x2", 0)
+                    .attr("y2", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 +24)
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 1);
+
+                legend.append("text")
+                    .attr("x", barWidth/2 + 7)
+                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
+                    .attr("font-size", "12px")
+                    .attr("text-anchor", "end")
+                    .style("font-weight", "bold")
+                    .text(index==0? "1st" : (index==1?"2nd": (index>2? `${index+1}th`: "3rd")));
 
                 legend.append("text")
                     .attr("x", -10)
@@ -708,13 +725,22 @@
             .attr("text-anchor", "start")
             .text(formatNumber(otherSlice.max));
 
+        legend.append("line")
+            .attr("x1", 0)
+            .attr("y1", 5*(legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
+            .attr("x2", 0)
+            .attr("y2", 5*(legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
+            .attr("stroke", "black")
+            
+            .attr("stroke-width", 1);
+
             legend.append("text")
             .attr("x", legendWidth2 / 2)
             .attr("y", 45+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2)
             .attr("font-size", "14px")
             .attr("text-anchor", "middle")
             .style("font-weight", "bold")
-            .text(`Total Population of Continents`);
+            .text(`Total Population of All Continents`);
             
         const totalSlice = colorsScalesPopulations[6];
         const gradientTotal = legend.append("defs")
@@ -753,6 +779,14 @@
             .attr("font-size", "12px")
             .attr("text-anchor", "start")
             .text(formatNumber(totalSlice.max));
+
+        legend.append("line")
+            .attr("x1", 0)
+            .attr("y1", 6*(legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
+            .attr("x2", 0)
+            .attr("y2", 6*(legendHeight2 + legendPadding) + legendHeight2 / 2 + 20+5)
+            .attr("stroke", "black")
+            .attr("stroke-width", 1);
 
 
         }
