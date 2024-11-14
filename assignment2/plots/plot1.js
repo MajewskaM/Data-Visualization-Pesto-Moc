@@ -3,7 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const width = +svg.attr("width");
   const height = +svg.attr("height");
 
-  const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+  const continentColorMap = {
+    "Africa": "#ff7f0e",
+    "Asia": "#f803fc",
+    "Europe": "#1f77b4",
+    "North America": "#f0fc03",
+    "Oceania": "#e377c2",
+    "South America": "#7f7f7f"
+  };
+
   const fossilColor = "#ff4d4d";
   const landColor = "#4daf4a";
 
@@ -42,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         source: d.continent,
         target: d.country,
         value: (d.fossil + d.land),
-        color: colorScale(d.continent),
+        color: continentColorMap[d.continent] || d3.schemeCategory10[0],
         fossil: d.fossil,
         land: d.land
       });
@@ -119,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("fill", d => {
         if (d.name === fossilTotalNode) return fossilColor;
         if (d.name === landTotalNode) return landColor;
-        return colorScale(d.name.split("_")[0]);
+        return continentColorMap[d.name] || d3.schemeCategory10[0];
       })
       .attr("stroke", "#333");
 
@@ -129,8 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .data(graph.nodes)
       .enter().append("text")
       .attr("x", d => {
-        if (d.name === "World Total - Fossil" || d.name === "World Total - Land") {
-          return d.x0 - 35; 
+        if (d.name === "Fossil fuels" || d.name === "Land use") {
+          return d.x0 - 10;
         }
         return d.x1 + 30;
       })
@@ -140,8 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .style("font-size", "12px")
       .text(d => d.name)
       .attr("fill", "#000");
-
-    // Tooltip for displaying link information
+      
     const tooltip_alluvial = d3.select("#tooltip_alluvial");
 
     links.on("mouseover", (event, d) => {
