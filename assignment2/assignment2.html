@@ -5,25 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project | PestoMoc</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <link rel="stylesheet" href="docs/assets/css/style.css">
+     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <link rel="stylesheet" href="../docs/assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
 
 </head>
 <body >
 
     <div class="sidebar">
-        <img src="docs/assets/img/pesto_logo.png">
-        <a href="index.html"> Home</a>
-        <a href="assignment1.html">Insights on CO₂ Emissions</a>
+        <img src="../docs/assets/img/pesto_logo.png">
+        <a href="../index.html"> Home</a>
+        <a href="../assignment1/assignment1.html">Insights on CO₂ Emissions</a>
         <a href="assignment2.html" class="active"> Assignment 2</a>
     </div>
 
     <div class="topbar">
-        <a href="project_desc.html">Project</a>
-        <a href="team_intro.html">Team</a>
+        <a href="../project_desc.html">Project</a>
+        <a href="../team_intro.html">Team</a>
     </div>
 
 <main id="assignment1_site">
+
+    <div class="tooltip_alluvial" id="tooltip_alluvial"></div>
+    
+    <svg id="alluvial-plot" width="960" height="600"></svg>
 
     <div class="chart-section-container">
         <div id="chart_2022"></div>
@@ -48,6 +54,8 @@
             </div>
         </section>
     </div>
+
+    
     
     <div class="chart-section-container" id="section_with_selector">
         <div id="decade-chart"></div>
@@ -84,8 +92,6 @@
         </section>
     </div>
 
-    <div class="tooltip" id="tooltip"></div>
-
     <div id="window1" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
@@ -98,6 +104,9 @@
             </p>
         </div>
     </div>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="plots/plot1.js"></script>
     
 </main>
 
