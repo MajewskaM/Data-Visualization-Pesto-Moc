@@ -13,7 +13,7 @@ const svg6 = d3.select('#perc') // Select the SVG element by ID
 const continentColors = {
   'Europe': '#0085C7',   // Blue
   'Asia': '#F1C72C',     // Yellow
-  'Africa': '#3E3A39',   // Black
+  'Africa': '#BBBBBB',   // Black
   'Oceania': '#009639',  // Green
   'North America': '#B22234', // Red for North America
   'South America': '#B22200'  // Red for South America
@@ -109,9 +109,19 @@ function updateChart(year, topCount) {
         .attr('width', d => x(d.percentage)) // Set width based on percentage
         .attr('height', y.bandwidth())
         .style('fill', (d, i) => {
-          // Get the appropriate Olympic color for the continent
           const continentColor = continentColors[continent.key] || '#000000'; // Default to black if continent is not found
-          return d3.rgb(continentColor).darker(1 + (i * 0.2)); // Darken color for each segment
+
+          // Brighten and increase contrast for each segment
+          let color = d3.hsl(continentColor);
+          
+          // Make the first segment the brightest
+          const saturationAdjustment = 0.8 - (i * 0.1); // Decrease saturation as we go along
+          const lightnessAdjustment = 0.6 + (i * 0.05); // Increase lightness to keep the colors brighter
+
+          color.s = Math.max(0.4, saturationAdjustment); // Prevent saturation from going below 0.4
+          color.l = Math.min(0.9, lightnessAdjustment); // Prevent lightness from going above 0.9
+
+          return color.toString(); // Convert the HSL color back to a string
         })
         .on('mouseover', function(event, d) {
           // Display tooltip with more information
