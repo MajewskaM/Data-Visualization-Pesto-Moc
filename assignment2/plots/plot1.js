@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load the dataset
   d3.csv("./dataset/continent_emissions_top5_2022.csv").then(data => {
     let continentGroups = d3.group(data, d => d["Continent"]);
-    
+
     // Function to process the data based on selected continents
     const processData = (selectedContinents) => {
       const formattedData = Array.from(continentGroups, ([continent, countries]) => {
@@ -188,23 +188,76 @@ document.addEventListener("DOMContentLoaded", () => {
         .style("font-size", "12px")
         .text(d => d.name)
         .attr("fill", "#000");
-    };
 
-    // Initial draw with all continents selected
-    drawSankey(processData(selectedContinents));
+      // Tooltip for displaying link information
+      const tooltip_alluvial = d3.select("#tooltip_alluvial");
 
-    // Update selected continents based on checkbox state
-    document.querySelectorAll("#controls input[type='checkbox']").forEach(checkbox => {
-      checkbox.addEventListener("change", (event) => {
-        const continent = event.target.value;
-        if (event.target.checked) {
-          selectedContinents.add(continent);
+      nodes.on("mouseover", (event, d) => {
+        links.attr("stroke-opacity", 0.2);
+        nodes.attr("opacity", 0.2);
+
+        d3.select(event.target).attr("opacity", 1);
+        tooltip_alluvial.transition().duration(200).style("opacity", .9);
+
+        // Initialize values to 0
+        let fossilValue = 0;
+        let landValue = 0;
+        let totalValue = 0;
+
+        // Check if the node is a continent total or a country
+        if (d.name.includes("Total - Fossil") || d.name.includes("Total - Land")) {
+          // Aggregating emissions for continent total nodes (like "Africa Total - Fossil")
+          const continent = d.name.split(" ")[0]; // Extract the continent name
+
+          fossilValue = d3.sum(formattedData.filter(f => f.continent === continent), f => f.fossil);
+          landValue = d3.sum(formattedData.filter(f => f.continent === continent), f => f.land);
+          totalValue = fossilValue + landValue;
         } else {
-          selectedContinents.delete(continent);
+          // For country nodes, get the specific values
+          const countryData = formattedData.find(f => f.country === d.name);
+          if (countryData) {
+            fossilValue = countryData.fossil;
+            landValue = countryData.land;
+            totalValue = fossilValue + landValue;
+          }
         }
 
-        // Re-draw Sankey plot based on selected continents
-        drawSankey(processData(selectedContinents));
+        tooltip_alluvial.style("opacity", 1)
+          .html(`
+            <strong>${d.name}</strong><br>
+            Total Emissions: ${totalValue.toFixed(2)} tons<br>
+            Fossil Emissions: ${fossilValue.toFixed(2)} tons<br>
+            Land Emissions: ${landValue.toFixed(2)} tons
+          `)
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      });
+
+      nodes.on("mousemove", (event) => {
+        tooltip_alluvial.style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+      });
+
+      nodes.on("mouseout", () => {
+        links.attr("stroke-opacity", 0.6);
+        nodes.attr("opacity", 1);
+        tooltip_alluvial.transition().duration(200).style("opacity", 0);
+      });
+    };
+
+    // Initial plot with all continents selected
+    drawSankey(processData(selectedContinents));
+
+    // Update the selected continents based on checkbox interactions
+    document.querySelectorAll("#controls input[type='checkbox']").forEach(checkbox => {
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+          selectedContinents.add(checkbox.value);
+        } else {
+          selectedContinents.delete(checkbox.value);
+        }
+
+        drawSankey(processData(selectedContinents)); // Redraw Sankey based on selected continents
       });
     });
   });
