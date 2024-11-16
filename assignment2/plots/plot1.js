@@ -11,22 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const fossilColor = "#ff4d4d";  // Color for fossil emissions
   const landColor = "#4daf4a";   // Color for land emissions
   const continentColorMap = {
-    "Africa": "#ff7f0e",
-    "Asia": "#f803fc",
-    "Europe": "#1f77b4",
-    "North America": "#f0fc03",
-    "Oceania": "#e377c2",
-    "South America": "#7f7f7f"
+    "Africa": "#FF6347",
+    "Asia": "#20B2AA",
+    "Europe": "#1E90FF",
+    "North America": "#FFD700",
+    "Oceania": "#8A2BE2",
+    "South America": "#FF4500"
   };
 
   // Load the dataset
   d3.csv("./dataset/continent_emissions_top5_2022.csv").then(data => {
     let continentGroups = d3.group(data, d => d["Continent"]);
 
-    // Function to process the data based on selected continents
     const processData = (selectedContinents) => {
       const formattedData = Array.from(continentGroups, ([continent, countries]) => {
-        // Filter out the continents that are not selected
         if (!selectedContinents.has(continent)) return [];
 
         return countries.sort((a, b) => 
@@ -43,14 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return formattedData;
     };
 
-    // Set up initial continent selection (all checked by default)
     let selectedContinents = new Set(["Asia", "Europe", "Africa", "North America", "South America", "Oceania"]);
 
-    // Function to draw/update the Sankey plot
     const drawSankey = (formattedData) => {
       const sankey = d3.sankey()
         .nodeWidth(40)
-        .nodePadding(10)
+        .nodePadding(15)
         .size([width1, height1])
         .nodeAlign(d3.sankeyCenter);
 
@@ -58,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const continentNodes = new Set();
       const countryNodes = new Set();
 
-      // Process country data and add links from continent to country
       formattedData.forEach(d => {
         continentNodes.add(d.continent);
         countryNodes.add(d.country);
@@ -73,11 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Add nodes for each continent and each country
       continentNodes.forEach(continent => graph.nodes.push({ name: continent }));
       countryNodes.forEach(country => graph.nodes.push({ name: country }));
 
-      // Define total nodes for each continent (fossil and land)
       const fossilTotalNode = "World Total - Fossil";
       const landTotalNode = "World Total - Land";
       graph.nodes.push({ name: fossilTotalNode });
@@ -89,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         graph.nodes.push({ name: fossilContinentTotal });
         graph.nodes.push({ name: landContinentTotal });
 
-        // Create links from continent-specific totals to world totals
         graph.links.push({
           source: fossilContinentTotal,
           target: fossilTotalNode,
@@ -105,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Add links from each country to its continent-specific fossil and land totals
       formattedData.forEach(d => {
         const fossilContinentTotal = `${d.continent} Total - Fossil`;
         const landContinentTotal = `${d.continent} Total - Land`;
@@ -125,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Map link sources and targets to node indices, with validation
       graph.links.forEach(link => {
         link.source = graph.nodes.findIndex(node => node.name === link.source);
         link.target = graph.nodes.findIndex(node => node.name === link.target);
@@ -136,16 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Remove invalid links
       graph.links = graph.links.filter(link => !link.invalid);
 
-      // Apply the Sankey layout to the graph
       sankey(graph);
 
-      // Clear existing plot
       svg.selectAll("*").remove();
 
-      // Draw links
       const links = svg.append("g")
         .selectAll("path")
         .data(graph.links)
@@ -158,9 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
           return d.color;
         })
         .attr("stroke-opacity", 0.6)
-        .attr("fill", "none");
+        .attr("fill", "none")
+        .style("transition", "stroke-opacity 0.3s");
 
-      // Draw nodes
       const nodes = svg.append("g")
         .selectAll("rect")
         .data(graph.nodes)
@@ -174,9 +160,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (d.name.includes("Total - Land")) return landColor;
           return continentColorMap[d.name] || d3.schemeCategory10[0];
         })
-        .attr("stroke", "#333");
+        .attr("stroke", "#333")
+        .style("transition", "opacity 0.3s");
 
-      // Add labels for nodes
       svg.append("g")
         .selectAll("text")
         .data(graph.nodes)
@@ -185,11 +171,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .attr("y", d => (d.y0 + d.y1) / 2)
         .attr("dy", 4)
         .style("text-anchor", "left")
-        .style("font-size", "12px")
-        .text(d => d.name)
-        .attr("fill", "#000");
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .style("fill", "#000")
+        .text(d => d.name);
 
-      // Tooltip for displaying link information
       const tooltip_alluvial = d3.select("#tooltip_alluvial");
 
       nodes.on("mouseover", (event, d) => {
@@ -197,23 +183,18 @@ document.addEventListener("DOMContentLoaded", () => {
         nodes.attr("opacity", 0.2);
 
         d3.select(event.target).attr("opacity", 1);
-        tooltip_alluvial.transition().duration(200).style("opacity", .9);
+        tooltip_alluvial.transition().duration(200).style("opacity", 1);
 
-        // Initialize values to 0
         let fossilValue = 0;
         let landValue = 0;
         let totalValue = 0;
 
-        // Check if the node is a continent total or a country
         if (d.name.includes("Total - Fossil") || d.name.includes("Total - Land")) {
-          // Aggregating emissions for continent total nodes (like "Africa Total - Fossil")
-          const continent = d.name.split(" ")[0]; // Extract the continent name
-
+          const continent = d.name.split(" ")[0];
           fossilValue = d3.sum(formattedData.filter(f => f.continent === continent), f => f.fossil);
           landValue = d3.sum(formattedData.filter(f => f.continent === continent), f => f.land);
           totalValue = fossilValue + landValue;
         } else {
-          // For country nodes, get the specific values
           const countryData = formattedData.find(f => f.country === d.name);
           if (countryData) {
             fossilValue = countryData.fossil;
@@ -222,8 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
-        tooltip_alluvial.style("opacity", 1)
-          .html(`
+        tooltip_alluvial.html(`
             <strong>${d.name}</strong><br>
             Total Emissions: ${totalValue.toFixed(2)} tons<br>
             Fossil Emissions: ${fossilValue.toFixed(2)} tons<br>
@@ -235,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       nodes.on("mousemove", (event) => {
         tooltip_alluvial.style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 20) + "px");
+          .style("top", (event.pageY - 20) + "px");
       });
 
       nodes.on("mouseout", () => {
@@ -245,10 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-    // Initial plot with all continents selected
     drawSankey(processData(selectedContinents));
 
-    // Update the selected continents based on checkbox interactions
     document.querySelectorAll("#controls input[type='checkbox']").forEach(checkbox => {
       checkbox.addEventListener("change", () => {
         if (checkbox.checked) {
@@ -257,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
           selectedContinents.delete(checkbox.value);
         }
 
-        drawSankey(processData(selectedContinents)); // Redraw Sankey based on selected continents
+        drawSankey(processData(selectedContinents));
       });
     });
   });
