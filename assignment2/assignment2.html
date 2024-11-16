@@ -35,78 +35,58 @@
         <div id="chart_2022"></div>
         <section class="clickable-section">
             <h2 class="title">
-                <span>Emission of CO<sub>2</sub> (per capita) in 2022</span><br>
-                <span>Top 10 Countries</span>
+                <span>Effect from Fossil fuels and land-use</span><br>
             </h2>
             <div class="explanation">
                 <h2>Comment</h2>
-                <p>The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022.</p>
+                <p>The chart illustrates the CO₂ emissions from fossil fuels and land-use change.</p>
                 <p>
-                    <button class="openExplWindow" data-modal="window1">Read more</button>
+                    <button class="openExplWindow" data-modal="window1_comment">Read more</button>
                 </p>
             </div>
             <div class="description">
                 <h2>Explanation</h2>
-                <p>The chart was created based on data from the file co-emission-per-capita.csv.</p>
+                <p>The chart was created based on prepared dataset continent_emissions_top5. Data was extracted from the file co-emission-per-capita.csv.</p>
                 <p>
-                    <button class="openExplWindow" data-modal="window2">Read more</button>
+                    <button class="openExplWindow" data-modal="window1_explanation">Read more</button>
                 </p>
             </div>
         </section>
     </div>
 
-    
-    
-    <div class="chart-section-container" id="section_with_selector">
-        <div id="decade-chart"></div>
-        <section class="clickable-section">
-            <h2 class="title">
-                <span>Emission of CO<sub>2</sub> (per capita) for specified timespan</span><br>
-                <span>Top 10 Countries</span>
-            </h2>
-            <div class="timeChoice">
-                <label for="timeRange">Select Time Range: </label>
-                <p></p>
-                <select id="timeRange">
-                    <option value="5years">Last 5 Years</option>
-                    <option value="10years" selected>Last Decade</option>
-                    <option value="20years">Last 2 Decades</option>
-                </select>
-            </div>
-            <div class="explanation">
-                <h2>Comment</h2>
-                <p>
-                    This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita. <br>
-                    The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022)</p>
-                <p>
-                    <button class="openExplWindow" data-modal="window3">Read more</button>
-                </p>
-            </div>
-            <div class="description">
-                <h2>Explanation</h2>
-                <p>The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data.</p>
-                <p>
-                    <button class="openExplWindow" data-modal="window4">Read more</button>
-                </p>
-            </div>
-        </section>
-    </div>
-
-    <div id="window1" class="additional_window">
+    <div id="window1_comment" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
             <h2>Comment</h2>
             <p>
-                The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022. <br><br>
-                The data represents the average annual CO₂ emissions per person, measured in tonnes. <br>
-                This per capita metric highlights the environmental impact at an individual level rather than a total country-wide level, providing insights into the average carbon footprint per person in each country.<br><br>
-                From the bar chart, it's clear that Qatar leads with the highest emissions, reaching 36.7 tonnes per person.
+                This alluvial plot visualizes the division of continents into the top 3 most polluting countries based on CO₂ emissions from fossil fuels and land-use change.<br>
+                The width of the bands is proportional to the flow quantity, providing insights into the distribution of emissions across continents and countries.
+            </p>
+        </div>
+    </div>
+
+    <div id="window1_explanation" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Explanation</h2>
+            <p>
+                The chart is built using D3.js, a JavaScript library, to visualize data on alluvial plot<br>
+                We divided data into 4 layers: 
+                <ul>
+                    <li>continents</li>
+                    <li>countries</li>
+                    <li>fossil fuels and land-use</li>
+                    <li>world total of fossil fuels and land-use</li>
+                </ul>
+                This way we wanted to obtain clear visualization of the data and show the most polluting countries in the world as well as the contribution of each continent to the total emissions.
             </p>
         </div>
     </div>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="plots/plot1.js"></script>
+
+    <script src="../assignment1/plots/add_window_handl.js"></script>
     
 </main>
 
