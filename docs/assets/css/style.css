@@ -721,12 +721,81 @@ html {
 
 .tooltip_alluvial {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
     color: white;
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 4px;
     pointer-events: none;
+    font-size: 12px;
     opacity: 0;
-    transition: opacity 0.2s;
+  }
+  
+  /* Style for the button container */
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    margin: 20px 0;
+  }
+
+  /* General button styling */
+  .top-country-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    padding: 10px 20px; /* Padding inside button */
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  /* Hover effect to change the background color */
+  .top-country-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+
+  /* Style for the active button (when selected) */
+  .top-country-button.active {
+    background-color: #007BFF; /* Blue background for active button */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+
+  /* Style for the select menu */
+  .year-select2_5 {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+  }
+
+  /* Style for the select menu */
+  .year-select3 {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+  }
+
+  /* Styling for the heatmap section */
+  .heatmap {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  /* Style for the title inside the window */
+  .window-content h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  /* Style for the paragraph text inside the window */
+  .window-content p {
+    font-size: 14px;
+    color: #333;
   }
   

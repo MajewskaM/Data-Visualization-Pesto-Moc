@@ -7,6 +7,7 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
      <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <link rel="icon" href="../docs/assets/img/pestomoc_logo.jpg" type="image/jpg">
     <link rel="stylesheet" href="../docs/assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
 
@@ -27,9 +28,20 @@
 
 <main id="assignment1_site">
 
+    
+
     <div class="tooltip_alluvial" id="tooltip_alluvial"></div>
     
     <svg id="alluvial-plot" width="960" height="600"></svg>
+
+    <div id="controls">
+        <label><input type="checkbox" value="Asia" checked> Asia</label>
+        <label><input type="checkbox" value="Europe" checked> Europe</label>
+        <label><input type="checkbox" value="Africa" checked> Africa</label>
+        <label><input type="checkbox" value="North America" checked> North America</label>
+        <label><input type="checkbox" value="South America" checked> South America</label>
+        <label><input type="checkbox" value="Oceania" checked> Oceania</label>
+      </div>
 
     <div class="chart-section-container">
         <div id="chart_2022"></div>
