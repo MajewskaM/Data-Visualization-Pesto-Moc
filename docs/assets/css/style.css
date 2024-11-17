@@ -6,6 +6,9 @@ body {
     color: #333;
     box-sizing: border-box;
     position:static;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    min-height: 100vh; /* Ensures full-screen height */
 }
 
 header {
@@ -16,7 +19,7 @@ header {
     justify-content: space-between;
     text-align: center;
     color: rgb(255, 255, 255);
-    margin-left: 200px; /* Matches sidebar width for proper alignment */
+    /*margin-left: 200px; /* Matches sidebar width for proper alignment */
     padding: 0px;
 }
 
@@ -94,7 +97,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 220px; /* Matches sidebar width for proper alignment */
+    /*margin-left: 220px; /* Matches sidebar width for proper alignment */
 }
 
 section {
@@ -143,7 +146,7 @@ footer {
     background-color: rgba(51, 51, 51, 0.8);
     color: white;
     margin-top: 20px;
-    margin-left: 220px;
+    /*margin-left: 220px;*/
     padding: 20px;
 }
 
@@ -152,7 +155,7 @@ html {
 }
 
 #chart_2022, #decade-chart {
-    width: 700px;
+    width: 100%;
 }
 /* Basic styling for the bar chart */
 #chart_2022 .bar {
@@ -184,10 +187,7 @@ html {
 .axis-label {
     font-size: 12px;
 }
-.title {
-    font-size: 16px;
-    text-anchor: middle;
-}
+
 /* Tooltip styling */
 .tooltip {
     position: absolute;
@@ -294,7 +294,7 @@ html {
     
 }
 
-.topbar{
+.topbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -303,9 +303,10 @@ html {
     background-color: rgb(39, 48, 40);
     color: white;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content:right;
     z-index: 900;
+    padding: 0 20px;
 }
 
 
@@ -333,26 +334,38 @@ html {
 
 #assignment1_site .chart-section-container {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
-    gap: 20px; /* Keep space between chart and description */
-    margin-bottom: 20px; /* Space between sections */
+    gap: 20px;
+    margin-bottom: 5%;
 }
 
 #chart_2022, #decade-chart {
-    width: 600px; /* Ensure both charts are of the same width */
+    width: 600px;
 }
 
 .chart-section-container section {
     display: grid;
     grid-template-rows: auto 1fr 1fr;
     grid-template-columns: 2fr;
+    border-radius: none;
+    box-shadow: none;
+    background-color: #f5f5f5;
     gap: 10px;
     padding: 20px;
-    border: 2px solid rgb(134, 134, 134);
-    border-radius: 20px;
-    width: 100%; /* Adjust width as necessary */
-    margin-left: 80px;
+    width: 100%;
+    margin-left: 100px;
     align-items: center;
+}
+
+
+
+.chart-section-container h2{
+    font-size: 1.5rem;
+    color: #333;
+    font-family: Arial;
+    margin-bottom: 10px;
+    border-bottom: none;
 }
 
 
@@ -373,7 +386,7 @@ html {
 }
 
 .legend {
-    grid-row: 2 / 4; /* Span across two rows */
+    grid-row: 2 / 4;
     grid-column: 1;
     border: 1px solid rgb(134, 134, 134);
     border-radius: 15px;
@@ -407,7 +420,7 @@ html {
 }
 
 .title {
-    grid-column: 1 / 3; /* Span both columns */
+    grid-column: 1 / 3;
     text-align: center;
     font-weight: bold;
     font-size: 20px;
@@ -420,8 +433,8 @@ html {
     gap: 10px; /* Reduced gap */
     padding: 20px;
     border-radius: 20px;
-    width: 100%; /* Adjust width as necessary */
-    margin-left: 80px;
+    width: 100%;
+    margin-left: 100px;
 }
 
 #section_with_selector .explanation {
@@ -435,10 +448,8 @@ html {
 }
 
 #section_with_selector .title {
-    grid-column: 1 / 3; /* Span both columns */
+    grid-column: 1 / 3;
     text-align: center;
-    font-weight: bold;
-    font-size: 20px;
 }
 
 .timeChoice {
@@ -467,13 +478,13 @@ html {
 }
 
 .timeChoice select:hover {
-    background-color: #e0e0e0; /* Darken on hover */
+    background-color: #e0e0e0;
     cursor: pointer;
 }
 
 .timeChoice select:focus {
-    outline: none; /* Removes default outline */
-    border: 1px solid darkblue; /* Green border on focus */
+    outline: none;
+    border: 1px solid darkblue;
 }
 
 
@@ -657,7 +668,7 @@ html {
 .team-container {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Adjusts spacing between profiles */
+    gap: 20px;
     max-width: 1000px;
     width: 100%;
 }
@@ -688,7 +699,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 300px; /* Control individual profile width */
+    width: 300px;
 }
 .intro img {
     width: 150px;
@@ -729,38 +740,34 @@ html {
     font-size: 12px;
     opacity: 0;
 }
-  
-  /* Style for the button container */
+
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Space between buttons */
+  gap: 10px;
   margin: 20px 0;
 }
 
-  /* General button styling */
 .top-country-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  padding: 10px 20px; /* Padding inside button */
+  padding: 10px 20px;
   text-align: center;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-  /* Hover effect to change the background color */
 .top-country-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-  transform: scale(1.05); /* Slight zoom effect */
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 
-  /* Style for the active button (when selected) */
 .top-country-button.active {
-  background-color: #007BFF; /* Blue background for active button */
-  transform: scale(1.05); /* Slight zoom effect */
+  background-color: #007BFF;
+  transform: scale(1.05);
 }
 
   /* Style for the select menu */
@@ -784,17 +791,16 @@ html {
   margin-bottom: 10px;
 }
 
-  /* Style for the paragraph text inside the window */
 .window-content p {
   font-size: 14px;
   color: #333;
 }
   
 .chart-alluvial{
-  justify-content: center; /* Centers the plot horizontally */
-  align-items: center;     /* Centers the plot vertically */
-  height: 100vh;           /* Full screen height */
-  padding: 20px;           /* Adds space around the plot */
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  padding: 20px; 
   box-sizing: border-box;
   margin-top: 5%;
 }
@@ -809,8 +815,118 @@ html {
   width: 100%;
   height: 100%;
   max-width: 100%;
-  max-height: 800px;  /* You can set a maximum height to ensure it doesn't grow too large */
-  display: block;  /* Ensures there are no unwanted gaps around the plot */
+  max-height: 800px;
+  display: block; 
   margin: 0 auto;
   margin-bottom: 1000px;
+}
+
+.dropdown {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0px;
+}
+
+.dropbtn {
+    background-color: rgb(39, 48, 40);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+}
+
+.menu-icon {
+    margin-top: 10%;
+    width: 25px;
+    height: auto;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgb(39, 48, 40);
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #444;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #444;
+}
+
+.topbar-links {
+    display: flex;
+    margin-left: auto; 
+    margin-right: 1%;
+}
+
+.topbar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 14px 16px;
+}
+
+.topbar-links a:hover {
+    background-color: #444;
+}
+
+.problem_description {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    box-sizing: border-box;
+    margin-bottom: 5%;
+    margin-top: -2%;
+    background-color: rgba(93, 190, 28, 0.1);
+}
+
+.problem_description h1 {
+    font-size: 3rem;
+    color: #2e7d32; /* Dark green to emphasize the environmental topic */
+    font-family: 'Roboto Slab', serif;
+    margin-bottom: 10px;
+}
+
+.problem_description p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #4e4e4e; /* A soft gray for less strain on the eyes */
+    font-family: 'Fira Sans', sans-serif;
+}
+
+#separator{
+    font-size: 3.5rem;
+    text-align: center;  /* Center the text horizontally */
+    width: 100%; 
+    font-family: 'Roboto Slab', serif;
+    letter-spacing: 5px; 
+    margin-bottom: 10%;
+    margin-top: 5%;
 }
