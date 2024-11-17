@@ -1,6 +1,6 @@
 const margin = { top: 50, right: 20, bottom: 100, left: 80 };
-        const width = 600 - margin.left - margin.right;
-        const height = 400 - margin.top - margin.bottom;
+        const width = 700 - margin.left - margin.right;
+        const height = 500 - margin.top - margin.bottom;
         const tooltip = d3.select("#tooltip");
 
         function createOrUpdateBarChart(svgContainer, data, title) {
@@ -45,6 +45,7 @@ const margin = { top: 50, right: 20, bottom: 100, left: 80 };
                 .style("text-anchor", "middle")
                 .text("[ tonnes per person ]");
             
+            /*
             // Chart title
             const titleLines = title.split("\n");
             svg.append("text")
@@ -59,6 +60,7 @@ const margin = { top: 50, right: 20, bottom: 100, left: 80 };
                 .attr("x", width / 2)
                 .attr("dy", (d, i) => i * 20)
                 .text(d => d);
+            */
 
             const bars = svg.selectAll(".bar").data(data, d => d.Entity);
 
