@@ -21,12 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const fossilColor = "#ff4d4d"; 
     const landColor = "#4daf4a";
     const continentColorMap = {
-      "Africa": "#ff7f0e",
-      "Asia": "#f803fc",
-      "Europe": "#1f77b4",
-      "North America": "#f0fc03",
-      "Oceania": "#e377c2",
-      "South America": "#7f7f7f"
+      'Europe': '#3a9dcf',   // Blue
+      'Asia': '#F1C72C',     // Yellow
+      'Africa': '#f28735',   // Orange
+      'Oceania': '#8cff9a',  // Green
+      'North America': '#552069', // Purple for North America
+      'South America': '#ba6fd6'  // Purple for South America
     };
 
     function updatePlotForYear(year) {
