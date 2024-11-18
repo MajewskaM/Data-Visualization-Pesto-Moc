@@ -140,21 +140,35 @@ h2 {
     transform: scale(1.05);
 }
 
+
 footer {
     text-align: center;
     padding: 10px;
     background-color: rgba(51, 51, 51, 0.8);
     color: white;
     margin-top: 20px;
-    /*margin-left: 220px;*/
+    position: relative;
     padding: 20px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.footer-img {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50px;
+    width: auto;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-#chart_2022, #decade-chart {
+#chart_2022, #decade-chart, #perc {
     width: 100%;
 }
 /* Basic styling for the bar chart */
@@ -344,7 +358,7 @@ html {
     width: 600px;
 }
 
-.chart-section-container section {
+.chart-section-container section{
     display: grid;
     grid-template-rows: auto 1fr 1fr;
     grid-template-columns: 2fr;
@@ -360,7 +374,7 @@ html {
 
 
 
-.chart-section-container h2{
+.chart-section-container h2, .center-section h2, .chart-section-container_2 h2{
     font-size: 1.5rem;
     color: #333;
     font-family: Arial;
@@ -379,9 +393,10 @@ html {
 .center-section {
     gap: 10px;
     padding: 20px;
-    border: 2px solid rgb(134, 134, 134);
-    border-radius: 20px;
-    width:80%;
+    border-radius: none;
+    box-shadow: none;
+    background-color: rgb(255, 255, 255, 0.4);
+    width:100%;
     margin:0;
 }
 
@@ -749,7 +764,7 @@ html {
 }
 
 .top-country-button {
-  background-color: #4CAF50;
+  background-color: #737373;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -904,7 +919,6 @@ html {
     box-sizing: border-box;
     margin-bottom: 5%;
     margin-top: -2%;
-    background-color: rgba(93, 190, 28, 0.1);
 }
 
 .problem_description h1 {
@@ -927,6 +941,180 @@ html {
     width: 100%; 
     font-family: 'Roboto Slab', serif;
     letter-spacing: 5px; 
-    margin-bottom: 10%;
+    margin-bottom: -1%;
     margin-top: 5%;
+}
+
+
+#preparation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    width: 90%;
+    background-color: rgba(255, 255, 255);
+    border-radius: 50px 50px 0 0 !important;
+}
+
+#preparation a{
+    color: inherit;
+    border-bottom: #333;
+}
+
+
+#preparation a:visited {
+    color: inherit;
+}
+
+#preparation h2{
+    font-size: 2rem;
+    color: #333;
+    border-bottom: none;
+}
+
+#background-image-div {
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 300px;
+  }
+
+
+.section2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    width: 100%;
+    background-color: rgba(127, 241, 114, 0.2);
+    border-radius: 50px ;
+    margin-bottom: 5%;
+}
+
+
+.chart-section-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; 
+    gap: 20px;
+}
+
+.chart-section-container_2 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 48%; 
+    margin-left: 1%;
+    margin-bottom: 5%;
+
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+#perc {
+    flex: 1;
+    width: 48%;
+    height: auto;
+}
+
+.center-section_2 {
+    gap: 10px;
+    border-radius: none;
+    box-shadow: none;
+    background-color: rgb(255, 255, 255, 0.4);
+}
+
+#title_section{
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+    font-weight: bolder;
+    margin-top: 5%;
+    border-bottom: none;
+    color: black;
+}
+
+#separator_img{
+    width: 20%;
+    height: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.circle-container {
+    display: flex;
+    justify-content: center; 
+    gap: 10%;
+    margin: 20px 0;
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.circle {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    border: 2px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+.circle:hover img {
+    filter: brightness(50%);
+}
+
+.circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+/* Default text prompt */
+.circle-text.default {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 1;
+}
+
+/* Hide the default text when hovered */
+.circle:hover .circle-text.default {
+    opacity: 0;
+}
+
+/* Show detailed text on hover */
+.circle:hover .circle-text.info {
+    opacity: 1;
 }

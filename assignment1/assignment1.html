@@ -37,7 +37,7 @@
 
 <main id="assignment1_site">
 
-    <div class="problem_description">
+    <div class="problem_description" id="background-image-div">
         <h1>
             <i class="fas fa-leaf" style="color: #2e7d32;"></i> Insight on CO₂ emission
         </h1>
@@ -175,322 +175,333 @@
     <script src="plots/plot1.js"></script>
 
     <h1 id="separator">Whole world, one plot...</h1>
+    <div class="section2">
 
-    <div class="chart-section-container-wide" id="data">
-
-        <section class="center-section">
-            <div class="comments-explenation">
-                <div class="explenation" id="wide">
-                    <h2>Data-preparation activities</h2>
-                    <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
-                    <br><br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
-                    World Population Dataset</a> (world_population.csv) with few adjustments.
-                    <p>
-                        <button class="openExplWindow" data-modal="window2_data">Read more</button>
-                    </p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="window2_data" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Explanation</h2>
+        <div class="problem_description" id="preparation">
+            <h2>Data-preparation activities</h2>
             <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
-                <br><br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
-                World Population Dataset</a> (world_population.csv) with few adjustments. The name of some countries were written in different way so we needed to change file mannually:
-                <ul>
-                    <li>"Republic of the Congo" was changed to "Congo"</li>
-                    <li>"DR Congo" -> "Democratic Republic of Congo"</li>
-                    <li>"Timor-Leste" -> "East Timor"</li>
-                    <li>"Macau" -> "Macao"</li>
-                </ul>
-                From "United Stated" capital "Washington, D.C." we removed ',' as to avoid conflicts when reading data from .csv file in fact separed by ','.
-                Some countries names also needed to be renamed in origin dataset (countries_data.csv, after adding continent names it was replaced with countries_data_with_continents.csv)
-                <ul>
-                    <li>"Micronesia (country)" was renamed to "Micronesia"</li>
-                    <li>"Sint Maarten (Dutch part)" -> "Sint Maarten"</li>
-                    <li>"Czechia" -> "Czech Republic"</li>
-                </ul>
-                All of above changes were made based on matching capital of each country.
-                Whats more we excluded countries Saint Helena (island), Kosovo (declared independence in 2008), Cote d'Ivoire, Bonaire Sint Eustatius and Saba due to lack of population data.
-                <br>
-                We checked data validity (missing values and duplicates), filtered out zero-value emissions, 
-                standardized country names in the emissions dataset to match those in the population data (for meging consistency).
-                Transformed population data from a wide to a long format, combined emissions and population data on country and year fields 
-                For each continent and year:
-                Identified the top 5 emitting countries by CO₂ emissions per capita, calculated weighted average emissions for "Others" (non-top-5) and total continent-wide emissions.   
-                Processed and aggregated data by year was splitted into files continent_emissions_2000.csv, continent_emissions_2010.csv... etc. Those files are used for data visualizations. 
-            </p>
-            </div>
-    </div>
-    
-
-    <div class="tooltip2"></div>
-    <div class="chart-section-container-wide">
-        <svg id="chart_1"></svg>
-
-        <div class="timeChoice">
-
-            <label for="yearInput1">Select Year: </label>
-            <p></p>
-            <select id="yearInput1">
-                <option value="2000">2000</option>
-                <option value="2010">2010</option>
-                <option value="2015">2015</option>
-                <option value="2020">2020</option>
-                <option value="2022" selected>2022</option>
-            </select>
-            <div id="continentFilters1" class="filters">
-                <label><input type="checkbox" value="Asia" checked> Asia</label>
-                <label><input type="checkbox" value="Europe" checked> Europe</label>
-                <label><input type="checkbox" value="North America" checked> North America</label>
-                <label><input type="checkbox" value="Oceania" checked> Oceania</label>
-                <label><input type="checkbox" value="Africa" checked> Africa</label>
-                <label><input type="checkbox" value="South America" checked> South America</label>
-            </div>
-        </div>
-
-        
-
-        <section class="center-section">
-            <h2 class="title">
-                <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
-            </h2>
-        
-            <div class="comments-explenation">
-                <div class="explanation" id="wide">
-                    <h2>Comments</h2>
-                    <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
-                        <ul>
-                            <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
-                            <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
-                            <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
-                            <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
-                            <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
-                        </ul>
-                        <button class="openExplWindow" data-modal="window2_1_comment">Read more</button>
-                    </p>
-                </div>
-                <div class="description">
-                    <h2>Explanation</h2>
-                    <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents.</p>
-                    </p>
-                    <p>
-                        <button class="openExplWindow" data-modal="window2_1_explenation">Read more</button>
-                    </p>
-                </div>
-            </div>
-
-            
-        </section>
-     
-    </div>
-
-
-    <div id="window2_1_comment" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Comment</h2>
-            <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
-                <ul>
-                    <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
-                    <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
-                    <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
-                    <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
-                    <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
-                </ul>
-                Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
-            </p>
-        </div>
-    </div>
-
-    <div id="window2_1_explenation" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Explanation</h2>
-            <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
-                <br><br>Colors indicate the value of emission per person of each country.
-                Scales under chart present the distribution of emissions across all countries: from minimum to their overall maximum. 
-                <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
-                Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
-            </p>
-            </div>
-    </div>
-
-    <div class="chart-section-container-wide">
-        <svg id="chart_2"></svg>
-
-        <div class="timeChoice">
-
-            <label for="yearInput2">Select Year: </label>
-            <p></p>
-            <select id="yearInput2">
-                <option value="2000">2000</option>
-                <option value="2010">2010</option>
-                <option value="2015">2015</option>
-                <option value="2020">2020</option>
-                <option value="2022" selected>2022</option>
-            </select>
-            <div id="continentFilters2" class="filters">
-                <label><input type="checkbox" value="Asia" checked> Asia</label>
-                <label><input type="checkbox" value="Europe" checked> Europe</label>
-                <label><input type="checkbox" value="North America" checked> North America</label>
-                <label><input type="checkbox" value="Oceania" checked> Oceania</label>
-                <label><input type="checkbox" value="Africa" checked> Africa</label>
-                <label><input type="checkbox" value="South America" checked> South America</label>
-            </div>
-        </div>
-
-        
-
-        <section class="center-section">
-            <h2 class="title">
-                <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
-            </h2>
-        
-            <div class="comments-explenation">
-                <div class="explanation" id="wide">
-                    <h2>Comments</h2>
-                    <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21.28 CO2 per capita and 
-                        biggest population of all analysed countries - 282.40M. <br>
-                        <br>
-                        <button class="openExplWindow" data-modal="window2_2_comments">Read more</button>
-                    </p>
-                </div>
-                <div class="description">
-                    <h2>Explanation</h2>
-                    <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa).</p>
-                    <p>
-                        <button class="openExplWindow" data-modal="window2_2_explenation">Read more</button>
-                    </p>
-                </div>
-            </div>
-
-            
-        </section>
-     
-    </div>
-    <div id="window2_2_comments" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Comment</h2>
-            <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21,28 CO2 per capita and 
-                biggest population of all analysed countries - 282.40M. When analysing data year by year we see
-                that the population increases (in deed of all countries, we can see maximums per each continent). 
-                From 2010 to now on, United Stated, with population of 311.18M is not top emitter anymore in North America.
-                <br><br> Usually we can see that countries with top emissions are not marked with color as the largest 
-               populations among other emitters. We can conclude the trend of countries that they started to be more 
-               and more aware of the CO2 emissions impact on the environment - some rules have been implemented!
-               <br><br>Based on two above plots it can be observed that Asia (mostly leading in total emissions), with larger population (look at the population values at total bar, and its color comparing to other continents),
-                contribute to global emissions primarily through a larger cumulative effect rather than 
-                high individual emission rates (the width of the total bar!)
-                <br><br>The "Others" section and its averaged emission shows that many countries outside the top five emitters in each continent, with large number of its total population,
-                 generally have no big influence and have lower emissions per capita.                
-                </p>
-        </div>
-    </div>
-
-    <div id="window2_2_explenation" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Explanation</h2>
-            <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa). 
-                The chart uses color-scale bars to distinguish rankings within continents (1st to 5th) and express total population relation of each country. 
-                Additionally, an "Others" category represents the weighted average emission value of countries that fall outside the top five emitters in each continent, 
-                and a "Total" category shows the overall emissions per capita for each continent (also calculated as weighted average, based on countries populations).</p>
+            <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
+            World Population Dataset</a> (world_population.csv) with few adjustments.
             <p>
+                <button class="openExplWindow" data-modal="window2_data">Read more</button>
+            </p>
+        </div>
+
+        <div id="window2_data" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
+                <h2>Explanation</h2>
+                <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
+                    <br><br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
+                    World Population Dataset</a> (world_population.csv) with few adjustments. The name of some countries were written in different way so we needed to change file mannually:
+                    <ul>
+                        <li>"Republic of the Congo" was changed to "Congo"</li>
+                        <li>"DR Congo" -> "Democratic Republic of Congo"</li>
+                        <li>"Timor-Leste" -> "East Timor"</li>
+                        <li>"Macau" -> "Macao"</li>
+                    </ul>
+                    From "United Stated" capital "Washington, D.C." we removed ',' as to avoid conflicts when reading data from .csv file in fact separed by ','.
+                    Some countries names also needed to be renamed in origin dataset (countries_data.csv, after adding continent names it was replaced with countries_data_with_continents.csv)
+                    <ul>
+                        <li>"Micronesia (country)" was renamed to "Micronesia"</li>
+                        <li>"Sint Maarten (Dutch part)" -> "Sint Maarten"</li>
+                        <li>"Czechia" -> "Czech Republic"</li>
+                    </ul>
+                    All of above changes were made based on matching capital of each country.
+                    Whats more we excluded countries Saint Helena (island), Kosovo (declared independence in 2008), Cote d'Ivoire, Bonaire Sint Eustatius and Saba due to lack of population data.
+                    <br>
+                    We checked data validity (missing values and duplicates), filtered out zero-value emissions, 
+                    standardized country names in the emissions dataset to match those in the population data (for meging consistency).
+                    Transformed population data from a wide to a long format, combined emissions and population data on country and year fields 
+                    For each continent and year:
+                    Identified the top 5 emitting countries by CO₂ emissions per capita, calculated weighted average emissions for "Others" (non-top-5) and total continent-wide emissions.   
+                    Processed and aggregated data by year was splitted into files continent_emissions_2000.csv, continent_emissions_2010.csv... etc. Those files are used for data visualizations. 
+                </p>
+                </div>
+        </div>
+
+        <div class="tooltip2"></div>
+        <div class="chart-section-container-wide">
+            <svg id="chart_1"></svg>
+
+            <div class="timeChoice">
+
+                <label for="yearInput1">Select Year: </label>
+                <p></p>
+                <select id="yearInput1">
+                    <option value="2000">2000</option>
+                    <option value="2010">2010</option>
+                    <option value="2015">2015</option>
+                    <option value="2020">2020</option>
+                    <option value="2022" selected>2022</option>
+                </select>
+                <div id="continentFilters1" class="filters">
+                    <label><input type="checkbox" value="Asia" checked> Asia</label>
+                    <label><input type="checkbox" value="Europe" checked> Europe</label>
+                    <label><input type="checkbox" value="North America" checked> North America</label>
+                    <label><input type="checkbox" value="Oceania" checked> Oceania</label>
+                    <label><input type="checkbox" value="Africa" checked> Africa</label>
+                    <label><input type="checkbox" value="South America" checked> South America</label>
+                </div>
             </div>
-    </div>
 
-    <script src = "plots/plots_2.js"></script>
+            
 
-    <div style="height: 4px; background-color: rgb(104, 104, 104); width: 100%; margin: 20px 0;"></div>
-        <h2 class="chart-title">Percentage Plot from CSV Data</h2>
-      
-        <!-- Dropdown menu for selecting year -->
-        <div class="dropdown-container">
-          <label for="year-select2_5">Select Year: </label>
-          <select id="year-select2_5" class="year-select2_5">
-            <option value="2022">2022</option>
-            <option value="2020">2020</option>
-            <option value="2015">2015</option>
-            <option value="2010">2010</option>
-            <option value="2000">2000</option>
-          </select>
+            <section class="center-section">
+                <h2 class="title">
+                    <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
+                </h2>
+            
+                <div class="comments-explenation">
+                    <div class="explanation" id="wide">
+                        <h3>Comments</h3>
+                        <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
+                            <ul>
+                                <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                                <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                                <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                                <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                                <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+                            </ul>
+                            <button class="openExplWindow" data-modal="window2_1_comment">Read more</button>
+                        </p>
+                    </div>
+                    <div class="description" id="wide">
+                        <h3>Explanation</h3>
+                        <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents.</p>
+                        </p>
+                        <p>
+                            <button class="openExplWindow" data-modal="window2_1_explenation">Read more</button>
+                        </p>
+                    </div>
+                </div>
+
+                
+            </section>
+        
         </div>
-      
-        <!-- Buttons for selecting number of top countries to display -->
-        <div class="button-container">
-          <button class="top-country-button" data-top="1">Top 1</button>
-          <button class="top-country-button" data-top="2">Top 2</button>
-          <button class="top-country-button" data-top="3">Top 3</button>
-          <button class="top-country-button" data-top="4">Top 4</button>
-          <button class="top-country-button" data-top="5">Top 5</button>
-        </div>
-      
-        <!-- SVG container for chart -->
-        <svg id="perc"></svg>
-      
-<<<<<<< HEAD
-        <script src="plots/plot2_5.js"></script>
 
-        <div id="window5" class="window-content">
-            <div>
+        <div id="window2_1_comment" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
                 <h2>Comment</h2>
-                <p>
-                    This bar chart provides a clear visual representation of CO2 emissions by continent for the year 2022. It highlights the top 1 to top 5 countries within each continent, showing their contributions to the total CO2 emissions. Asia stands out with the highest emissions, followed by Europe and North America. This breakdown helps in understanding the regional distribution of emissions and identifying key contributors.</p>
-               
+                <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
+                    <ul>
+                        <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                        <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                        <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                        <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                        <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+                    </ul>
+                    Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
+                </p>
             </div>
         </div>
-=======
-        <script src="plots/plot2_5.js"></script> -->
-      </body>
->>>>>>> f4b2100a23ef6ed93331724feba8eeb246d1cde7
+
+        <div id="window2_1_explenation" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
+                <h2>Explanation</h2>
+                <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
+                    <br><br>Colors indicate the value of emission per person of each country.
+                    Scales under chart present the distribution of emissions across all countries: from minimum to their overall maximum. 
+                    <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
+                    Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
+                </p>
+                </div>
+        </div>
+
+        <img src="../docs/assets/img/separator.png" id="separator_img">
+
+        <div class="chart-section-container-wide">
+            <svg id="chart_2"></svg>
+
+            <div class="timeChoice">
+
+                <label for="yearInput2">Select Year: </label>
+                <p></p>
+                <select id="yearInput2">
+                    <option value="2000">2000</option>
+                    <option value="2010">2010</option>
+                    <option value="2015">2015</option>
+                    <option value="2020">2020</option>
+                    <option value="2022" selected>2022</option>
+                </select>
+                <div id="continentFilters2" class="filters">
+                    <label><input type="checkbox" value="Asia" checked> Asia</label>
+                    <label><input type="checkbox" value="Europe" checked> Europe</label>
+                    <label><input type="checkbox" value="North America" checked> North America</label>
+                    <label><input type="checkbox" value="Oceania" checked> Oceania</label>
+                    <label><input type="checkbox" value="Africa" checked> Africa</label>
+                    <label><input type="checkbox" value="South America" checked> South America</label>
+                </div>
+            </div>
+
+            
+
+            <section class="center-section">
+                <h2 class="title">
+                    <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
+                </h2>
+            
+                <div class="comments-explenation">
+                    <div class="explanation" id="wide">
+                        <h3>Comments</h3>
+                        <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21.28 CO2 per capita and 
+                            biggest population of all analysed countries - 282.40M. <br>
+                            <br>
+                            <button class="openExplWindow" data-modal="window2_2_comments">Read more</button>
+                        </p>
+                    </div>
+                    <div class="description">
+                        <h3>Explanation</h3>
+                        <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa).</p>
+                        <p>
+                            <button class="openExplWindow" data-modal="window2_2_explenation">Read more</button>
+                        </p>
+                    </div>
+                </div>
+
+                
+            </section>
+        
+        </div>
+        <div id="window2_2_comments" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
+                <h2>Comment</h2>
+                <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21,28 CO2 per capita and 
+                    biggest population of all analysed countries - 282.40M. When analysing data year by year we see
+                    that the population increases (in deed of all countries, we can see maximums per each continent). 
+                    From 2010 to now on, United Stated, with population of 311.18M is not top emitter anymore in North America.
+                    <br><br> Usually we can see that countries with top emissions are not marked with color as the largest 
+                populations among other emitters. We can conclude the trend of countries that they started to be more 
+                and more aware of the CO2 emissions impact on the environment - some rules have been implemented!
+                <br><br>Based on two above plots it can be observed that Asia (mostly leading in total emissions), with larger population (look at the population values at total bar, and its color comparing to other continents),
+                    contribute to global emissions primarily through a larger cumulative effect rather than 
+                    high individual emission rates (the width of the total bar!)
+                    <br><br>The "Others" section and its averaged emission shows that many countries outside the top five emitters in each continent, with large number of its total population,
+                    generally have no big influence and have lower emissions per capita.                
+                    </p>
+            </div>
+        </div>
+
+        <div id="window2_2_explenation" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
+                <h2>Explanation</h2>
+                <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa). 
+                    The chart uses color-scale bars to distinguish rankings within continents (1st to 5th) and express total population relation of each country. 
+                    Additionally, an "Others" category represents the weighted average emission value of countries that fall outside the top five emitters in each continent, 
+                    and a "Total" category shows the overall emissions per capita for each continent (also calculated as weighted average, based on countries populations).</p>
+                <p>
+                </div>
+        </div>
+
+        <script src = "plots/plots_2.js"></script>
+
+        <img src="../docs/assets/img/separator.png" id="separator_img">
+    
+        <div class="chart-section-wrapper">
+            <div class="chart-section-container_2">
+                <section class="center-section_2">
+                    <h2 id="title_section">
+                        <bold>PERCENTAGE PLOT FROM CSV DATA</bold><br>
+                    </h2>
+                    <div class="dropdown-container">
+                        <label for="year-select2_5">Select Year: </label>
+                        <select id="year-select2_5" class="year-select2_5">
+                            <option value="2022">2022</option>
+                            <option value="2020">2020</option>
+                            <option value="2015">2015</option>
+                            <option value="2010">2010</option>
+                            <option value="2000">2000</option>
+                        </select>
+                    </div>
+                    <div class="button-container">
+                        <button class="top-country-button" data-top="1">Top 1</button>
+                        <button class="top-country-button" data-top="2">Top 2</button>
+                        <button class="top-country-button" data-top="3">Top 3</button>
+                        <button class="top-country-button" data-top="4">Top 4</button>
+                        <button class="top-country-button" data-top="5">Top 5</button>
+                    </div>
+                    <div class="explanation" style="margin-bottom:2%">
+                        <h3>Comment</h3>
+                        <p>
+                            This bar chart provides a clear visual representation of CO2 emissions by continent for the year 2022. 
+                        </p>
+                    </div>
+                    <div class="description">
+                        <h3>Explanation</h3>
+                        <p>The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data.</p>
+                    </div>
+                </section>
+            </div>
+        
+            <!-- SVG container for chart -->
+            <svg id="perc"></svg>
+        </div>
+    </div>
+    <script src="plots/plot2_5.js"></script>
+
+    <div class="circle-container">
+        <div class="circle">
+            <div class="circle-text default">See more</div>
+            <div class="circle-text info">Fossil fuel emissions are the release of gases like carbon dioxide (CO₂) from burning coal, oil, and natural gas. These emissions contribute to climate change by trapping heat in the atmosphere.</div>
+            <img src="../docs/assets/img/fossil_em.jpg" alt="Image 1">
+        </div>
+        <div class="circle">
+            <div class="circle-text default">See more</div>
+            <div class="circle-text info">Land use emissions refer to the release of greenhouse gases from changes in land use, such as deforestation or agricultural practices -> releasing carbon stored in plants and soil.</div>
+            <img src="../docs/assets/img/land_use.jpg" alt="Image 2">
+        </div>
+    </div>
     
     <div class="heatmap" style="width: 100%">
-        <h1>CO₂ emissions from fossil fuels and land-use change (2022)</h1>
+        <h1>CO₂ emissions from fossil fuels and land-use change </h1>
         <svg id="heatmap"></svg>
-    </div class="additional_window">
-    <div id="window5" class="window-content">
-        <div>
-            <h2>Comment</h2>
-            <p>
-                The chart shows the top 10 countries in terms of CO2 emissions in 2022. It includes three categories: 
-                Annual CO2 emissions, Annual CO2 emissions from land-use change, and Annual CO2 emissions including land-use change. 
-            </p>
-            <h2>Select year</h2>
-            <p>
-                <select id="year-select3" class="year-select3">
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
-                    <option value="2014">2014</option>
-                    <option value="2013">2013</option>
-                    
-                </select>
-                <button id="load-data" class="top-country-button">Load Data</button>
-            
-            </p>
-        </div>
     </div>
+
+    <div class="chart-section-container-wide">
+        <section class="center-section">
+            <div>
+                <h2>Select year</h2>
+                <p>
+                    <select id="year-select3" class="year-select3">
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        
+                    </select>
+                    <button id="load-data" class="top-country-button">Load Data</button>
+                
+                </p>
+            </div>
+            <div class="comments-explenation">
+                <h2>Comment</h2>
+                <p>
+                    The chart shows the top 10 countries in terms of CO2 emissions in 2022. It includes three categories: 
+                    Annual CO2 emissions, Annual CO2 emissions from land-use change, and Annual CO2 emissions including land-use change. 
+                </p>
+            </div>
+        </section>
     </div>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="plots/plot3.js"></script>
 
-    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="plots/add_window_handl.js"></script>
     
 </main>
 
 <footer>
     <p>&copy; Data Visualization | Unige 2024/2025</p>
+    <img src="../docs/assets/img/pesto_logo.png" alt="Logo" class="footer-img">
 </footer>
 
 </body>
