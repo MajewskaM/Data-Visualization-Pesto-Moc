@@ -1,8 +1,8 @@
-const margin1 = { top: 100, right: 500, bottom: 200, left: 50 };
+const margin1 = { top: 100, right: 50, bottom: 100, left: 50 };
 
 function getPlotDimensions() {
-  const width1 = window.innerWidth - 220 - margin1.left - margin1.right;
-  const height1 = window.innerHeight - 50 - margin1.top - margin1.bottom; 
+  const width1 = window.innerWidth - margin1.left - margin1.right;
+  const height1 = window.innerHeight - margin1.top - margin1.bottom; 
   return { width1, height1 };
 }
 
@@ -23,12 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const landColor = "#2a9d8f";   // soft teal
 
     const continentColorMap = {
-      "Africa": "#1b9e77",  // muted green
-      "Asia": "#d95f02",    // muted orange
-      "Europe": "#7570b3",  // soft blue
-      "North America": "#e7298a", // soft magenta
-      "Oceania": "#66a61e", // muted lime green
-      "South America": "#e6ab02" // soft yellow
+      "Africa": "#ff7f0e",
+      "Asia": "#f803fc",
+      "Europe": "#1f77b4",
+      "North America": "#f0fc03",
+      "Oceania": "#e377c2",
+      "South America": "#7f7f7f"
     };
     
 
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .selectAll("text")
           .data(graph.nodes)
           .enter().append("text")
-          .attr("x", d => d.name.includes("World Total") ? d.x0 - 35 : d.x1 + 10)
+          .attr("x", d => d.name.includes("World Total") ? d.x0 - 70 : d.x1 + 10)
           .attr("y", d => (d.y0 + d.y1) / 2)
           .attr("dy", 4)
           .style("text-anchor", "left")
