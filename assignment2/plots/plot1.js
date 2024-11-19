@@ -1,4 +1,4 @@
-const margin1 = { top: 100, right: 50, bottom: 100, left: 50 };
+const margin1 = { top: 100, right: 10, bottom: 100, left: 50 };
 
 function getPlotDimensions() {
   const width1 = window.innerWidth - margin1.left - margin1.right;
@@ -19,15 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
   
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-    const fossilColor = "#e63946"; // soft red
+    const fossilColor = "#d92b9c"; // soft red
     const landColor = "#2a9d8f";   // soft teal
 
     const continentColorMap = {
-      "Africa": "#ff7f0e",
-      "Asia": "#f803fc",
-      "Europe": "#1f77b4",
-      "North America": "#f0fc03",
-      "Oceania": "#e377c2",
+      "Africa": "#fc9438",
+      "Asia": "#ed3d3b",
+      "Europe": "#49a6fc",
+      "North America": "#69c972",
+      "Oceania": "#bb4dc9",
       "South America": "#7f7f7f"
     };
     
@@ -36,22 +36,40 @@ document.addEventListener("DOMContentLoaded", () => {
       svg.selectAll("*").remove();
 
       d3.csv(`./dataset/continent_emissions_top5_${year}.csv`).then(data => {
+
+        // Compute total emissions (fossil + land) for each continent
+        const continentTotals = d3.rollup(
+            data,
+            group => d3.sum(group, d => (+d["Annual_CO2_emissions"] + +d["Annual CO₂ emissions from land-use change"])),
+            d => d["Continent"]
+        );
+
+        // Sort continents by total emissions in descending order
+        const sortedContinents = Array.from(continentTotals.entries())
+            .sort((a, b) => b[1] - a[1])
+            .map(d => d[0]);
+
+        // Group countries by continent and sort countries within each continent
         const continentGroups = d3.group(data, d => d["Continent"]);
-        const formattedData = Array.from(continentGroups, ([continent, countries]) => {
-          return countries.sort((a, b) => 
-            (+b["Annual_CO2_emissions"] + +b["Annual CO₂ emissions from land-use change"]) - 
-            (+a["Annual_CO2_emissions"] + +a["Annual CO₂ emissions from land-use change"])
-          ).slice(0, 3).map(d => ({
-            continent,
-            country: d["Entity"],
-            fossil: +d["Annual_CO2_emissions"],
-            land: +d["Annual CO₂ emissions from land-use change"]
-          }));
-        }).flat();
+        const formattedData = sortedContinents.flatMap(continent => {
+        const countries = continentGroups.get(continent) || [];
+        return countries
+            .sort((a, b) =>
+                (+b["Annual_CO2_emissions"] + +b["Annual CO₂ emissions from land-use change"]) -
+                (+a["Annual_CO2_emissions"] + +a["Annual CO₂ emissions from land-use change"])
+            )
+            .slice(0,3).map(d => ({
+                continent,
+                country: d["Entity"],
+                fossil: +d["Annual_CO2_emissions"],
+                land: +d["Annual CO₂ emissions from land-use change"]
+            }));
+    });
+      console.log(formattedData)
 
         const sankey = d3.sankey()
           .nodeWidth(40)
-          .nodePadding(10)
+          .nodePadding(15)
           .size([width1, height1])
           .nodeAlign(d3.sankeyCenter);
 
@@ -61,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         formattedData.forEach(d => {
           continentNodes.add(d.continent);
-          countryNodes.add(d.country);
+          countryNodes.add([d.country, d.continent]);
 
           graph.links.push({
             source: d.continent,
@@ -74,7 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         continentNodes.forEach(continent => graph.nodes.push({ name: continent }));
-        countryNodes.forEach(country => graph.nodes.push({ name: country }));
+        countryNodes.forEach(([country, continent]) => graph.nodes.push({ name: country, name_c: continent }));
+
+        console.log(countryNodes)
+        //console.log(graph.links)
 
         const fossilTotalNode = "World Total - Fossil";
         const landTotalNode = "World Total - Land";
@@ -147,8 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (d.type === "land") return landColor;
             return d.color;
           })
-          .attr("stroke-opacity", 0.6)
-          .attr("fill", "none");
+          .attr("stroke-opacity", 0.35)
+          .attr("fill", "none")
+          .attr("class", "link");
 
         const nodes = svg.append("g")
           .selectAll("rect")
@@ -161,14 +183,15 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("fill", d => {
             if (d.name.includes("Total - Fossil")) return fossilColor;
             if (d.name.includes("Total - Land")) return landColor;
-            return continentColorMap[d.name] || d3.schemeCategory10[0];})
-          .attr("stroke", "#333");
+            return continentColorMap[d.name] || continentColorMap[d.name_c];})
+          .attr("stroke", "#333")
+          .attr("opacity", 0.9);
 
           svg.append("g")
           .selectAll("text")
           .data(graph.nodes)
           .enter().append("text")
-          .attr("x", d => d.name.includes("World Total") ? d.x0 - 70 : d.x1 + 10)
+          .attr("x", d => d.name.includes("World Total") ? d.x0 - 125 : d.x1 + 10)
           .attr("y", d => (d.y0 + d.y1) / 2)
           .attr("dy", 4)
           .style("text-anchor", "left")
@@ -195,126 +218,22 @@ document.addEventListener("DOMContentLoaded", () => {
           return num.toFixed(2); // Less than a thousand
         }
       }
-
-      nodes.on("mouseover", (event, d) => {
-        links.attr("stroke-opacity", 0.2);
-        nodes.attr("opacity", 0.2);
-      
-        d3.select(event.target).attr("opacity", 1);
-      
-        if (continentNodes.has(d.name)) {
-          const totalFossil = d3.sum(
-            formattedData.filter(data => data.continent === d.name),
-            data => data.fossil
-          );
-          const totalLand = d3.sum(
-            formattedData.filter(data => data.continent === d.name),
-            data => data.land
-          );
-          const totalEmission = totalFossil + totalLand;
-      
-          tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
-          tooltip_alluvial
-            .html(`
-              <strong>${d.name}</strong><br>
-              <strong>Total Emissions: ${formatNumber(totalEmission)} tons</strong>
-            `)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 28) + "px");
-        } else if (countryNodes.has(d.name)){
-          const totalFossil = d3.sum(
-            formattedData.filter(data => data.country === d.name),
-            data => data.fossil
-          );
-          const totalLand = d3.sum(
-            formattedData.filter(data => data.country === d.name),
-            data => data.land
-          );
-          const totalEmission = totalFossil + totalLand;
-      
-          tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
-          tooltip_alluvial
-            .html(`
-              <strong>${d.name}</strong><br>
-              Total Fossil Emissions: ${formatNumber(totalFossil)} tons<br>
-              Total Land Emissions: ${formatNumber(totalLand)} tons<br>
-              <strong>Total Emissions: ${formatNumber(totalEmission)} tons</strong>
-            `)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 28) + "px");
-        } else if (d.name === "World Total - Fossil" || d.name === "World Total - Land") {
-          const isFossil = d.name === "World Total - Fossil";
-          const totalValue = d3.sum(
-            formattedData,
-            data => isFossil ? +data.fossil : +data.land
-          );
-
-          tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
-          tooltip_alluvial
-            .html(`
-              <strong>${d.name}</strong><br>
-              <strong>Total ${isFossil ? "Fossil" : "Land"} Emissions: ${formatNumber(totalValue)} tons</strong>
-            `)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 28) + "px");
-        }
-        else if (d.name.includes("Total - Fossil") || d.name.includes("Total - Land")) {
-          const isFossil = d.name.includes("Total - Fossil");
-          const continent = d.name.split(" Total -")[0];
-        
-          const totalValue = d3.sum(
-            formattedData.filter(data => data.continent === continent),
-            data => isFossil ? data.fossil : data.land
-          );
-        
-          tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
-          tooltip_alluvial
-            .html(`
-              <strong>${d.name}</strong><br>
-              <strong>Total ${isFossil ? "Fossil" : "Land"} Emissions: ${formatNumber(totalValue)} tons</strong>
-            `)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 28) + "px");
-        }
-        else {
-          tooltip_alluvial.transition().style("opacity", 0); // Hide tooltip for non-continent nodes
-        }
-      });
-      
-      //     nodes.on("mouseover", (event, d) => {
-      //   links.attr("stroke-opacity", 0.2);
-      //   nodes.attr("opacity", 0.2);
-      //   const relatedLinks = graph.links.filter(link => 
-      //     graph.nodes[link.source].name === d.name || graph.nodes[link.target].name === d.name
-      //   );
-
-      //   let inflowValue = 0;
-      //   let outflowValue = 0;
-      //   relatedLinks.forEach(link => {
-      //     if (graph.nodes[link.target].name === d.name) inflowValue += link.value;
-      //     if (graph.nodes[link.source].name === d.name) outflowValue += link.value;
-      //   });
-
-
-      //   d3.select(event.target).attr("opacity", 1);
-      //   tooltip_alluvial.transition().duration(200).style("opacity", .9);
-      //   tooltip_alluvial.style("opacity", 1)
-      //     .html(`
-      //       <strong>${d.name}</strong><br>
-      //       Total Inflows: ${inflowValue > 0 ? inflowValue.toFixed(2) + " tons" : "No inflows"}<br>
-      //       Total Outflows: ${outflowValue > 0 ? outflowValue.toFixed(2) + " tons" : "No outflows"}
-      //     `)
-      //     .style("left", (event.pageX + 10) + "px")
-      //     .style("top", (event.pageY - 28) + "px");
-      // });
-
       nodes.on("mouseover", (event, d) => {
         // Slow down opacity change with transition
-        links.transition().duration(1000).attr("stroke-opacity", 0.2);  // Slow opacity fade for links
-        nodes.transition().duration(1000).attr("opacity", 0.2);  // Slow opacity fade for nodes
-    
+        //links.transition().duration(200).attr("stroke-opacity", 0.1);  // Slow opacity fade for links
+        nodes.transition().duration(200).attr("opacity", 0.2);  // Slow opacity fade for nodes
+        // d3.selectAll(".link")
+        //   .style("stroke-opacity", 0.1);
+
+        // Highlight links connected to the hovered node
+        d3.selectAll(".link")
+          .filter(link => link.source === d || link.target === d)
+          .transition().duration(200)
+          .style("stroke-opacity", 0.9)
+   
+
         // Highlight the hovered node
-        d3.select(event.target).transition().duration(500).attr("opacity", 1);
+        d3.select(event.target).transition().duration(200).attr("opacity", 1);
     
         // Display tooltip with the relevant data
         if (continentNodes.has(d.name)) {
@@ -328,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             const totalEmission = totalFossil + totalLand;
     
-            tooltip_alluvial.transition().duration(1000).style("opacity", 0.9);
+            tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
             tooltip_alluvial
                 .html(`
                     <strong>${d.name}</strong><br>
@@ -336,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 `)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
-        } else if (countryNodes.has(d.name)){
+        } else if (Array.from(countryNodes).some(([country, continent]) => country === d.name)){
             const totalFossil = d3.sum(
                 formattedData.filter(data => data.country === d.name),
                 data => data.fossil
@@ -347,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             const totalEmission = totalFossil + totalLand;
     
-            tooltip_alluvial.transition().duration(1000).style("opacity", 0.9);
+            tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
             tooltip_alluvial
                 .html(`
                     <strong>${d.name}</strong><br>
@@ -364,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 data => isFossil ? +data.fossil : +data.land
             );
     
-            tooltip_alluvial.transition().duration(1000).style("opacity", 0.9);
+            tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
             tooltip_alluvial
                 .html(`
                     <strong>${d.name}</strong><br>
@@ -398,42 +317,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Smooth transition for tooltip movement
     nodes.on("mousemove", (event) => {
-        tooltip_alluvial.transition().duration(100).style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 20) + "px");
+      tooltip_alluvial.style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY - 20) + "px");
     });
     
     // Reset opacity and hide tooltip on mouseout
     nodes.on("mouseout", () => {
-        links.transition().duration(500).attr("stroke-opacity", 0.6);  // Slow opacity reset for links
-        nodes.transition().duration(500).attr("opacity", 1);  // Slow opacity reset for nodes
+        //links.transition().duration(200).attr("stroke-opacity", 0.35);  // Slow opacity reset for links
+        nodes.transition().duration(200).attr("opacity", 0.9);  // Slow opacity reset for nodes
         tooltip_alluvial.transition().duration(200).style("opacity", 0);  // Fade out tooltip
+        d3.selectAll(".link").transition().duration(200).style("stroke-opacity", 0.35)
     });
-
-    
-    
-
-      nodes.on("mousemove", (event) => {
-        tooltip_alluvial.style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 20) + "px");
-      });
-
-      nodes.on("mouseout", () => {
-        links.attr("stroke-opacity", 0.6);
-        nodes.attr("opacity", 1);
-        tooltip_alluvial.transition().duration(200).style("opacity", 0);
-      });
-
-      // Reset opacity and hide tooltip on mouseout
-nodes.on("mouseout", () => {
-  // Reset links and nodes opacity
-  links.transition().duration(500).attr("stroke-opacity", 0.6);  // Reset opacity for links
-  nodes.transition().duration(500).attr("opacity", 1);  // Reset opacity for nodes
-  
-  // Hide the tooltip smoothly
-  tooltip_alluvial.transition().duration(200).style("opacity", 0);  // Fade out tooltip
-});
-
-      
 
     });
   }

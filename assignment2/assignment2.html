@@ -88,9 +88,9 @@
             <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
             <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
             World Population Dataset</a> (world_population.csv) with few adjustments.
-            <p>
+            <!-- <p>
                 <button class="openExplWindow" data-modal="window_data">Read more</button>
-            </p>
+            </p> -->
         </div>
     </div>
 
@@ -106,7 +106,7 @@
 
     
     <div class="chart-alluvial">
-        <h1>Fossil emission and land use</h1>
+        <h1>Fossil emission and land use distribution across the world</h1>
         <div class="tooltip_alluvial" id="tooltip_alluvial"></div>
         <svg id="alluvial-plot"></svg>
 
@@ -120,20 +120,12 @@
             <p></p>
             <select id="year-select_alluvial">
                 <option value="2000">2000</option>
-                <option value="2010">2005</option>
+                <option value="2005">2005</option>
                 <option value="2010">2010</option>
                 <option value="2015">2015</option>
                 <option value="2020">2020</option>
                 <option value="2022" selected>2022</option>
             </select>
-            <div id="continent-select" class="filters">
-                <label><input type="checkbox" value="asia" checked> Asia</label>
-                <label><input type="checkbox" value="europe" checked> Europe</label>
-                <label><input type="checkbox" value="north-america" checked> North America</label>
-                <label><input type="checkbox" value="oceania" checked> Oceania</label>
-                <label><input type="checkbox" value="africa" checked> Africa</label>
-                <label><input type="checkbox" value="south-america" checked> South America</label>
-            </div>
         </div>
 
         <section class="center-section">
@@ -166,7 +158,10 @@
                 <span class="close-btn">&times;</span>
                 <h2>Comment</h2>
                 <p>
-                    This alluvial plot visualizes the division of continents into the top 3 most polluting countries based on CO₂ emissions from fossil fuels and land-use change.<br>
+                    This alluvial plot visualizes the division of continents into the top 3 most polluting countries based on CO₂ emissions from fossil fuels and land-use change.<br><br>
+                    We can clearly see how TOP3 emitting countries emissions distribute over each continent - emissions across the world mostly comes from fossil use with leading continent - Asia.<br>
+                    Additionally fossil emissions coming from each continent are greater than land emissions - despite South America where country such as Brasil produces land emissions rather than fossil emissions!
+                    This dependency can be seen also in previous years (2020-2000), in 2010 and 2005 Argentina and in 2010 Australia were also generating higher land than fossil emissions. <br><br>
                     The width of the bands is proportional to the flow quantity, providing insights into the distribution of emissions across continents and countries.
                 </p>
             </div>
@@ -178,13 +173,16 @@
                 <h2>Explanation</h2>
                 <p>
                     The chart is built using D3.js, a JavaScript library, to visualize data on alluvial plot<br>
-                    We divided data into 4 layers: 
+                    We divided data into 4 layers: </p>
+                    
                     <ul>
                         <li>continents</li>
                         <li>countries</li>
                         <li>fossil fuels and land-use</li>
                         <li>world total of fossil fuels and land-use</li>
                     </ul>
+
+                <p>
                     This way we wanted to obtain clear visualization of the data and show the most polluting countries in the world as well as the contribution of each continent to the total emissions.
                 </p>
             </div>

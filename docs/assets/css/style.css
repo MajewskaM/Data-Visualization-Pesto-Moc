@@ -506,7 +506,7 @@ footer p {
 .chart-section-container h2, .center-section h2, .chart-section-container_2 h2{
     font-size: 1.5rem;
     color: #333;
-    font-family: Arial;
+    font-family: 'Fira Sans', sans-serif;
     margin-bottom: 10px;
     border-bottom: none;
 }
@@ -644,7 +644,7 @@ footer p {
 }
     
 .window-content p {
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
 }
 
