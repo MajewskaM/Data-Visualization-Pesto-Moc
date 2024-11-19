@@ -1,7 +1,7 @@
 // Set up the chart dimensions and margins
-const margin5 = { top: 40, right: 30, bottom: 40, left: 90 };
-const width5 = 800 - margin5.left - margin5.right;
-const height5 = 500 - margin5.top - margin5.bottom;
+const margin5 = { top: 40, right: 850, bottom: 350, left: 100 };
+const width5 = window.innerWidth - margin5.left - margin5.right;
+const height5 = window.innerHeight - margin5.top - margin5.bottom;
 
 const svg6 = d3.select('#perc') // Select the SVG element by ID
   .attr('width', width5 + margin5.left + margin5.right)
