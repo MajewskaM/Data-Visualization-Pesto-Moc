@@ -476,6 +476,7 @@ footer p {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    align-items: center;
     margin-top: 5%;
 }
 
@@ -497,6 +498,7 @@ footer p {
     gap: 10px;
     padding: 20px;
     width: 100%;
+    max-width: 650px;
     margin-left: 100px;
     align-items: center;
 }
@@ -753,8 +755,16 @@ footer p {
 }
 
 .heatmap {
-  text-align: center;
-  margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    box-sizing: border-box;
+    margin-bottom: 5%;
 }
 
 .dropdown-container {
@@ -797,15 +807,15 @@ footer p {
     display: flex;
     flex-direction: row;
     align-items: flex-start; 
-    gap: 20px;
+    width: 100%;
 }
 
 .chart-section-container_2 {
     display: flex;
     flex-direction: column;
+    align-items: center; 
     gap: 15px;
     max-width: 48%; 
-    margin-left: 1%;
     margin-bottom: 5%;
 }
 
