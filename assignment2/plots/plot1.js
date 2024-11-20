@@ -36,10 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
       svg.selectAll("*").remove();
 
       d3.csv(`./dataset/continent_emissions_top5_${year}.csv`).then(data => {
+        
+        console.log(selectedContinents)
+        // Filter nodes and links based on the selected continents
+        const fileteredData = data.filter(node =>
+          selectedContinents.includes(node.Continent) // Assumes nodes have a `continent` property
+        );
 
+        console.log(fileteredData)
         // Compute total emissions (fossil + land) for each continent
         const continentTotals = d3.rollup(
-            data,
+          fileteredData,
             group => d3.sum(group, d => (+d["Annual_CO2_emissions"] + +d["Annual CO₂ emissions from land-use change"])),
             d => d["Continent"]
         );
@@ -50,14 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(d => d[0]);
 
         // Group countries by continent and sort countries within each continent
-        const continentGroups = d3.group(data, d => d["Continent"]);
+        const continentGroups = d3.group(fileteredData, d => d["Continent"]);
         const formattedData = sortedContinents.flatMap(continent => {
         const countries = continentGroups.get(continent) || [];
         return countries
-            .sort((a, b) =>
-                (+b["Annual_CO2_emissions"] + +b["Annual CO₂ emissions from land-use change"]) -
-                (+a["Annual_CO2_emissions"] + +a["Annual CO₂ emissions from land-use change"])
-            )
             .slice(0,3).map(d => ({
                 continent,
                 country: d["Entity"],
@@ -65,17 +68,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 land: +d["Annual CO₂ emissions from land-use change"]
             }));
     });
-      console.log(formattedData)
-
         const sankey = d3.sankey()
           .nodeWidth(40)
           .nodePadding(15)
           .size([width1, height1])
-          .nodeAlign(d3.sankeyCenter);
+          .nodeAlign(d3.sankeyCenter)
+          .nodeSort((a, b) => {
+            // Custom sorting logic (e.g., alphabetical by name)
+            const aTotal = a.totalEmissions || 0;
+            const bTotal = b.totalEmissions || 0;
+            return bTotal - aTotal; // Descending order
+          });
 
         const graph = { nodes: [], links: [] };
         const continentNodes = new Set();
-        const countryNodes = new Set();
+        let countryNodes = new Set();
 
         formattedData.forEach(d => {
           continentNodes.add(d.continent);
@@ -94,8 +101,23 @@ document.addEventListener("DOMContentLoaded", () => {
         continentNodes.forEach(continent => graph.nodes.push({ name: continent }));
         countryNodes.forEach(([country, continent]) => graph.nodes.push({ name: country, name_c: continent }));
 
-        console.log(countryNodes)
-        //console.log(graph.links)
+
+        // Calculate and sort country nodes by total emissions
+        const countryTotals = Array.from(countryNodes).map(([country, continent]) => {
+          const totalFossil = d3.sum(
+            formattedData.filter(d => d.country === country),
+            d => d.fossil
+          );
+          const totalLand = d3.sum(
+            formattedData.filter(d => d.country === country),
+            d => d.land
+          );
+          return {
+            name: country,
+            continent: continent,
+            totalEmissions: totalFossil + totalLand
+          };
+        });
 
         const fossilTotalNode = "World Total - Fossil";
         const landTotalNode = "World Total - Land";
@@ -124,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
 
+
         formattedData.forEach(d => {
           const fossilContinentTotal = `${d.continent} Total - Fossil`;
           const landContinentTotal = `${d.continent} Total - Land`;
@@ -143,6 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
 
+        console.log(graph.links)
+        console.log(graph.nodes)
+
         graph.links.forEach(link => {
           link.source = graph.nodes.findIndex(node => node.name === link.source);
           link.target = graph.nodes.findIndex(node => node.name === link.target);
@@ -154,8 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         graph.links = graph.links.filter(link => !link.invalid);
-
+        
         sankey(graph);
+
+        
 
         const links = svg.append("g")
           .selectAll("path")
@@ -171,6 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("stroke-opacity", 0.35)
           .attr("fill", "none")
           .attr("class", "link");
+          
+          
+          
 
         const nodes = svg.append("g")
           .selectAll("rect")
@@ -208,11 +239,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       function formatNumber(num) {
-        if (num >= 1e9) {
+        if (Math.abs(num) >= 1e9) {
           return (num / 1e9).toFixed(2) + " B"; // Billions
-        } else if (num >= 1e6) {
+        } else if (Math.abs(num) >= 1e6) {
           return (num / 1e6).toFixed(2) + " M"; // Millions
-        } else if (num >= 1e3) {
+        } else if (Math.abs(num) >= 1e3) {
           return (num / 1e3).toFixed(2) + " K"; // Thousands
         } else {
           return num.toFixed(2); // Less than a thousand
@@ -271,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .html(`
                     <strong>${d.name}</strong><br>
                     Total Fossil Emissions: ${formatNumber(totalFossil)} tons<br>
-                    Total Land Emissions: ${formatNumber(totalLand)} tons<br>
+                    Total Land-use Change: ${formatNumber(totalLand)} tons<br>
                     <strong>Total Emissions: ${formatNumber(totalEmission)} tons</strong>
                 `)
                 .style("left", (event.pageX + 10) + "px")
@@ -331,13 +362,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   }
-
-  updatePlotForYear(2022);
-
+  let selectedYear = 2022;
+  let selectedContinents = Array.from(document.querySelectorAll("#continent-select input:checked"))
+  .map(input => input.value);
+  updatePlotForYear(selectedYear);
+  
   d3.select("#year-select_alluvial").on("change", function() {
-    const selectedYear = +this.value;
+    selectedYear = +this.value;
     console.log("Selected Year: ", selectedYear);
-    updatePlotForYear(selectedYear);
+    updatePlotForYear(selectedYear, selectedContinents);
   });
+  
+  d3.selectAll("#continent-select input").on("change", function() {
+    selectedContinents = Array.from(document.querySelectorAll("#continent-select input:checked"))
+          .map(input => input.value);
+    console.log(selectedContinents);
+    updatePlotForYear(selectedYear, selectedContinents);
+  });
+  
+
 
 });
