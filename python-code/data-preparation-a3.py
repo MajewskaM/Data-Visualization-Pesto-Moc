@@ -12,6 +12,7 @@ emissions_data['Entity'] = emissions_data['Entity'].replace({
     'Micronesia (country)': 'Micronesia',
     'Sint Maarten (Dutch part)': 'Sint Maarten',
     'Czechia': 'Czech Republic'
+
 })
 
 # Reshape population data to long format
@@ -37,6 +38,40 @@ data = data[data['Year'].isin(selected_years)]
 
 # Calculate total emissions column
 data['Total_CO2_emissions'] = data['Population'] * data['Annual_CO2_emissions_per_capita']
+
+
+import pandas as pd
+
+# fitting to geo json data
+data['Entity'] = data['Entity'].replace({
+    'Dominican Republic': 'Dominican Rep.',
+    'United States': 'United States of America',
+    'East Timor':'Timor-Leste',
+    'Northern Cyprus':'N. Cyprus',
+    'Falkland Islands':'Falkland Is.',
+    'South Sudan': 'S. Sudan',
+    'Western Sahara':'W. Sahara',
+    'Democratic Republic of Congo': 'Dem. Rep. Congo',
+    'Central African Republic': 'Central African Rep.',
+    'Eswatini': 'eSwatini',
+    'Equatorial Guinea': 'Eq. Guinea',
+    'Czech Republic': 'Czechia',
+    'Bosnia and Herzegovina': 'Bosnia and Herz.',
+    'Solomon Islands': 'Solomon Is.',
+    'Antarctica': 'Antarctica',  # No data, can remain as-is
+    'Fr. S. Antarctic Lands': 'French Southern and Antarctic Lands'
+})
+
+
+# no data for those countries
+countries_to_exclude = [
+    "Cote d'Ivoire", 
+    "Bonaire Sint Eustatius and Saba", 
+    "Saint Helena", 
+    "Kosovo"
+]
+
+data = data[~data['Entity'].isin(countries_to_exclude)]
 
 # Function to save data for each year
 def calculate_total_emissions_by_country(df, years):

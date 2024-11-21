@@ -20,7 +20,6 @@
 
 </head>
 <body >
-    <div class="tooltip"></div>
     <div class="topbar">
         <div class="dropdown">
             <button class="dropbtn">
@@ -86,11 +85,19 @@
     <div class="chart-section-container-wide">
         <div class="problem_description" id="preparation">
             <h2>Data-preparation activities</h2>
-            <p>Plots are based on <a href="https://ourworldindata.org/grapher/co2-fossil-plus-land-use?country=~ITA">CO₂ emissions from fossil fuels and land-use change</a> (co2-fossil-plus-land-use.csv).
-            <br>To prepare data we filtered out specific years and calculated top3 emitters per each continent.<br> Then we saved it to separate file with data for each year.
-            <!-- <p>
-                <button class="openExplWindow" data-modal="window_data">Read more</button>
-            </p> -->
+            <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
+                <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">World Population Dataset</a>.
+                    <br>To obtain total emissions we multipied the population and emissions per capita.<br> 
+                    Then we saved it to separate file with data for each year (inforamtion about country, continent, total annual emissions, emissions per capita and population).
+                    To get the boudaries of each country we used world.geo.json file generated from <a href="https://geojson-maps.kyd.au/">geojson-maps</a> with the lowest resolution (clear visualization purposes).
+                    <br><br>Additionally we needed to modify names of some countries that they will refer to the ones from our dataset.
+                    There were also no data for population of some countries in all given years (Cote d'Ivoire, 
+                    Bonaire Sint Eustatius and Saba, 
+                    Saint Helena, 
+                    Kosovo and some of them didn't have data for emissions Puerto Rico, N. Cyprus, Falkland Is., 
+                    Somaliland, 
+                    W. Sahara, Antarctica, Fr. S. Antarctic Lands)
+
         </div>
     </div>
 
@@ -103,8 +110,8 @@
             </p>
             </div>
     </div>
-
-    <div id="map-container"></div>
+    <div class="tooltip_map" id="tooltip_map"></div>
+    <svg id="choropleth-map"></svg>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="plots/plot1.js"></script>
     

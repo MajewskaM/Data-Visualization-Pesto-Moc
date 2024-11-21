@@ -439,6 +439,11 @@ footer p {
     visibility: hidden;
 }
 
+svg {
+    position: relative;
+    z-index: 1; /* Ensure SVG doesn't block the tooltip */
+  }
+  
 .tooltip2 {
     position: absolute;
     padding: 8px;
@@ -941,6 +946,19 @@ footer p {
   display: block;
 }
 
+/*assignment3 maps*/
+
+.tooltip_map {
+    position: absolute;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    opacity: 0;
+}
+
 /*images with additional infrmations for user----------------------------------------------------------------------*/
 /*circles on assignment1 page, facts container/ img gallery on assignment2 page*/
 .circle-container {
@@ -1105,3 +1123,4 @@ footer p {
 .gall_img:hover img {
     filter: brightness(50%);
 }
+

@@ -1,8 +1,22 @@
 const width = window.innerWidth, height = window.innerHeight;
 
+function formatNumber(num) {
+  if (Math.abs(num) >= 1e9) {
+    return (num / 1e9).toFixed(2) + " B"; // Billions
+  } else if (Math.abs(num) >= 1e6) {
+    return (num / 1e6).toFixed(2) + " M"; // Millions
+  } else if (Math.abs(num) >= 1e3) {
+    return (num / 1e3).toFixed(2) + " K"; // Thousands
+  } else {
+    return num.toFixed(2); // Less than a thousand
+  }
+}
     // Create SVG container
-    const svg = d3.select("#map-container")
-      .append("svg")
+    // const svg = d3.select("#map-container")
+    //   .append("svg")
+    //   .attr("width", width)
+    //   .attr("height", height);
+    const svg = d3.select("#choropleth-map")
       .attr("width", width)
       .attr("height", height);
 
@@ -18,13 +32,14 @@ const width = window.innerWidth, height = window.innerHeight;
       .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#800000"]);
 
 
-    const tooltip = d3.select(".tooltip");
+    //const tooltip = d3.select(".tooltip");
     // https://geojson-maps.kyd.au/
-
+    // Tooltip
+    const tooltip_map = d3.select("#tooltip_map");
 
     // Load data: GeoJSON and emissions CSV
     Promise.all([
-      d3.json("./dataset/world_2.geo.json"), // Replace with your GeoJSON file path
+      d3.json("./dataset/world.geo.json"), // Replace with your GeoJSON file path
       d3.csv("./dataset/country_total_emissions_2022.csv")
     ]).then(([geojson, csvData]) => {
       // Parse CSV data
@@ -47,43 +62,69 @@ const width = window.innerWidth, height = window.innerHeight;
     xOffset += width / 2;
 
     group.selectAll("path")
-  .data(geojson.features)
-  .enter()
-  .append("path")
-  .attr("d", path)
-  .attr("fill", d => {
-    const emission = d.properties.emissions;
-    return emission ? colorScale(emission) : "#ccc";
-  })
-  .attr("stroke", "#333")
-  .on("mouseover", function (event, d) {
-    console.log("Mouseover on:", d.properties.name); // Debugging line
-    const country = d.properties.name;
-    const emission = d.properties.emissions;
+    .data(geojson.features)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .attr("fill", d => {
+      const emission = d.properties.emissions;
+      return emission ? colorScale(emission) : "#ccc";
+    })
+    .attr("stroke", "#333")
+    .on("mouseover", function (event, d) {
+      console.log("Mouseover on:", d.properties.name); // Debugging line
+      const country = d.properties.name;
+      const emission = d.properties.emissions;
+  
+      // Highlight the hovered country
+      d3.select(this).style("opacity", 1).style("stroke-width", "2px");
+  
+      // Dim all other countries
+      group.selectAll("path")
+        .filter(pathData => pathData !== d)
+        .style("opacity", 0.3);
+  
+      // Show the tooltip
+      tooltip_map.transition().duration(200).style("opacity", 0.9);
+      tooltip_map
+        .html(`<b>Country:</b> ${country}<br><b>Total Emissions:</b> ${emission ? formatNumber(emission) : "No data"}`)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mousemove", function (event) {
+      tooltip_map
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", function () {
+      // Reset opacity for all countries
+      group.selectAll("path")
+        .style("opacity", 1)
+        .style("stroke-width", "1px");
+  
+      // Hide the tooltip_map
+      tooltip_map.transition().duration(200).style("opacity", 0);
+    });
 
-    tooltip.transition().duration(200).style("opacity", 0.9);
-    tooltip
-      .html(`<b>Country:</b> ${country}<br><b>Emissions:</b> ${emission ? emission.toLocaleString() : "No data"}`)
-      .style("left", (event.pageX + 10) + "px")
-      .style("top", (event.pageY - 20) + "px");
-  })
-  .on("mousemove", function (event) {
-    tooltip
-      .style("left", (event.pageX + 10) + "px")
-      .style("top", (event.pageY - 20) + "px");
-  })
-  .on("mouseout", function () {
-    tooltip.transition().duration(200).style("opacity", 0);
-  });
 
+    geojson.features.forEach(feature => {
+      const countryName = feature.properties.name; // GeoJSON country name
+      feature.properties.emissions = emissions[countryName] || null; // Match and assign emissions
+    
+      // Log countries with no data
+      if (!feature.properties.emissions) {
+        console.log(`No data for: ${countryName}`);
+      }
+    });
+    
 
-    // Add projection title
-    group.append("text")
-      .attr("x", width / 4)
-      .attr("y", 30)
-      .attr("text-anchor", "middle")
-      .style("font-size", "16px")
-      .text(name + " Projection");
+    // // Add projection title
+    // group.append("text")
+    //   .attr("x", width / 4)
+    //   .attr("y", 30)
+    //   .attr("text-anchor", "middle")
+    //   .style("font-size", "16px")
+    //   .text(name + " Projection");
   });
 
   // Add legend
