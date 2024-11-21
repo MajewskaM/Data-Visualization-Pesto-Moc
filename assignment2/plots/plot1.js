@@ -65,9 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 continent,
                 country: d["Entity"],
                 fossil: +d["Annual_CO2_emissions"],
-                land: +d["Annual CO₂ emissions from land-use change"]
+                land: (+d["Annual CO₂ emissions from land-use change"] < 0 )? 0: +d["Annual CO₂ emissions from land-use change"],
+                land_change: +d["Annual CO₂ emissions from land-use change"]
             }));
     });
+
+    console.log(formattedData)
         const sankey = d3.sankey()
           .nodeWidth(40)
           .nodePadding(15)
@@ -110,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
           const totalLand = d3.sum(
             formattedData.filter(d => d.country === country),
-            d => d.land
+            d => d.land_change
           );
           return {
             name: country,
@@ -138,12 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
             type: "fossil"
           });
 
+          if (d3.sum(formattedData.filter(d => d.continent === continent), d => d.land) !== 0){
           graph.links.push({
             source: landContinentTotal,
             target: landTotalNode,
             value: d3.sum(formattedData.filter(d => d.continent === continent), d => d.land),
             type: "land"
           });
+        }
         });
 
 
@@ -158,12 +163,15 @@ document.addEventListener("DOMContentLoaded", () => {
             type: "fossil"
           });
 
-          graph.links.push({
-            source: d.country,
-            target: landContinentTotal,
-            value: d.land,
-            type: "land"
-          });
+          if (d.land !== 0){
+            graph.links.push({
+              source: d.country,
+              target: landContinentTotal,
+              value: d.land,
+              type: "land"
+            });
+          }
+          
         });
 
         console.log(graph.links)
@@ -397,16 +405,19 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             const totalLand = d3.sum(
                 formattedData.filter(data => data.country === d.name),
-                data => data.land
+                data => data.land_change
             );
             const totalEmission = totalFossil + totalLand;
-    
+            const landEmission = d3.sum(
+              formattedData.filter(data => data.country === d.name),
+              data => data.land
+          );
             tooltip_alluvial.transition().duration(200).style("opacity", 0.9);
             tooltip_alluvial
                 .html(`
                     <strong>${d.name}</strong><br>
                     Total Fossil Emissions: ${formatNumber(totalFossil)} tons<br>
-                    Total Land-use Change: ${formatNumber(totalLand)} tons<br>
+                    Total Land Emissions: ${formatNumber(landEmission)} tons<br>
                     <strong>Total Emissions: ${formatNumber(totalEmission)} tons</strong>
                 `)
                 .style("left", (event.pageX + 10) + "px")

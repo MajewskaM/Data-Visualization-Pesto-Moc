@@ -21,12 +21,16 @@
 
 import pandas as pd
 
-emissions_data = pd.read_csv('dataset/2/co2-fossil-plus-land-use_countries_data_with_continents_countries_data_final.csv', encoding='utf-8')
+emissions_data = pd.read_csv('assignment2/dataset/co2-fossil-plus-land-use_countries_data_with_continents_countries_data_final.csv', encoding='utf-8')
 
 # emissions_data = emissions_data[emissions_data['Year'] >= 2000].copy()
 
 # Rename 'Annual CO₂ emissions' column to simplify the name
 emissions_data.rename(columns={'Annual CO₂ emissions': 'Annual_CO2_emissions'}, inplace=True)
+
+# if 'Annual CO₂ emissions from land-use change' in emissions_data.columns:
+#     emissions_data['Annual CO₂ emissions from land-use change'] = emissions_data['Annual CO₂ emissions from land-use change'].apply(lambda x: max(x, 0))
+
 
 # Define the specific years to process
 selected_years = [2000, 2005, 2010, 2015, 2020, 2022]
@@ -58,7 +62,7 @@ for year in selected_years:
     processed_data = calculate_top5_emissions_per_continent(year_data, year)
     
     # Save to CSV file for each year
-    output_path = f'dataset/2/continent_emissions_top5_{year}.csv'
+    output_path = f'assignment2/dataset/continent_emissions_top5_{year}.csv'
     processed_data.to_csv(output_path, index=False)
 
 
