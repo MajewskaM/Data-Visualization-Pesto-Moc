@@ -1,0 +1,217 @@
+Entity,Year,Total_CO2_emissions,Continent
+Afghanistan,2015,9791093.0,Asia
+Albania,2015,4712144.0,Europe
+Algeria,2015,160087460.0,Africa
+Andorra,2015,465328.0,Europe
+Angola,2015,26030358.0,Africa
+Anguilla,2015,139232.0,North America
+Antigua and Barbuda,2015,582576.0,North America
+Argentina,2015,191743840.0,South America
+Armenia,2015,5469323.0,Asia
+Aruba,2015,897680.0,South America
+Australia,2015,401378370.0,Oceania
+Austria,2015,66365640.0,Europe
+Azerbaijan,2015,34682950.0,Asia
+Bahamas,2015,2246032.0,North America
+Bahrain,2015,32459652.0,Asia
+Bangladesh,2015,73157550.0,Asia
+Barbados,2015,1686392.0,North America
+Belarus,2015,58798910.0,Europe
+Belgium,2015,101145630.0,Europe
+Belize,2015,641200.0,North America
+Benin,2015,5328876.0,Africa
+Bermuda,2015,538608.0,North America
+Bhutan,2015,1056506.0,Asia
+Bolivia,2015,19886526.0,South America
+Bonaire Sint Eustatius and Saba,2015,95264.0,North America
+Bosnia and Herzegovina,2015,18460492.0,Europe
+Botswana,2015,5421209.0,Africa
+Brazil,2015,529353020.0,South America
+British Virgin Islands,2015,227168.0,North America
+Brunei,2015,6933290.0,Asia
+Bulgaria,2015,48121012.0,Europe
+Burkina Faso,2015,3714985.0,Africa
+Burundi,2015,355408.0,Africa
+Cambodia,2015,8365610.0,Asia
+Cameroon,2015,9850663.0,Africa
+Canada,2015,570680400.0,North America
+Cape Verde,2015,490976.0,Africa
+Central African Republic,2015,179536.0,Africa
+Chad,2015,2351698.0,Africa
+Chile,2015,81782160.0,South America
+China,2015,9866952000.0,Asia
+Colombia,2015,96774220.0,South America
+Comoros,2015,179536.0,Africa
+Congo,2015,5633314.0,Africa
+Cook Islands,2015,80608.0,Oceania
+Costa Rica,2015,7406021.0,North America
+Cote d'Ivoire,2015,9554745.0,Africa
+Croatia,2015,17824704.0,Europe
+Cuba,2015,29468648.0,North America
+Curacao,2015,7328000.0,South America
+Cyprus,2015,6971575.0,Asia
+Czechia,2015,105022270.0,Europe
+Democratic Republic of Congo,2015,3276557.0,Africa
+Denmark,2015,35110572.0,Europe
+Djibouti,2015,431641.0,Africa
+Dominica,2015,175872.0,North America
+Dominican Republic,2015,23494588.0,North America
+East Timor,2015,589620.0,Asia
+Ecuador,2015,41275740.0,South America
+Egypt,2015,224479740.0,Africa
+El Salvador,2015,6667772.0,North America
+Equatorial Guinea,2015,7033487.0,Africa
+Eritrea,2015,554345.0,Africa
+Estonia,2015,15823998.0,Europe
+Eswatini,2015,868368.0,Africa
+Ethiopia,2015,12696406.0,Africa
+Faroe Islands,2015,608224.0,Europe
+Fiji,2015,1319945.0,Oceania
+Finland,2015,44186000.0,Europe
+France,2015,331414430.0,Europe
+French Polynesia,2015,846384.0,Oceania
+Gabon,2015,6475558.0,Africa
+Gambia,2015,582576.0,Africa
+Georgia,2015,9756186.0,Asia
+Germany,2015,798084740.0,Europe
+Ghana,2015,14568119.0,Africa
+Greece,2015,74927624.0,Europe
+Greenland,2015,525712.0,North America
+Grenada,2015,260144.0,North America
+Guatemala,2015,15951887.0,North America
+Guinea,2015,2451216.0,Africa
+Guinea-Bissau,2015,278464.0,Africa
+Guyana,2015,2003336.0,South America
+Haiti,2015,2660657.0,North America
+Honduras,2015,10347979.0,North America
+Hong Kong,2015,42399920.0,Asia
+Hungary,2015,46717404.0,Europe
+Iceland,2015,3543713.0,Europe
+India,2015,2234219500.0,Asia
+Indonesia,2015,539149250.0,Asia
+Iran,2015,631581200.0,Asia
+Iraq,2015,141986560.0,Asia
+Ireland,2015,38718548.0,Europe
+Israel,2015,62939140.0,Asia
+Italy,2015,361935900.0,Europe
+Jamaica,2015,7998908.0,North America
+Japan,2015,1223168600.0,Asia
+Jordan,2015,25549898.0,Asia
+Kazakhstan,2015,278661280.0,Asia
+Kenya,2015,16998498.0,Africa
+Kiribati,2015,54960.0,Oceania
+Kosovo,2015,8290589.5,Europe
+Kuwait,2015,93660650.0,Asia
+Kyrgyzstan,2015,10264781.0,Asia
+Laos,2015,9229252.0,Asia
+Latvia,2015,7263453.0,Europe
+Lebanon,2015,25734552.0,Asia
+Lesotho,2015,2242368.0,Africa
+Liberia,2015,467217.0,Africa
+Libya,2015,54550704.0,Africa
+Liechtenstein,2015,159774.0,Europe
+Lithuania,2015,13055458.0,Europe
+Luxembourg,2015,9350996.0,Europe
+Macao,2015,1769712.0,Asia
+Madagascar,2015,3227484.0,Africa
+Malawi,2015,1082885.0,Africa
+Malaysia,2015,235505740.0,Asia
+Maldives,2015,1278736.0,Asia
+Mali,2015,3281577.0,Africa
+Malta,2015,1665293.0,Europe
+Marshall Islands,2015,142896.0,Oceania
+Mauritania,2015,3002486.0,Africa
+Mauritius,2015,4209936.0,Africa
+Mexico,2015,479519780.0,North America
+Micronesia (country),2015,142896.0,Oceania
+Moldova,2015,4781760.0,Europe
+Monaco,2015,,Europe
+Mongolia,2015,23282274.0,Asia
+Montenegro,2015,2238704.0,Europe
+Montserrat,2015,54960.0,North America
+Morocco,2015,58495180.0,Africa
+Mozambique,2015,6730608.0,Africa
+Myanmar,2015,21887144.0,Asia
+Namibia,2015,3851304.0,Africa
+Nauru,2015,54960.0,Oceania
+Nepal,2015,6904657.0,Asia
+Netherlands,2015,163802240.0,Europe
+New Caledonia,2015,4876909.0,Oceania
+New Zealand,2015,35812136.0,Oceania
+Nicaragua,2015,5430953.0,North America
+Niger,2015,2206060.0,Africa
+Nigeria,2015,109217160.0,Africa
+Niue,2015,7328.0,Oceania
+North Korea,2015,24623532.0,Asia
+North Macedonia,2015,6756554.0,Europe
+Norway,2015,45494000.0,Europe
+Oman,2015,67376190.0,Asia
+Pakistan,2015,166432900.0,Asia
+Palau,2015,205184.0,Oceania
+Palestine,2015,3005733.0,Asia
+Panama,2015,10788440.0,North America
+Papua New Guinea,2015,6638563.0,Oceania
+Paraguay,2015,6047637.0,South America
+Peru,2015,49227884.0,South America
+Philippines,2015,112449144.0,Asia
+Poland,2015,312715420.0,Europe
+Portugal,2015,52203440.0,Europe
+Qatar,2015,91194280.0,Asia
+Romania,2015,78031910.0,Europe
+Russia,2015,1638675300.0,Europe
+Rwanda,2015,970183.0,Africa
+Saint Helena,2015,10992.0,Africa
+Saint Kitts and Nevis,2015,234496.0,North America
+Saint Lucia,2015,479984.0,North America
+Saint Pierre and Miquelon,2015,65952.0,North America
+Saint Vincent and the Grenadines,2015,234496.0,North America
+Samoa,2015,227168.0,Oceania
+San Marino,2015,,Europe
+Sao Tome and Principe,2015,135568.0,Africa
+Saudi Arabia,2015,678849300.0,Asia
+Senegal,2015,9845416.0,Africa
+Serbia,2015,43773750.0,Europe
+Seychelles,2015,498304.0,Africa
+Sierra Leone,2015,1084544.0,Africa
+Singapore,2015,61925264.0,Asia
+Sint Maarten (Dutch part),2015,743792.0,North America
+Slovakia,2015,34471936.0,Europe
+Slovenia,2015,13645485.0,Europe
+Solomon Islands,2015,293120.0,Oceania
+Somalia,2015,630208.0,Africa
+South Africa,2015,446221020.0,Africa
+South Korea,2015,634177300.0,Asia
+South Sudan,2015,1912608.0,Africa
+Spain,2015,270767460.0,Europe
+Sri Lanka,2015,19687388.0,Asia
+Sudan,2015,21189514.0,Africa
+Suriname,2015,2713354.0,South America
+Sweden,2015,43418744.0,Europe
+Switzerland,2015,38725590.0,Europe
+Syria,2015,28603272.0,Asia
+Taiwan,2015,275868000.0,Asia
+Tajikistan,2015,5302282.0,Asia
+Tanzania,2015,9723330.0,Africa
+Thailand,2015,277098700.0,Asia
+Togo,2015,1863341.0,Africa
+Tonga,2015,117248.0,Oceania
+Trinidad and Tobago,2015,45559680.0,North America
+Tunisia,2015,31418044.0,Africa
+Turkey,2015,384929660.0,Asia
+Turkmenistan,2015,64322776.0,Asia
+Turks and Caicos Islands,2015,311440.0,North America
+Tuvalu,2015,10992.0,Oceania
+Uganda,2015,4525570.0,Africa
+Ukraine,2015,223787570.0,Europe
+United Arab Emirates,2015,225683650.0,Asia
+United Kingdom,2015,422460800.0,Europe
+United States,2015,5376473000.0,North America
+Uruguay,2015,6742026.0,South America
+Uzbekistan,2015,103695920.0,Asia
+Vanuatu,2015,135568.0,Oceania
+Venezuela,2015,165853100.0,South America
+Vietnam,2015,215461950.0,Asia
+Wallis and Futuna,2015,21984.0,Oceania
+Yemen,2015,14083540.0,Asia
+Zambia,2015,5064975.0,Africa
+Zimbabwe,2015,12254954.0,Africa

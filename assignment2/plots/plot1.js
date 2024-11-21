@@ -182,7 +182,112 @@ document.addEventListener("DOMContentLoaded", () => {
         graph.links = graph.links.filter(link => !link.invalid);
         
         sankey(graph);
-       
+
+    //     let currentY = 0; // Track cumulative height
+    //     let currentLayer = 0;
+    //       // y0 start node
+    //     // end node
+    //     console.log(graph.links)
+    //     graph.nodes.forEach(node => {
+
+    //       if (currentLayer !== node.layer){
+    //         currentLayer = node.layer;
+    //         currentY = 0;
+    //       }
+    //       height = node.y1 - node.y0;
+    //       node.y0 = currentY;
+    //       node.y1 = node.y0 + height                // Starting y-position
+    //  // Ending y-position
+    //       currentY += height + 20; // Add padding after each node
+    //     });
+    //     console.log(graph.links)
+
+    //     // Adjust links
+    //     // graph.links.forEach(link => {
+    //     //   // Calculate source position
+    //     //   if (!nodeLinkOffsets[link.source.index]) {
+    //     //     nodeLinkOffsets[link.source.index] = link.source.y0;
+    //     //   }
+    //     //   link.y0 = nodeLinkOffsets[link.source.index]; // Top of source node
+    //     //   nodeLinkOffsets[link.source.index] += (link.width / link.source.width) * (link.source.y1 - link.source.y0);
+
+    //     //   // Calculate target position
+    //     //   if (!nodeLinkOffsets[link.target.index]) {
+    //     //     nodeLinkOffsets[link.target.index] = link.target.y0;
+    //     //   }
+    //     //   link.y1 = nodeLinkOffsets[link.target.index]; // Top of target node
+    //     //   nodeLinkOffsets[link.target.index] += (link.width / link.target.width) * (link.target.y1 - link.target.y0);
+    //     // });
+    //     // console.log(graph.links)
+    //     // acc = 0;
+    //     // sourceLast = 0;
+    //     // targetLast = 0;
+    //     // graph.links.forEach(link => {
+    //     //   // Calculate link source positions
+    //     //   linkHeight = link.width1
+    //     //   acc += linkHeight;
+    //     //   if (sourceLast !== link.source.index || targetLast !== link.target.index){
+    //     //     sourceLast = link.source.index
+    //     //     targetLast = link.target.index
+    //     //     acc += 20
+    //     //   }
+    //     //   link.y0 = nodeLinks[link.source.index]; // Top of source node
+    //     //   link.y1 = nodeLinks[link.target.index];
+    //     // });
+
+        
+        
+    //     sourceY = 0;
+    //     targetY = 0;
+    //     sourceLast =0;
+    //     targetLast = 0;
+    //     currentLayer = 0;
+    //     first = true;
+        
+    //     graph.links.forEach(link => {
+    //       const sourceNode = link.source;
+    //       const targetNode = link.target;
+    //       console.log(link.width);
+    //       // when we are changing the layer we need to adjust the links placement
+    //       if (currentLayer !== link.source.layer){
+    //         sourceY = 0;
+    //         targetY = 0;
+    //       }
+    //       if (sourceLast !== link.source.index || first){
+    //         sourceLast = link.source.index;
+    //         if(!first){
+    //           sourceY += 20;
+    //         }
+            
+    //       }
+          
+    //       if (targetLast !== link.target.index || first){
+    //         if(!first){
+    //           targetY += 20;
+    //         }
+    //         targetLast = link.target.index;
+    //       }
+
+    //       first = false;
+    //       // Calculate the starting and ending Y positions for the link
+    //       link.y0 = sourceNode.y0 + sourceY;
+    //       sourceY += link.width;
+
+          
+
+    //       link.y1 = targetNode.y0 + targetY;
+    //       targetY += link.width;
+
+    //       console.log(link.y0);
+    //       console.log(link.y1);
+          
+          
+    //     });
+    //     console.log(graph.links)
+        
+        
+
+        
 
         const links = svg.append("g")
           .selectAll("path")
