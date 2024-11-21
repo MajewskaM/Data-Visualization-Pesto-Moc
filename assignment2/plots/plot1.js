@@ -182,8 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         graph.links = graph.links.filter(link => !link.invalid);
         
         sankey(graph);
-
-        
+       
 
         const links = svg.append("g")
           .selectAll("path")
