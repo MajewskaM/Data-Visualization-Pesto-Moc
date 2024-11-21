@@ -9,7 +9,7 @@ const width = window.innerWidth, height = window.innerHeight;
     // Projections
     const projections = {
       Mercator: d3.geoMercator().scale(200).translate([width / 2, height / 2]),
-      EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
+      //EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
     };
 
     // Color scale
@@ -17,11 +17,8 @@ const width = window.innerWidth, height = window.innerHeight;
       .domain([1000000, 10000000, 50000000, 100000000, 500000000])
       .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#800000"]);
 
-    // Tooltip
-    const tooltip = d3.select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
+
+    const tooltip = d3.select(".tooltip");
     // https://geojson-maps.kyd.au/
 
 
@@ -50,24 +47,35 @@ const width = window.innerWidth, height = window.innerHeight;
     xOffset += width / 2;
 
     group.selectAll("path")
-      .data(geojson.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("fill", d => {
-        const emission = d.properties.emissions; // Access emissions from GeoJSON
-        return emission ? colorScale(emission) : "#ccc"; // Color based on emissions
-      })
-      .attr("stroke", "#333")
-      .on("mouseover", function (event, d) {
-        const country = d.properties.name;
-        const emission = d.properties.emissions;
-        tooltip.transition().duration(200).style("opacity", 0.9);
-        tooltip.html(`<b>Country:</b> ${country}<br><b>Emissions:</b> ${emission ? emission.toLocaleString() : "No data"}`)
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 20) + "px");
-      })
-      .on("mouseout", () => tooltip.transition().duration(200).style("opacity", 0));
+  .data(geojson.features)
+  .enter()
+  .append("path")
+  .attr("d", path)
+  .attr("fill", d => {
+    const emission = d.properties.emissions;
+    return emission ? colorScale(emission) : "#ccc";
+  })
+  .attr("stroke", "#333")
+  .on("mouseover", function (event, d) {
+    console.log("Mouseover on:", d.properties.name); // Debugging line
+    const country = d.properties.name;
+    const emission = d.properties.emissions;
+
+    tooltip.transition().duration(200).style("opacity", 0.9);
+    tooltip
+      .html(`<b>Country:</b> ${country}<br><b>Emissions:</b> ${emission ? emission.toLocaleString() : "No data"}`)
+      .style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY - 20) + "px");
+  })
+  .on("mousemove", function (event) {
+    tooltip
+      .style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY - 20) + "px");
+  })
+  .on("mouseout", function () {
+    tooltip.transition().duration(200).style("opacity", 0);
+  });
+
 
     // Add projection title
     group.append("text")
