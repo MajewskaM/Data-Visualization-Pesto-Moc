@@ -1,4 +1,4 @@
-const width = 1000, height = 600;
+const width = window.innerWidth, height = window.innerHeight;
 
     // Create SVG container
     const svg = d3.select("#map-container")
@@ -8,8 +8,8 @@ const width = 1000, height = 600;
 
     // Projections
     const projections = {
-      Mercator: d3.geoMercator().scale(150).translate([width / 2, height / 2]),
-      EqualEarth: d3.geoEqualEarth().scale(150).translate([width / 2, height / 2])
+      Mercator: d3.geoMercator().scale(200).translate([width / 2, height / 2]),
+      EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
     };
 
     // Color scale
@@ -22,11 +22,13 @@ const width = 1000, height = 600;
       .append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
+    // https://geojson-maps.kyd.au/
+
 
     // Load data: GeoJSON and emissions CSV
     Promise.all([
-      d3.json("/assignment3/dataset/countries.geo.json"), // Replace with your GeoJSON file path
-      d3.csv("/assignment3/dataset/country_total_emissions_2022.csv")
+      d3.json("./dataset/world_2.geo.json"), // Replace with your GeoJSON file path
+      d3.csv("./dataset/country_total_emissions_2022.csv")
     ]).then(([geojson, csvData]) => {
       // Parse CSV data
       const emissions = {};
