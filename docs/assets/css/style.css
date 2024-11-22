@@ -437,13 +437,8 @@ footer p {
     pointer-events: none;
     font-size: 12px;
     visibility: hidden;
-    z-index: 100;
+    z-index: 4;
 }
-
-svg {
-    position: relative;
-    z-index: 1; /* Ensure SVG doesn't block the tooltip */
-  }
   
 .tooltip2 {
     position: absolute;
@@ -454,7 +449,7 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
-    z-index: 100;
+    z-index: 4;
 }
 
 .tooltip3{
@@ -466,7 +461,7 @@ svg {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
-    z-index: 100;
+    z-index: 4;
 }
 
 .tooltip6 {
@@ -478,7 +473,7 @@ svg {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s;
-    z-index: 100;
+    z-index: 4;
 }
 
 #assignment1_site{
@@ -495,7 +490,7 @@ svg {
     align-items: flex-start;
     gap: 20px;
     margin-bottom: 5%;
-    z-index: 101;
+    z-index: 0;
 }
 
 .chart-section-container section{
@@ -526,7 +521,7 @@ svg {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    z-index: 101;
+    z-index: 0;
 }
 
 .explanation, .description {
@@ -631,14 +626,13 @@ svg {
 .additional_window {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 5;
     padding-top: 100px;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 105;
 }
 
 .window-content {
@@ -727,7 +721,7 @@ svg {
 .chart-section-container-wide .timeChoice{
     margin-top: 30px;
     margin-bottom: 30px;
-    z-index: 101;
+    z-index: 0;
 }
 
 .button-container {
@@ -933,7 +927,7 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
-    z-index: 100;
+    z-index: 4;
 }
   
 .chart-alluvial{
@@ -966,7 +960,12 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
-    z-index: 100;
+    z-index: 4;
+}
+
+svg {
+    position: relative;
+    z-index: 0;
 }
 
 /*images with additional infrmations for user----------------------------------------------------------------------*/
