@@ -437,6 +437,7 @@ footer p {
     pointer-events: none;
     font-size: 12px;
     visibility: hidden;
+    z-index: 100;
 }
 
 svg {
@@ -453,6 +454,7 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
+    z-index: 100;
 }
 
 .tooltip3{
@@ -464,6 +466,7 @@ svg {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+    z-index: 100;
 }
 
 .tooltip6 {
@@ -475,6 +478,7 @@ svg {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 100;
 }
 
 #assignment1_site{
@@ -491,6 +495,7 @@ svg {
     align-items: flex-start;
     gap: 20px;
     margin-bottom: 5%;
+    z-index: 101;
 }
 
 .chart-section-container section{
@@ -521,6 +526,7 @@ svg {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    z-index: 101;
 }
 
 .explanation, .description {
@@ -720,6 +726,7 @@ svg {
 .chart-section-container-wide .timeChoice{
     margin-top: 30px;
     margin-bottom: 30px;
+    z-index: 101;
 }
 
 .button-container {
@@ -925,6 +932,7 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
+    z-index: 100;
 }
   
 .chart-alluvial{
