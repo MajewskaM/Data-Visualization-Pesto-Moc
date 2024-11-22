@@ -957,6 +957,7 @@ svg {
     pointer-events: none;
     font-size: 12px;
     opacity: 0;
+    z-index: 100;
 }
 
 /*images with additional infrmations for user----------------------------------------------------------------------*/
