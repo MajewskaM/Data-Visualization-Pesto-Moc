@@ -283,11 +283,11 @@ footer p {
     transform: scale(1.1); 
 }
 
-#page1_click, #page2_click{
+#page1_click, #page2_click, #page3_click{
     box-shadow: none;
 }
 
-#page1_click h2, #page2_click h2{
+#page1_click h2, #page2_click h2, #page3_click h2{
     font-size: 1.1em;
 }
 
