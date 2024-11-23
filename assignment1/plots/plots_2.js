@@ -223,7 +223,7 @@
                                 const population = formatNumber(v.Population);
                                 const annualEmission = formatNumber((+v.Population)*(+v.Annual_CO2_emissions_per_capita));
                                 tooltip_2.transition().duration(200).style("opacity", .9);
-                                let desc  = `${v.Entity}: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                let desc  = `<strong>${v.Entity}</strong>: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 if (isOther){
                                     desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 }
@@ -525,7 +525,7 @@
                                     const population = formatNumber(v.Population);
                                     const annualEmission = formatNumber((+v.Population)*(+v.Annual_CO2_emissions_per_capita));
                                     tooltip_2.transition().duration(200).style("opacity", .9);
-                                    let desc  = `${v.Entity}: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                    let desc  = `<strong>${v.Entity}</strong>: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     if (isOther){
                                         desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     }
