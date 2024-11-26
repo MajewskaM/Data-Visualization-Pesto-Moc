@@ -102,7 +102,6 @@ Promise.all([
           .style("left", (event.pageX + 10) + "px")
           .style("top", (event.pageY - 20) + "px");
       })
-      
       .on("mousemove", function (event) {
         tooltip_map3
           .style("left", (event.pageX + 10) + "px")
@@ -114,7 +113,7 @@ Promise.all([
           .style("opacity", 1)
           .style("stroke-width", "1px");
 
-        // Hide the tooltip_map
+        // Hide the tooltip after mouseout
         tooltip_map3.transition().duration(200).style("opacity", 0);
       });
 
