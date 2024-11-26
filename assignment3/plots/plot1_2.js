@@ -1,4 +1,3 @@
-const width = window.innerWidth, height = window.innerHeight;
 
 function formatNumber(num) {
   if (Math.abs(num) >= 1e9) {
@@ -11,19 +10,19 @@ function formatNumber(num) {
     return num.toFixed(2); // Less than a thousand
   }
 }
-    // Create SVG container
-    // const svg = d3.select("#map-container")
-    //   .append("svg")
+    // Create svg2 container
+    // const svg2 = d3.select("#map-container")
+    //   .append("svg2")
     //   .attr("width", width)
     //   .attr("height", height);
-    const svg = d3.select("#choropleth-map")
+    const svg2 = d3.select("#choropleth-map-2")
       .attr("width", width)
       .attr("height", height);
 
     // Projections
-    const projections = {
-      Mercator: d3.geoMercator().scale(200).translate([width / 2, height / 2]),
-      //EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
+    const projection_EqualEarth = {
+      //Mercator: d3.geoMercator().scale(200).translate([width / 2, height / 2]),
+      EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
     };
 
     // Color scale
@@ -35,7 +34,7 @@ function formatNumber(num) {
     //const tooltip = d3.select(".tooltip");
     // https://geojson-maps.kyd.au/
     // Tooltip
-    const tooltip_map = d3.select("#tooltip_map");
+    //const tooltip_map = d3.select("#tooltip_map");
 
     // Load data: GeoJSON and emissions CSV
     Promise.all([
@@ -72,10 +71,10 @@ function formatNumber(num) {
 
       // Draw two maps (Mercator and Equal Earth)
       let xOffset = 0;
-  Object.entries(projections).forEach(([name, projection]) => {
+  Object.entries(projection_EqualEarth).forEach(([name, projection]) => {
     const path = d3.geoPath().projection(projection);
 
-    const group = svg.append("g").attr("transform", `translate(${xOffset}, 0)`);
+    const group = svg2.append("g").attr("transform", `translate(${xOffset}, 0)`);
     xOffset += width / 2;
 
     group.selectAll("path")
@@ -124,10 +123,10 @@ function formatNumber(num) {
     });
 
     // Add the updated legend
-  const legend = svg.append("g").attr("transform", `translate(${width - 350}, ${height - 180})`);
+  const legend = svg2.append("g").attr("transform", `translate(${width - 350}, ${height - 180})`);
   const legendSections = colorScale.domain();
 
-  // const legend = svg.append("g").attr("transform", `translate(${width - 200}, ${height - 150})`);
+  // const legend = svg2.append("g").attr("transform", `translate(${width - 200}, ${height - 150})`);
   // const legendScale = d3.scaleLinear()
   //   .domain([0, 500000000])
   //   .range([0, 150]);
@@ -148,7 +147,7 @@ function formatNumber(num) {
   // legend.append("text").text("Legend (CO₂)").attr("x", 0).attr("y", -10);
 
     // Add enhanced legend
-  //const legend = svg.append("g").attr("transform", `translate(${width - 220}, ${height - 150})`);
+  //const legend = svg2.append("g").attr("transform", `translate(${width - 220}, ${height - 150})`);
 
   // Create discrete ranges for the legend, using log-transformed values
   const legendValues = [0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions]; // Adjust ranges as needed
