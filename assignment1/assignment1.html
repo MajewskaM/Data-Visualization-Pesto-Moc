@@ -40,11 +40,11 @@
 
     <div class="problem_description" id="background-image-div">
         <h1>
-            <i class="fas fa-leaf" style="color: #2e7d32;"></i> Insight on CO₂ emission
+            Insight on CO₂ emission
         </h1>
-        <p>CO₂ emissions are one of the main causes of climate change, mainly due to human activities such as burning fossil fuels and deforestation.<br>
-            Tracking these emissions, particularly on a per capita basis, helps to identify the countries that contribute most to global pollution.<br>
-            This site visualises CO₂ emissions data, highlighting key trends and top emitters to raise awareness of environmental impacts and the need for sustainable solutions.
+        <p>
+            CO₂ emissions are one of the main causes of climate change, mainly due to human activities such as burning fossil fuels and deforestation.<br>
+            Tracking these emissions, particularly on a per capita basis, helps to identify the countries that contribute most to global pollution.
         </p>
     </div>
 
@@ -57,16 +57,13 @@
             </h2>
             <div class="explanation">
                 <h3>Comment</h3>
-                <p>The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022.</p>
+                <p>
+                    The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022. <br>
+                    The data represents the average annual CO₂ emissions per person, measured in tonnes. <br>
+                    From the bar chart, it's clear that <b>Qatar leads with the highest emissions</b>, reaching 36.7 tonnes per person.
+                    Also most of the countries that appears in top 10 are from Middle East.
                 <p>
                     <button class="openExplWindow" data-modal="window1">Read more</button>
-                </p>
-            </div>
-            <div class="description">
-                <h3>Explanation</h3>
-                <p>The chart was created based on data from the file co-emission-per-capita.csv.</p>
-                <p>
-                    <button class="openExplWindow" data-modal="window2">Read more</button>
                 </p>
             </div>
         </section>
@@ -91,17 +88,19 @@
             <div class="explanation">
                 <h3>Comment</h3>
                 <p>
-                    This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita. <br>
-                    The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022)</p>
+                    
+                    Data is visualized for different time periods for top 10 countires.<br><br>
+
+                    Key Insights:
+                    
+                    <ul>
+                        <li>In each period of time Quatar stands as the lead country in CO₂ emission</li>
+                        <li>Most of the countries that appears in top 10 are from Middle East.</li>
+                        <li>Curacao which appears on diagram for last 1 and 2 decades must have decrease the emmision because its not visible on the diagram for the last 5 years </li>
+                    </ul>
+                </p>
                 <p>
                     <button class="openExplWindow" data-modal="window3">Read more</button>
-                </p>
-            </div>
-            <div class="description">
-                <h3>Explanation</h3>
-                <p>The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data.</p>
-                <p>
-                    <button class="openExplWindow" data-modal="window4">Read more</button>
                 </p>
             </div>
         </section>
@@ -110,19 +109,6 @@
     <div class="tooltip" id="tooltip"></div>
 
     <div id="window1" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Comment</h2>
-            <p>
-                The chart illustrates the top 10 countries with the highest CO₂ emissions per capita in 2022. <br><br>
-                The data represents the average annual CO₂ emissions per person, measured in tonnes. <br>
-                This per capita metric highlights the environmental impact at an individual level rather than a total country-wide level, providing insights into the average carbon footprint per person in each country.<br><br>
-                From the bar chart, it's clear that Qatar leads with the highest emissions, reaching 36.7 tonnes per person.
-            </p>
-        </div>
-    </div>
-
-    <div id="window2" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
             <h2>Explanation</h2>
@@ -140,33 +126,19 @@
         </div>
     </div>
 
+
     <div id="window3" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
-            <h2>Comment</h2>
+            <h2>Comment & Explanation</h2>
             <p>
-                This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita. The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022).<br><br>
-                Users can select the time range using a dropdown, and the chart dynamically updates to show the most polluting countries for the chosen period.<br><br>
+                <b>Comment</b><br>
+                <li>This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita.</li>
+                <li>The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022).</li>
+                <li>The data is presented in tonnes per capita, which reflects the average CO₂ emissions per person in each country for the respective time period.</li><br><br>
 
-                Key Insights:
-                
-                <ul>
-                    <li>In the last 5 years (2018-2022), Qatar had the highest CO₂ emissions per capita, averaging 18.51 tonnes per person.</li>
-                    <li>In the last decade (2013-2022), Qatar again topped the chart with 37.53 tonnes per person.</li>
-                    <li>Over the last two decades (2003-2022), Qatar maintained its position as the top emitter with 88.13 tonnes per person.</li>
-                </ul>
-                
-                The data is presented in tonnes per capita, which reflects the average CO₂ emissions per person in each country for the respective time period.
-            </p>
-        </div>
-    </div>
-
-    <div id="window4" class="additional_window">
-        <div class="window-content">
-            <span class="close-btn">&times;</span>
-            <h2>Explanation</h2>
-            <p>
-                The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data. <br><br>
+                <b>Explanation</b><br>
+                The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data. <br>
                 The source dataset is stored in CSV files, each corresponding to different time ranges (5 years, 10 years, 20 years). Each CSV file contains data on CO₂ emissions per capita for various countries.
             </p>
         </div>
@@ -178,7 +150,7 @@
     <h1 id="separator">Whole world, one plot...</h1>
     <div class="section2">
 
-        <div class="problem_description" id="preparation">
+        <div class="data_preparation" id="preparation">
             <h2>Data-preparation activities</h2>
             <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
             <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
