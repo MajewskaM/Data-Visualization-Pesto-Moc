@@ -24,7 +24,7 @@ const projections3 = {
 const tooltip_map3 = d3.select("#tooltip_map-3");
 
 // Load data: GeoJSON and emissions CSV
-Promise.all([
+Promise.all([ 
   d3.json("./dataset/world.geo.json"), // GeoJSON file
   d3.csv("./dataset/country_total_emissions_2022.csv") // Emissions CSV
 ]).then(([geojson, csvData]) => {
@@ -33,7 +33,6 @@ Promise.all([
   const populations = {};  // Store population data
 
   csvData.forEach(d => {
-    // Calculate per capita emissions (divide total emissions by population)
     if (d.Population && +d.Population > 0) {
       const perCapitaEmissions = +d.Total_CO2_emissions / +d.Population;
       emissions[d.Entity] = perCapitaEmissions;
@@ -50,14 +49,14 @@ Promise.all([
     feature.properties.population = populations[countryName] || null; // Assign population
   });
 
-  // Calculate maximum per capita emissions and define color scale
+  // Calculate maximum per capita emissions
   const maxEmissions = d3.max(geojson.features, d => d.properties.perCapitaEmissions);
-  console.log(formatNumber(maxEmissions * 0.1));
-  console.log(formatNumber(maxEmissions * 0.001));
+  console.log(formatNumber(maxEmissions));
 
+  // Define the new color scale with logical thresholds
   const colorScale = d3.scaleThreshold()
-    .domain([0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions])
-    .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#cc0000", "#800000"]);
+    .domain([0, 2, 4, 6, 8, 10, 37])  // Adjusted thresholds
+    .range(["#ffffff", "#ffcccc", "#ff9999", "#ff6666", "#ff3333", "#800000", "#330000"]); // Keeping dark red and adding a more distinct color for the highest emissions
 
   const path = d3.geoPath().projection(d3.geoMercator().scale(200).translate([width2 / 2, height3 / 2]));
 
@@ -119,9 +118,7 @@ Promise.all([
 
     // Add the updated legend
     const legend = svg3.append("g").attr("transform", `translate(${width2 - 350}, ${height3 - 180})`);
-    const legendSections = colorScale.domain();
-
-    const legendValues = [0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions];
+    const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Updated legend values
 
     legend.selectAll("rect")
       .data(legendValues)

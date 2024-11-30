@@ -24,7 +24,7 @@ const projections4 = {
 const tooltip_map4 = d3.select("#tooltip_map-3");
 
 // Load data: GeoJSON and emissions CSV
-Promise.all([
+Promise.all([ 
   d3.json("./dataset/world.geo.json"), // GeoJSON file
   d3.csv("./dataset/country_total_emissions_2022.csv") // Emissions CSV
 ]).then(([geojson, csvData]) => {
@@ -52,12 +52,12 @@ Promise.all([
 
   // Calculate maximum per capita emissions and define color scale
   const maxEmissions = d3.max(geojson.features, d => d.properties.perCapitaEmissions);
-  console.log(formatNumber(maxEmissions * 0.1));
-  console.log(formatNumber(maxEmissions * 0.001));
+  console.log(formatNumber(maxEmissions));
 
+  // Adjusted color scale thresholds to match more reasonable per capita emissions
   const colorScale = d3.scaleThreshold()
-    .domain([0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions])
-    .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#cc0000", "#800000"]);
+    .domain([0, 2, 4, 6, 8, 10, 37])  // Adjusted thresholds
+    .range(["#ffffff", "#ffcccc", "#ff9999", "#ff6666", "#ff3333", "#800000", "#330000"]); // More distinct color for the highest emissions
 
   let xOffset = 0;
   Object.entries(projections4).forEach(([name, projection]) => {
@@ -117,9 +117,7 @@ Promise.all([
 
     // Add the updated legend
     const legend = svg4.append("g").attr("transform", `translate(${width3 - 350}, ${height4 - 180})`);
-    const legendSections = colorScale.domain();
-
-    const legendValues = [0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions];
+    const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Adjusted legend values
 
     legend.selectAll("rect")
       .data(legendValues)

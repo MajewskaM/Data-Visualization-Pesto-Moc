@@ -304,6 +304,41 @@ footer p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    margin-bottom: 10%;
+    margin-top: -2%;
+}
+
+.problem_description h1 {
+    font-size: 3.5rem;
+    color: #2e7d32;
+    font-family: 'Circular', sans-serif;
+    margin-bottom: 10px;
+    text-align: left !important;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.problem_description p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #4e4e4e;
+    font-family: 'Fira Sans', sans-serif;
+    text-align: left !important;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.data_preparation {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     text-align: center;
     width: 100%;
@@ -314,14 +349,14 @@ footer p {
     margin-top: -2%;
 }
 
-.problem_description h1 {
+.data_preparation h1 {
     font-size: 3rem;
     color: #2e7d32; /* Dark green to emphasize the environmental topic */
     font-family: 'Circular', sans-serif;
     margin-bottom: 10px;
 }
 
-.problem_description p {
+.data_preparation p {
     font-size: 1.2rem;
     line-height: 1.6;
     color: #4e4e4e; /* A soft gray for less strain on the eyes */
@@ -495,7 +530,7 @@ footer p {
 
 .chart-section-container section{
     display: grid;
-    grid-template-rows: auto 1fr 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 2fr;
     border-radius: none;
     box-shadow: none;
@@ -530,6 +565,7 @@ footer p {
     border-width: 0 0 0 2px; /*border only on the left side !!!! */
     padding: 10px;
     padding-left: 20px;
+    width: 80%;
 }
 
 .explanation h2, .description h2{
@@ -540,6 +576,7 @@ footer p {
 .explanation {
     grid-column: 2;
     grid-row: 2;
+    text-align: justify;
 }
 
 .description {
@@ -579,16 +616,18 @@ footer p {
 #section_with_selector .explanation {
     grid-column: 1;
     grid-row: 3;
+    text-align: justify;
 }
 
 #section_with_selector .description {
     grid-column: 1;
     grid-row: 4;
+    justify-self: justify;
 }
 
 #section_with_selector .title {
     grid-column: 1 / 3;
-    text-align: center;
+    text-align: left;
 }
 
 .timeChoice {
