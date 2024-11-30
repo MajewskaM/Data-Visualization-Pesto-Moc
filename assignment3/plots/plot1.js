@@ -1,30 +1,30 @@
-const width = window.innerWidth, height = window.innerHeight;
+const width = window.innerWidth, height = window.innerHeight*0.9;
 
 function formatNumber(num) {
   if (Math.abs(num) >= 1e9) {
-    return (num / 1e9).toFixed(2) + " B"; // Billions
+    return (num / 1e9).toFixed(2) + "Bt"; // Billions
   } else if (Math.abs(num) >= 1e6) {
-    return (num / 1e6).toFixed(2) + " M"; // Millions
+    return (num / 1e6).toFixed(2) + " Mt"; // Millions
   } else if (Math.abs(num) >= 1e3) {
-    return (num / 1e3).toFixed(2) + " K"; // Thousands
+    return (num / 1e3).toFixed(2) + " Kt"; // Thousands
   } else {
-    return num.toFixed(2); // Less than a thousand
+    return num.toFixed(2) + "t"; // Less than a thousand
   }
 }
-    // Create SVG container
-    // const svg = d3.select("#map-container")
-    //   .append("svg")
-    //   .attr("width", width)
-    //   .attr("height", height);
-    const svg = d3.select("#choropleth-map")
-      .attr("width", width)
-      .attr("height", height);
 
-    // Projections
-    const projections = {
-      Mercator: d3.geoMercator().scale(200).translate([width / 2, height / 2]),
-      //EqualEarth: d3.geoEqualEarth().scale(200).translate([width / 2, height / 2])
-    };
+const svg = d3.select("#choropleth-map")
+  .attr("width", width) // Full width to fit both maps side by side
+  .attr("height", height);
+
+let mapWidth = width / 2; // Each map takes half the width
+let xOffset = 0; // Horizontal offset for maps
+
+// Projections
+const projections = {
+  Mercator: d3.geoMercator().scale(110).translate([mapWidth / 2, 350]),
+  EqualEarth: d3.geoEqualEarth().scale(130).translate([mapWidth/2 - 50, 200])
+};
+    
 
     // Color scale
     // const colorScale = d3.scaleThreshold()
@@ -67,7 +67,7 @@ function formatNumber(num) {
       //   .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#cc0000", "#800000"]) // Gradient from yellow to red
       //   .domain([0, Math.log(maxEmissions)]); // Logarithmic domain for better contrast
 
-      const path = d3.geoPath().projection(d3.geoMercator().scale(200).translate([width / 2, height / 2]));
+      //const path = d3.geoPath().projection(d3.geoMercator().scale(200).translate([width / 2, height / 2]));
       
 
       // Draw two maps (Mercator and Equal Earth)
@@ -75,8 +75,10 @@ function formatNumber(num) {
   Object.entries(projections).forEach(([name, projection]) => {
     const path = d3.geoPath().projection(projection);
 
-    const group = svg.append("g").attr("transform", `translate(${xOffset}, 0)`);
-    xOffset += width / 2;
+     // Create a group for each map
+  const group = svg.append("g")
+        .attr("transform", `translate(${xOffset}, 0)`); // Offset for side-by-side maps
+    xOffset += mapWidth;
 
     group.selectAll("path")
     .data(geojson.features)
@@ -124,7 +126,7 @@ function formatNumber(num) {
     });
 
     // Add the updated legend
-  const legend = svg.append("g").attr("transform", `translate(${width - 350}, ${height - 180})`);
+  const legend = svg.append("g").attr("transform", `translate(${width - 600}, ${height - 200})`);
   const legendSections = colorScale.domain();
 
   // const legend = svg.append("g").attr("transform", `translate(${width - 200}, ${height - 150})`);
@@ -157,9 +159,9 @@ function formatNumber(num) {
     .data(legendValues)
     .enter()
     .append("rect")
-    .attr("x", (d, i) => i * 50)
+    .attr("x", (d, i) => i * 60)
     .attr("y", 0)
-    .attr("width", 50)
+    .attr("width", 60)
     .attr("height", 20)
     .attr("fill", (d, i) => colorScale(d));
 
@@ -168,14 +170,14 @@ function formatNumber(num) {
     .data(legendValues)
     .enter()
     .append("text")
-    .attr("x", (d, i) => i == legendValues.length - 1 ? i * 50 + 50 : i * 50)
+    .attr("x", (d, i) => i == legendValues.length - 1 ? i * 60 + 60 : i * 60)
     .attr("y", 30)
     .attr("text-anchor", "middle")
     .style("font-size", "10px")
-    .text(d => formatNumber(d));
+    .text(d => formatNumber(d) + "t");
 
   legend.append("text")
-    .text("Legend (CO₂ Emissions)")
+    .text("Total Emissions [tons of CO₂]")
     .attr("x", 0)
     .attr("y", -10)
     .style("font-size", "12px")

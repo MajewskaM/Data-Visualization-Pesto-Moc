@@ -1,11 +1,11 @@
 
         const transitionDuration = 800;
-        const windowWidth = window.innerWidth - 220 - 100;
-        const margin1 = { top: 100, right: 50, bottom: 50, left: 100};
+        const windowWidth = window.innerWidth;
+        const margin1 = { top: 100, right: 100, bottom: 50, left: 110};
         const width1 = windowWidth - margin1.left - margin1.right;
         const height1 = window.innerHeight * 0.7 - margin1.top - margin1.bottom;
         
-        const margin2 = { top: 150, right: 50, bottom: 40, left: 100};
+        const margin2 = { top: 100, right: 100, bottom: 120, left: 220};
         const width2 = windowWidth - margin2.left - margin2.right;
         const height2 = window.innerHeight * 0.7 - margin2.top - margin2.bottom;
 
@@ -151,23 +151,12 @@
                     return totalEmissionsB - totalEmissionsA;
                 });
 
-
-            
             const countriesEmissions = processedData.filter(d => d.Entity !== "Others" && d.Entity !== "Total Emissions");
             const maxEmission = d3.max(countriesEmissions, d => d.Annual_CO2_emissions_per_capita);
-            const minEmission = d3.min(countriesEmissions, d => d.Annual_CO2_emissions_per_capita);
 
-            const otherCountriesEmissions = processedData.filter(d => d.Entity === "Others"); 
-            const maxEmissionOthers = d3.max(otherCountriesEmissions, d => d.Annual_CO2_emissions_per_capita);
-            const minEmissionOthers = d3.min(otherCountriesEmissions, d => d.Annual_CO2_emissions_per_capita);
-
-            //d3.interpolateHslLong("#e3c57f", "#eb4034")
-            const colorScale = d3.scaleSequential(d3.interpolateHslLong("#a55dd9", "#dbb265")) 
-                .domain([minEmission, maxEmission]);
-
-            //d3.interpolateHslLong("#e3c57f", "#eb4034")
-            const colorScaleOther = d3.scaleSequential(d3.interpolateHslLong("#c4c4c4", "#575757")) 
-                    .domain([minEmissionOthers, maxEmissionOthers]);
+            const colorScale = d3.scaleThreshold()
+                .domain([maxEmission * 0.2, maxEmission * 0.4, maxEmission * 0.6, maxEmission * 0.8, maxEmission])
+                .range(['#c4b2dc', '#ae8fc5', '#986eaf', '#824c99', '#6b2983']);
 
             const xScale = d3.scaleLinear()
                 .domain([0, d3.max(continentEntries, ([_, { totalEmissions }]) => totalEmissions+15)])
@@ -213,7 +202,7 @@
                             .attr("y", 0)
                             .attr("height", yScale.bandwidth())
                             .attr("width", xScale(v.Annual_CO2_emissions_per_capita))
-                            .attr("fill", isOther? colorScaleOther(v.Annual_CO2_emissions_per_capita) : colorScale(v.Annual_CO2_emissions_per_capita))
+                            .attr("fill", isOther? colorScale(v.Annual_CO2_emissions_per_capita) : colorScale(v.Annual_CO2_emissions_per_capita))
                             .attr("opacity", 1)
                             .on("mouseover", (event) => {
                                 svg1.selectAll(".bar").attr("opacity", 0.3);
@@ -225,7 +214,7 @@
                                 tooltip_2.transition().duration(200).style("opacity", .9);
                                 let desc  = `<strong>${v.Entity}</strong>: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 if (isOther){
-                                    desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                    desc = `<strong>Other countries</strong>: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                 }
                                 tooltip_2.html(desc)
                                     .style("left", (event.pageX + 10) + "px")
@@ -249,7 +238,6 @@
                 .attr("transform", `translate(0, ${height1})`)
                 .call(d3.axisBottom(xScale).ticks(10).tickFormat(d => d));
 
-            // Add x-axis description
             svg1.append("text")
                 .attr("class", "x-axis-description")
                 .attr("x", width1 / 2)
@@ -284,112 +272,47 @@
             .style("font-family", "Fira Sans")
             .style("font-weight", "normal")
             .text(`Annual CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries across different Continents`); // Set the subtitle content
-
+                
             const legend = svg1.append("g")
                 .attr("class", "legend")
-                .attr("transform", `translate(${margin1.left * (-0.5)}, ${height1 + 90})`);
-            
-            legend.append("defs")
-                .append("linearGradient")
-                .attr("id", "color-gradient")
-                .selectAll("stop")
-                .data(d3.range(0, 1.05, 0.05))
-                .enter().append("stop")
-                .attr("offset", d => `${d * 100}%`)
-                .attr("stop-color", d => colorScale(d * maxEmission));
-                
-            legend.append("rect")
-                .attr("width", legendWidth1)
+                .attr("transform", `translate(${0}, ${height1 + 90})`);
+
+            const scaleValues = [0, maxEmission * 0.2, maxEmission * 0.4, maxEmission * 0.6, maxEmission * 0.8]; // Adjust ranges as needed
+
+            legend.selectAll("rect")
+                .data(scaleValues)
+                .enter()
+                .append("rect")
+                .attr("x", (d, i) => i * 100)
+                .attr("y", 0)
+                .attr("width", 100)
                 .attr("height", legendHeight1)
-                .style("fill", "url(#color-gradient)");
+                .attr("fill", (d, i) => colorScale(d));
 
-                const legendIntervals = 5;
-                const emissionStep = (maxEmission - minEmission) / legendIntervals;
+            const legendValues = [0, maxEmission * 0.2, maxEmission * 0.4, maxEmission * 0.6, maxEmission * 0.8, maxEmission]; // Adjust ranges as needed
 
-                for (let i = 0; i <= legendIntervals; i++) {
-                    const emissionValue = minEmission + i * emissionStep;
-                    const xPosition = (legendWidth1 / legendIntervals) * i;
-                    
-                    legend.append("line")
-                    .attr("x1", xPosition)
-                    .attr("y1", -5)
-                    .attr("x2", xPosition)
-                    .attr("y2", legendHeight1 + 5)
-                    .attr("stroke", "black")
-                    .attr("stroke-dasharray", "4, 4")
-                    .attr("stroke-width", 1);
+            legend.selectAll("text")
+                .data(legendValues)
+                .enter()
+                .append("text")
+                .attr("x", (d, i) => i * 100)
+                .attr("y", 35)
+                .attr("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text(d => formatNumber(d));
 
-                    legend.append("text")
-                        .attr("class", "legend-label")
-                        .attr("x", xPosition)
-                        .attr("y", legendHeight1 + 20)
-                        .style("font-size", "12px")
-                        .style("text-anchor", "middle")
-                        .text(`${formatNumber(emissionValue)}t`);
-                }
-            
-            
-                legend.append("text")
-                    .attr("class", "legend-title")
-                    .attr("x", legendWidth1 / 2)
-                    .attr("y", legendHeight1 -40)
-                    .style("font-size", "14px")
-                    .style("text-anchor", "middle")
-                    .style("font-weight", "bold")
-                    .text("Country CO₂ Emissions per Capita");
-                
-                const othersLegend = svg1.append("g")
-                    .attr("class", "legend")
-                    .attr("transform", `translate(${legendWidth1 + 30}, ${height1 + 90})`);
-                
-                othersLegend.append("defs")
-                    .append("linearGradient")
-                    .attr("id", "color-gradient-grey")
-                    .selectAll("stop")
-                    .data(d3.range(0, 1.05, 0.05))
-                    .enter().append("stop")
-                    .attr("offset", d => `${d * 100}%`)
-                    .attr("stop-color", d => colorScaleOther(d * maxEmissionOthers));
-                    
-                othersLegend.append("rect")
-                    .attr("width", legendWidth1)
-                    .attr("height", legendHeight1)
-                    .style("fill", "url(#color-gradient-grey)");
+            legend.append("text")
+                .text("[tons CO₂]")
+                .attr("x", 520)
+                .attr("y", 35)
+                .style("font-size", "14px");
 
-
-                const emissionStepOthers = (maxEmissionOthers - minEmissionOthers) / legendIntervals;
-
-                    for (let i = 0; i <= legendIntervals; i++) {
-                        const emissionValue = minEmissionOthers + i * emissionStepOthers;
-                        const xPosition = (legendWidth1 / legendIntervals) * i;
-                        
-                        othersLegend.append("line")
-                        .attr("x1", xPosition)
-                        .attr("y1", -5)
-                        .attr("x2", xPosition)
-                        .attr("y2", legendHeight1 + 5)
-                        .attr("stroke", "black")
-                        .attr("stroke-dasharray", "4, 4")
-                        .attr("stroke-width", 1);
-
-                        othersLegend.append("text")
-                            .attr("class", "legend-label")
-                            .attr("x", xPosition)
-                            .attr("y", legendHeight1 + 20)
-                            .style("font-size", "12px")
-                            .style("text-anchor", "middle")
-                            .text(`${formatNumber(emissionValue)}t`);
-                    }
-            
-            
-                    othersLegend.append("text")
-                    .attr("class", "legend-title")
-                    .attr("x", legendWidth1 / 2)
-                    .attr("y", legendHeight1 -40)
-                    .style("font-size", "14px")
-                    .style("text-anchor", "middle")
-                    .style("font-weight", "bold")
-                    .text("Other Countries CO₂ Emissions per Capita (weighted average)");
+            legend.append("text")
+                .text("Country CO₂ Emissions per Capita")
+                .attr("x", 0)
+                .attr("y", legendHeight1 - 30)
+                .style("font-size", "14px")
+                .style("font-weight", "bold");
 
         }
 
@@ -425,29 +348,22 @@
 
             const emissionsStatsPerIndex = [];
             const colorSchemes = {
-                0: d3.scaleSequential(d3.interpolateHslLong("#e0c8c8", "#eb2421")),
-                1: d3.scaleSequential(d3.interpolateHslLong("#ebd3c3", "#eb7221")),
-                2: d3.scaleSequential(d3.interpolateHslLong("#c8e6c1", "#57e835")),
-                3: d3.scaleSequential(d3.interpolateHslLong("#c5d9e3", "#1d95d1")),
-                4: d3.scaleSequential(d3.interpolateHslLong("#c7bae3", "#6430db")),
-                5: d3.scaleSequential(d3.interpolateHslLong("#ebbedb", "#d92b9c")),
-                6: d3.scaleSequential(d3.interpolateHslLong("#c7d4c8", "#1d9123"))
+                "Asia": d3.scaleThreshold().range(['#b3a2c7', '#9c7ab0', '#845299','#6b2983']),
+                "North America": d3.scaleThreshold().range(['#f2b5c6', '#e1899b', '#ce5a73', '#b7214c']),
+                "Europe": d3.scaleThreshold().range(['#70b4ce', '#5089ad', '#2f608d', '#003a6d']),
+                "Oceania": d3.scaleThreshold().range(['#c3cbae', '#90b37b', '#599a49', '#008010']),
+                "South America": d3.scaleThreshold().range(['#f8c5a9', '#eca075', '#db7b41', '#c75500']),
+                "Africa": d3.scaleThreshold().range(['#cce0ea', '#9dc3de', '#68a7d3', '#008bc7']),
             };
-
-            const colorsScalesPopulations = [];
 
             for (let i = 0; i < numberBars; i++) {
                 const emissionsArray = [];
-                const populationArray = [];
-
                 for (const [continent, data] of continentData.entries()) {
 
                     const countries = data.countries;
                     
                     if (countries[i]) {
                         emissionsArray.push(countries[i].Annual_CO2_emissions_per_capita);
-                        populationArray.push(countries[i].Population);
-
                     }
                     
                 }
@@ -455,18 +371,10 @@
                 const maxEmission = Math.max(...emissionsArray);
                 const minEmission = Math.min(...emissionsArray);
 
-                const maxPopulation = Math.max(...populationArray);
-                const minPopulation = Math.min(...populationArray);
-
                 emissionsStatsPerIndex[i] = {
                     max: maxEmission,
                     min: minEmission
                 };
-                colorsScalesPopulations[i] = {
-                    colorScale: colorSchemes[i].domain([minPopulation, maxPopulation]),
-                    max: maxPopulation,
-                    min: minPopulation
-                }
             }
 
             
@@ -475,6 +383,32 @@
             const addOffset = 10;
             const xAxisWidth = emissionsStatsPerIndex.reduce((sum, stats) => sum + stats.max, 0);
             console.log(xAxisWidth)
+            
+
+            // Calculate max and min emissions per capita for each continent
+            const continentEmissionRanges = d3.rollup(processedData,
+                countries => {
+                    const emissions = countries.map(d => d.Annual_CO2_emissions_per_capita);
+                    return {
+                        maxEmission: Math.max(...emissions),
+                        minEmission: Math.min(...emissions),
+                    };
+                },
+                d => d.Continent
+            );
+             
+
+            // Configure color scales using colorSchemes and ranges
+            const colorScales = new Map();
+            continentEmissionRanges.forEach((range, continent) => {
+                if (colorSchemes[continent]) {
+                    colorScales.set(
+                        continent,
+                        colorSchemes[continent].domain([range.maxEmission * 0.25, range.maxEmission * 0.5, range.maxEmission * 0.75, range.maxEmission])
+                    );
+                }
+            });
+
             
 
             const xScale = d3.scaleLinear()
@@ -515,7 +449,7 @@
                                 .attr("y", 0)
                                 .attr("height", yScale.bandwidth())
                                 .attr("width", xScale(v.Annual_CO2_emissions_per_capita))
-                                .attr("fill", colorsScalesPopulations[i].colorScale(v.Population))
+                                .attr("fill", colorScales.get(continent)(v.Annual_CO2_emissions_per_capita))
                                 .attr("opacity", 1)
                                 .on("mouseover", (event) => {
                                     svg2.selectAll(".bar").attr("opacity", 0.3);
@@ -527,7 +461,10 @@
                                     tooltip_2.transition().duration(200).style("opacity", .9);
                                     let desc  = `<strong>${v.Entity}</strong>: ${emissions} t CO₂ per capita<br>Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     if (isOther){
-                                        desc = `Others: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                        desc = `<strong>Others</strong>: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
+                                    }
+                                    if (isTotal){
+                                        desc = `<strong>Total Emissions</strong>: ${emissions} t CO₂ per capita (weighted average)<br>Total Population: ${population}<br>Total Annual Emission: ${annualEmission}`;
                                     }
                                     tooltip_2.html(desc)
                                         .style("left", (event.pageX + 10) + "px")
@@ -549,7 +486,7 @@
             svg2.append("text")
                 .attr("class", "others-label")
                 .attr("x", xOffsets[xOffsets.length - 2])
-                .attr("y", -15)
+                .attr("y", -10)
                 .attr("text-anchor", "middle")
                 .attr("fill", "black")
                 .style("font-size", "12px")
@@ -558,7 +495,7 @@
             svg2.append("text")
                 .attr("class", "total-label")
                 .attr("x", xOffsets[xOffsets.length - 1])
-                .attr("y", -15)
+                .attr("y", -10)
                 .attr("text-anchor", "middle")
                 .attr("fill", "black")
                 .style("font-size", "12px")
@@ -598,203 +535,192 @@
                 .attr("y", -70)
                 .attr("text-anchor", "middle")
                 .attr("font-size", "20px")
-                .text(`RISING POPULATIONS, RISING AWARENESS, STABILIZING EMISSIONS: CO₂ Impact Across Continents (2000-2022)`);
+                .text(`GROWING POPULATION, GROWING AWARENESS - LOWER EMISSIONS`);
 
             svg2.append("text")
             .attr("class", "subtitle")
-            .attr("x", width1 / 2) 
+            .attr("x", width2 / 2) 
             .attr("y", -40)
             .attr("text-anchor", "middle")
             .attr("font-size", "16px")
             .style("font-family", "Fira Sans")
             .style("font-weight", "normal")
-            .text(`CO₂ Emissions Per Capita in ${selectedYear} - Top 5 Countries across different Continents`);
+            .text(`CO₂ Emissions Per Capita in ${selectedYear} - Top 5 emitting Countries Across Continents`);
 
-            const slicedData = colorsScalesPopulations.slice(0, -2);
-            console.log(slicedData)
-            const maxPopulationRange = Math.max(...slicedData.map(d => d.max - d.min));
+            
 
             const legend = svg2.append("g")
                 .attr("class", "legend")
                 .attr("transform", `translate(${legendX}, ${legendY})`);
 
-            legend.append("text")
-            .attr("x", legendWidth2 / 2)
-            .attr("y", -5)
-            .attr("font-size", "14px")
-            .attr("text-anchor", "middle")
-            .style("font-weight", "bold")
-            .text(`Total Populations of TOP5 Emitting Countries`);
-
-            const countriesData = (colorsScalesPopulations).slice(0,-2);
-            countriesData.forEach((scaleData, index) => {
-
-                const populationRange = scaleData.max - scaleData.min;
-                const barWidth = (populationRange / maxPopulationRange) * legendWidth2;
-
-
-                const gradient = legend.append("defs")
-                    .append("linearGradient")
-                    .attr("id", `gradient${index}`)
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "100%")
-                    .attr("y2", "0%");
-
-                gradient.append("stop")
-                    .attr("offset", "0%")
-                    .attr("stop-color", scaleData.colorScale(scaleData.min));
-
-                gradient.append("stop")
-                    .attr("offset", "100%")
-                    .attr("stop-color", scaleData.colorScale(scaleData.max));
-
-                legend.append("rect")
-                    .attr("x", 0)
-                    .attr("y", 20+index * (legendHeight2 + legendPadding))
-                    .attr("width", barWidth)
-                    .attr("height", legendHeight2)
-                    .style("fill", `url(#gradient${index})`);
-
-                legend.append("line")
-                    .attr("x1", 0)
-                    .attr("y1", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 5)
-                    .attr("x2", 0)
-                    .attr("y2", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 35)
-                    .attr("stroke", "black")
-                    .attr("stroke-width", 1);
-
                 legend.append("text")
-                    .attr("x", barWidth/2 + 7)
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-                    .attr("font-size", "12px")
-                    .attr("text-anchor", "end")
-                    .style("font-weight", "bold")
-                    .text(index==0? "1st" : (index==1?"2nd": (index>2? `${index+1}th`: "3rd")));
+                .attr("x", legendWidth2 / 2)
+                .attr("y", -5)
+                .attr("font-size", "14px")
+                .attr("text-anchor", "middle")
+                .style("font-weight", "bold")
+                .text(`Distribution of CO₂ Emissions Per Capita in Countries Within Each Continent`);
 
-                legend.append("text")
-                    .attr("x", -10)
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
-                    .attr("font-size", "12px")
-                    .attr("text-anchor", "end")
-                    .text(formatNumber(scaleData.min));
+            const maxEmissionRange = Math.max(
+                ...Array.from(continentEmissionRanges.values()).map(
+                    range => range.maxEmission - range.minEmission
+                )
+            );
+            let legendYOffset = 0;
+            continentEntries.forEach(([continent]) => {
+                if (colorScales.has(continent)) {
+                    const colorScale = colorScales.get(continent);
 
-                legend.append("text")
-                    .attr("x", barWidth + 10)
-                    .attr("y", index * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
-                    .attr("font-size", "12px")
-                    .attr("text-anchor", "start")
-                    .text(formatNumber(scaleData.max));
+                    const legendGroup = legend.append("g")
+                        .attr("transform", `translate(0, ${legendYOffset})`);
+
+                    legendGroup.append("text")
+                        .text(`${continent}`)
+                        .attr("x", 0)
+                        .attr("y", 5)
+                        .style("font-size", "13px")
+                        .style("font-weight", "bold");
+
+                    const gradientWidth = windowWidth*0.7;
+                    const gradientHeight = 20;
+                    const legendValues = colorScale.domain();
+                    legendValues.unshift(0);
+                    const numSteps = legendValues.length - 1;
+                    const emissionRange = continentEmissionRanges.get(continent).maxEmission 
+                            - continentEmissionRanges.get(continent).minEmission;
+
+                    // Create the gradient rectangles
+                    legendGroup.selectAll("rect")
+                        .data(legendValues)
+                        .enter().append("rect")
+                        .attr("x", (d, i) => {
+                            const currentRange = legendValues[i + 1] 
+                                ? legendValues[i + 1] - legendValues[i] 
+                                : 0; // Handle the last step
+                            return i === 0 ? 0 : d3.sum(legendValues.slice(0, i), (v, j) => {
+                                const range = legendValues[j + 1] ? legendValues[j + 1] - v : 0;
+                                return (range / maxEmissionRange) * gradientWidth;
+                            });
+                        })
+                        .attr("y", 10)
+                        .attr("width", (d, i) => {
+                            const range = legendValues[i + 1] ? legendValues[i + 1] - d : 0;
+                            return (range / maxEmissionRange) * gradientWidth; // Scale width proportionally
+                        })
+                        .attr("height", gradientHeight)
+                        .attr("fill", (d, i) => colorScale(legendValues[i]));
+
+                    let previousWidths = 0;
+                    legendValues.forEach((value, i) => {
+                        legendGroup.append("text")
+                            .attr("x", () => {
+                                previousWidths = d3.sum(legendValues.slice(0, i), (v, j) => {
+                                    const range = legendValues[j + 1] ? legendValues[j + 1] - v : 0;
+                                    return (range / maxEmissionRange) * gradientWidth;
+                                });
+                                return previousWidths; // Center of the current segment
+                            })
+                            .attr("y", 42) // Adjust vertical position for clarity
+                            .attr("text-anchor", "middle") // Center-align the text
+                            .style("font-size", "12px")
+                            .text(`${value.toFixed(2)}t`); // Append CO₂ unit
+                        });
+
+                        legendGroup.append("text")
+                            .attr("x", previousWidths +20)
+                            .attr("y", 41) // Adjust vertical position for clarity
+                            .attr("text-anchor", "left") // Center-align the text
+                            .style("font-size", "12px")
+                            .text(`[CO₂]`); // Append CO₂ unit
+                        
+
+                    legendYOffset += 60; // Adjust for the next continent
+                }
             });
 
-            legend.append("text")
-            .attr("x", legendWidth2 / 2)
-            .attr("y", 45+4 * (legendHeight2 + legendPadding) + legendHeight2 / 2)
-            .attr("font-size", "14px")
-            .attr("text-anchor", "middle")
+            // Create the rounded "C" shape arrow using a path element
+            const arrowPath = svg2.append("path")
+            .attr("d", "M -90,190 C -180,250, -120,450, -110,460") // The 'C' shape curve
+            .attr("fill", "transparent") // No fill, just the outline
+            .attr("stroke", "#595959") // Color of the arrow
+            .attr("stroke-width", 3); // Line width
+
+            // Add the arrowhead (triangle) at the end of the curved line
+            svg2.append("polygon")
+            .attr("points", "-110,470 -100,430 -140,440")  // Coordinates for the arrowhead
+            .attr("fill", "#595959");
+
+            svg2.append("rect")
+                .attr("x", -200)  // X position of the rectangle
+                .attr("y", 500)  // Y position of the rectangle
+                .attr("width", 155)  // Width of the rectangle
+                .attr("height", 115)  // Height of the rectangle
+                .attr("rx", 30)  // Rounded corners radius
+                .attr("ry", 30)  // Rounded corners radius
+                .attr("fill", "#f2f2f2")  // Light grey background color
+                .attr("stroke", "#595959")  // Border color of the rectangle
+                .attr("stroke-width", 1);  // Border thickness
+
+            // Add comment text to explain the arrow
+            svg2.append("text")
+            .attr("x", -153)  // Position the text close to the arrow
+            .attr("y", 520)  // Adjust vertical position for clarity
+            .style("font-size", "14px")
             .style("font-weight", "bold")
-            .text(`Total Population "Others" Countries`);
+            .style("fill", "#2b2b2b")
+            .text("See how");
 
-        const gradientOthers = legend.append("defs")
-            .append("linearGradient")
-            .attr("id", `gradient${5}`)
-            .attr("x1", "0%")
-            .attr("y1", "0%")
-            .attr("x2", "100%")
-            .attr("y2", "0%");
-        
-            const otherSlice = colorsScalesPopulations[5];
-            gradientOthers.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", otherSlice.colorScale(otherSlice.min));
-
-            gradientOthers.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", otherSlice.colorScale(otherSlice.max));
-
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 10+5 * (legendHeight2 + legendPadding))
-            .attr("width", legendWidth2)
-            .attr("height", legendHeight2)
-            .style("fill", `url(#gradient${5})`);
-
-        legend.append("text")
-            .attr("x", -10)
-            .attr("y", 10+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-            .attr("font-size", "12px")
-            .attr("text-anchor", "end")
-            .text(formatNumber(otherSlice.min));
-
-        legend.append("text")
-            .attr("x", legendWidth2 + 10)
-            .attr("y", 10+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-            .attr("font-size", "12px")
-            .attr("text-anchor", "start")
-            .text(formatNumber(otherSlice.max));
-
-        legend.append("line")
-            .attr("x1", 0)
-            .attr("y1", 5*(legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
-            .attr("x2", 0)
-            .attr("y2", 5*(legendHeight2 + legendPadding) + legendHeight2 / 2 + 25)
-            .attr("stroke", "black")
-            
-            .attr("stroke-width", 1);
-
-            legend.append("text")
-            .attr("x", legendWidth2 / 2)
-            .attr("y", 45+5 * (legendHeight2 + legendPadding) + legendHeight2 / 2)
-            .attr("font-size", "14px")
-            .attr("text-anchor", "middle")
+            svg2.append("text")
+            .attr("x", -170)  // Position the text close to the arrow
+            .attr("y", 540)  // Adjust vertical position for clarity
+            .style("font-size", "14px")
             .style("font-weight", "bold")
-            .text(`Total Population of All Continents`);
-            
-        const totalSlice = colorsScalesPopulations[6];
-        const gradientTotal = legend.append("defs")
-            .append("linearGradient")
-            .attr("id", `gradient${6}`)
-            .attr("x1", "0%")
-            .attr("y1", "0%")
-            .attr("x2", "100%")
-            .attr("y2", "0%");
+            .style("fill", "#2b2b2b")
+            .text("maximum CO₂");
 
-            gradientTotal.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", totalSlice.colorScale(totalSlice.min));
+            svg2.append("text")
+            .attr("x", -190)  // Position the text close to the arrow
+            .attr("y", 560)  // Adjust vertical position for clarity
+            .style("font-size", "14px")
+            .style("font-weight", "bold")
+            .style("fill", "#2b2b2b")
+            .text("emissions per capita");
 
-            gradientTotal.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", totalSlice.colorScale(totalSlice.max));
+            svg2.append("text")
+            .attr("x", -168)  // Position the text close to the arrow
+            .attr("y", 580)  // Adjust vertical position for clarity
+            .style("font-size", "14px")
+            .style("font-weight", "bold")
+            .style("fill", "#2b2b2b")
+            .text("vary between");
 
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 10+6 * (legendHeight2 + legendPadding))
-            .attr("width", legendWidth2)
-            .attr("height", legendHeight2)
-            .style("fill", `url(#gradient${6})`);
+            svg2.append("text")
+            .attr("x", -162)  // Position the text close to the arrow
+            .attr("y", 600)  // Adjust vertical position for clarity
+            .style("font-size", "14px")
+            .style("font-weight", "bold")
+            .style("fill", "#2b2b2b")
+            .text("continents!");
 
-        legend.append("text")
-            .attr("x", -10)
-            .attr("y", 10+6 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-            .attr("font-size", "12px")
-            .attr("text-anchor", "end")
-            .text(formatNumber(totalSlice.min));
 
-        legend.append("text")
-            .attr("x", legendWidth2 + 10)
-            .attr("y", 10+6 * (legendHeight2 + legendPadding) + legendHeight2 / 2 + 4)
-            .attr("font-size", "12px")
-            .attr("text-anchor", "start")
-            .text(formatNumber(totalSlice.max));
+            svg2.append("rect")
+                .attr("x", width2/2 - 400)  // X position of the rectangle
+                .attr("y", 800)  // Y position of the rectangle
+                .attr("width", 700)  // Width of the rectangle
+                .attr("height", 50)  // Height of the rectangle
+                .attr("rx", 20)  // Rounded corners radius
+                .attr("ry", 20)  // Rounded corners radius
+                .attr("fill", "#f2f2f2")  // Light grey background color
+                .attr("stroke", "#595959")  // Border color of the rectangle
+                .attr("stroke-width", 1);  // Border thickness
 
-        legend.append("line")
-            .attr("x1", 0)
-            .attr("y1", 6*(legendHeight2 + legendPadding) + legendHeight2 / 2 - 5)
-            .attr("x2", 0)
-            .attr("y2", 6*(legendHeight2 + legendPadding) + legendHeight2 / 2 + 20+5)
-            .attr("stroke", "black")
-            .attr("stroke-width", 1);
-
+            // Add comment text to explain the arrow
+            svg2.append("text")
+            .attr("x", width2/2 - 370)  // Position the text close to the arrow
+            .attr("y", 830)  // Adjust400rtical position for clarity
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .style("fill", "#2b2b2b")
+            .text("Can you see the trend of decreasing emissions? Check the data for another year!");
 
         }
