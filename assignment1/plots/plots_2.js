@@ -589,7 +589,7 @@
                     const emissionRange = continentEmissionRanges.get(continent).maxEmission 
                             - continentEmissionRanges.get(continent).minEmission;
 
-                    // Create the gradient rectangles
+                    
                     legendGroup.selectAll("rect")
                         .data(legendValues)
                         .enter().append("rect")
@@ -605,7 +605,7 @@
                         .attr("y", 10)
                         .attr("width", (d, i) => {
                             const range = legendValues[i + 1] ? legendValues[i + 1] - d : 0;
-                            return (range / maxEmissionRange) * gradientWidth; // Scale width proportionally
+                            return (range / maxEmissionRange) * gradientWidth;
                         })
                         .attr("height", gradientHeight)
                         .attr("fill", (d, i) => colorScale(legendValues[i]));
@@ -618,85 +618,83 @@
                                     const range = legendValues[j + 1] ? legendValues[j + 1] - v : 0;
                                     return (range / maxEmissionRange) * gradientWidth;
                                 });
-                                return previousWidths; // Center of the current segment
+                                return previousWidths;
                             })
-                            .attr("y", 42) // Adjust vertical position for clarity
-                            .attr("text-anchor", "middle") // Center-align the text
+                            .attr("y", 42) 
+                            .attr("text-anchor", "middle")
                             .style("font-size", "12px")
-                            .text(`${value.toFixed(2)}t`); // Append CO₂ unit
+                            .text(`${value.toFixed(2)}t`);
                         });
 
                         legendGroup.append("text")
                             .attr("x", previousWidths +20)
-                            .attr("y", 41) // Adjust vertical position for clarity
-                            .attr("text-anchor", "left") // Center-align the text
+                            .attr("y", 41) 
+                            .attr("text-anchor", "left")
                             .style("font-size", "12px")
-                            .text(`[CO₂]`); // Append CO₂ unit
+                            .text(`[CO₂]`);
                         
 
-                    legendYOffset += 60; // Adjust for the next continent
+                    legendYOffset += 60;
                 }
             });
 
-            // Create the rounded "C" shape arrow using a path element
             const arrowPath = svg2.append("path")
-            .attr("d", "M -90,190 C -180,250, -120,450, -110,460") // The 'C' shape curve
-            .attr("fill", "transparent") // No fill, just the outline
-            .attr("stroke", "#595959") // Color of the arrow
-            .attr("stroke-width", 3); // Line width
+            .attr("d", "M -90,190 C -180,250, -120,450, -110,460")
+            .attr("fill", "transparent")
+            .attr("stroke", "#595959") 
+            .attr("stroke-width", 3);
 
-            // Add the arrowhead (triangle) at the end of the curved line
             svg2.append("polygon")
-            .attr("points", "-110,470 -100,430 -140,440")  // Coordinates for the arrowhead
+            .attr("points", "-110,470 -100,430 -140,440")
             .attr("fill", "#595959");
 
             svg2.append("rect")
-                .attr("x", -200)  // X position of the rectangle
-                .attr("y", 500)  // Y position of the rectangle
-                .attr("width", 155)  // Width of the rectangle
-                .attr("height", 115)  // Height of the rectangle
-                .attr("rx", 30)  // Rounded corners radius
-                .attr("ry", 30)  // Rounded corners radius
-                .attr("fill", "#f2f2f2")  // Light grey background color
-                .attr("stroke", "#595959")  // Border color of the rectangle
-                .attr("stroke-width", 1);  // Border thickness
+                .attr("x", -200)
+                .attr("y", 500)
+                .attr("width", 155) 
+                .attr("height", 115)
+                .attr("rx", 30)
+                .attr("ry", 30)
+                .attr("fill", "#f2f2f2")
+                .attr("stroke", "#595959")
+                .attr("stroke-width", 1);
 
-            // Add comment text to explain the arrow
+        
             svg2.append("text")
-            .attr("x", -153)  // Position the text close to the arrow
-            .attr("y", 520)  // Adjust vertical position for clarity
+            .attr("x", -153)
+            .attr("y", 520)
             .style("font-size", "14px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
             .text("See how");
 
             svg2.append("text")
-            .attr("x", -170)  // Position the text close to the arrow
-            .attr("y", 540)  // Adjust vertical position for clarity
+            .attr("x", -170) 
+            .attr("y", 540) 
             .style("font-size", "14px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
             .text("maximum CO₂");
 
             svg2.append("text")
-            .attr("x", -190)  // Position the text close to the arrow
-            .attr("y", 560)  // Adjust vertical position for clarity
+            .attr("x", -190)
+            .attr("y", 560)
             .style("font-size", "14px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
             .text("emissions per capita");
 
             svg2.append("text")
-            .attr("x", -168)  // Position the text close to the arrow
-            .attr("y", 580)  // Adjust vertical position for clarity
+            .attr("x", -168) 
+            .attr("y", 580)
             .style("font-size", "14px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
             .text("vary between");
 
             svg2.append("text")
-            .attr("x", -162)  // Position the text close to the arrow
-            .attr("y", 600)  // Adjust vertical position for clarity
+            .attr("x", -162)
+            .attr("y", 600)
             .style("font-size", "14px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
@@ -704,20 +702,19 @@
 
 
             svg2.append("rect")
-                .attr("x", width2/2 - 400)  // X position of the rectangle
-                .attr("y", 800)  // Y position of the rectangle
-                .attr("width", 700)  // Width of the rectangle
-                .attr("height", 50)  // Height of the rectangle
-                .attr("rx", 20)  // Rounded corners radius
-                .attr("ry", 20)  // Rounded corners radius
-                .attr("fill", "#f2f2f2")  // Light grey background color
-                .attr("stroke", "#595959")  // Border color of the rectangle
-                .attr("stroke-width", 1);  // Border thickness
+                .attr("x", width2/2 - 400)
+                .attr("y", 800)
+                .attr("width", 700)
+                .attr("height", 50) 
+                .attr("rx", 20)
+                .attr("ry", 20)
+                .attr("fill", "#f2f2f2")
+                .attr("stroke", "#595959")
+                .attr("stroke-width", 1);
 
-            // Add comment text to explain the arrow
             svg2.append("text")
-            .attr("x", width2/2 - 370)  // Position the text close to the arrow
-            .attr("y", 830)  // Adjust400rtical position for clarity
+            .attr("x", width2/2 - 370) 
+            .attr("y", 830)
             .style("font-size", "16px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
