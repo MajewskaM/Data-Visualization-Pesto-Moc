@@ -5,7 +5,7 @@
         const width1 = windowWidth - margin1.left - margin1.right;
         const height1 = window.innerHeight * 0.7 - margin1.top - margin1.bottom;
         
-        const margin2 = { top: 100, right: 100, bottom: 120, left: 220};
+        const margin2 = { top: 100, right: 100, bottom: 100, left: 220};
         const width2 = windowWidth - margin2.left - margin2.right;
         const height2 = window.innerHeight * 0.7 - margin2.top - margin2.bottom;
 
@@ -703,7 +703,7 @@
 
             svg2.append("rect")
                 .attr("x", width2/2 - 400)
-                .attr("y", 800)
+                .attr("y", legendY+legendYOffset + 40)
                 .attr("width", 700)
                 .attr("height", 50) 
                 .attr("rx", 20)
@@ -714,7 +714,7 @@
 
             svg2.append("text")
             .attr("x", width2/2 - 370) 
-            .attr("y", 830)
+            .attr("y", legendY+legendYOffset + 70)
             .style("font-size", "16px")
             .style("font-weight", "bold")
             .style("fill", "#2b2b2b")
