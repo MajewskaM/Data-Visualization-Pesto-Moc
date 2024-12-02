@@ -192,6 +192,9 @@
         <div class="tooltip2"></div>
         <div class="chart-section-container-wide">
             <svg id="chart_1"></svg>
+            <br><br><strong>Discover details by <u>hovering over the bars!</u>
+                Which is the leading country in each continent? And how has it changed over time?
+            </strong>
 
             <div class="timeChoice">
 
@@ -218,12 +221,11 @@
 
             <section class="center-section">
                 <h2 class="title">
-                    <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
+                    <span>Qatar (Asia) leading over the years (2000-2022)</span><br>
                 </h2>
             
                 <div class="comments-explenation">
                     <div class="explanation" id="wide">
-                        <h3>Comments</h3>
                         <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
                             <ul>
                                 <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
@@ -236,9 +238,10 @@
                         </p>
                     </div>
                     <div class="description" id="wide">
-                        <h3>Explanation</h3>
+                        <h3>How to read the chart?</h3>
                         <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents.</p>
                         </p>
+                        
                         <p>
                             <button class="openExplWindow" data-modal="window2_1_explenation">Read more</button>
                         </p>
@@ -253,8 +256,8 @@
         <div id="window2_1_comment" class="additional_window">
             <div class="window-content">
                 <span class="close-btn">&times;</span>
-                <h2>Comment</h2>
-                <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
+                <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
+                <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
                     <ul>
                         <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
                         <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
@@ -270,24 +273,28 @@
         <div id="window2_1_explenation" class="additional_window">
             <div class="window-content">
                 <span class="close-btn">&times;</span>
-                <h2>Explanation</h2>
+                <h2>How to read the chart?</h2>
                 <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
                     <br><br>Colors indicate the value of emission per person of each country.
-                    Scales under chart present the distribution of emissions across all countries: from minimum to their overall maximum. 
+                    Scale under chart present the distribution of emissions per capita across all countries: from 0 to their overall maximum. 
                     <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
                     Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
                 </p>
                 </div>
         </div>
-
-        <img src="../docs/assets/img/separator.png" id="separator_img">
-
+        <br>
+        <br>
+        <h1 id="separator">How emissions changed over the years...</h1>
+        <br><br>
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="chart-section-container-wide">
             <svg id="chart_2"></svg>
-
             <div class="timeChoice">
-
-                <label for="yearInput2">Select Year: </label>
+                
+                <label for="yearInput2"> Select Year: </label>
                 <p></p>
                 <select id="yearInput2">
                     <option value="2000">2000</option>
@@ -310,20 +317,20 @@
 
             <section class="center-section">
                 <h2 class="title">
-                    <span>Countries Emission of CO<sub>2</sub> (per capita) in different continents</span><br>
+                    <span>Population - The reason for lower emissions</span><br>
                 </h2>
             
                 <div class="comments-explenation">
                     <div class="explanation" id="wide">
-                        <h3>Comments</h3>
-                        <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21.28 CO2 per capita and 
-                            biggest population of all analysed countries - 282.40M. <br>
+                        <p>As we know the world population is increasing. Changing the year we see the trend of lower emissions per capita, 
+                            maximum values in each continent are decreasing... <br><br>Is this the impact that we are starting to be more aware of emissions or is it just the growing population? 
+                            Maybe the reason for lower emissions per capita is that we calculate it using greater and greater population? <br>
                             <br>
                             <button class="openExplWindow" data-modal="window2_2_comments">Read more</button>
                         </p>
                     </div>
                     <div class="description">
-                        <h3>Explanation</h3>
+                        <h3>How to read the chart?</h3>
                         <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa).</p>
                         <p>
                             <button class="openExplWindow" data-modal="window2_2_explenation">Read more</button>
@@ -338,19 +345,21 @@
         <div id="window2_2_comments" class="additional_window">
             <div class="window-content">
                 <span class="close-btn">&times;</span>
-                <h2>Comment</h2>
-                <p>Large countries are aware of negative influence of CO2 emissions. Take a look at United Stated - it is top first emitter in 2000 with 21,28 CO2 per capita and 
-                    biggest population of all analysed countries - 282.40M. When analysing data year by year we see
-                    that the population increases (in deed of all countries, we can see maximums per each continent). 
-                    From 2010 to now on, United Stated, with population of 311.18M is not top emitter anymore in North America.
-                    <br><br> Usually we can see that countries with top emissions are not marked with color as the largest 
-                populations among other emitters. We can conclude the trend of countries that they started to be more 
-                and more aware of the CO2 emissions impact on the environment - some rules have been implemented!
-                <br><br>Based on two above plots it can be observed that Asia (mostly leading in total emissions), with larger population (look at the population values at total bar, and its color comparing to other continents),
-                    contribute to global emissions primarily through a larger cumulative effect rather than 
-                    high individual emission rates (the width of the total bar!)
-                    <br><br>The "Others" section and its averaged emission shows that many countries outside the top five emitters in each continent, with large number of its total population,
-                    generally have no big influence and have lower emissions per capita.                
+                <h2>Population - The reason for lower emissions</h2>
+                <p>As we know the world population is increasing. Changing the year we see the trend of lower emissions per capita, 
+                    maximum values in each continent are decreasing... is this the impact that we are starting to be more aware of emissions or is it just the growing population? 
+                    Maybe the reason for lower emissions per capita is that we calculate it using greater and greater population?
+                    <br><br>
+                    <strong>Now it is your turn</strong> to discover the total emissions of each country, by hovering you can compare total annual emissions! 
+                    <br><br>
+                    Take a look at <strong>Qatar</strong> and <strong>USA</strong>, at first glance they appear to be reducing their emissions per capita.
+                    When you look at total emissions from 2000 to 2022, for Qatar, they actually have increased but for USA they lowered!
+                    <ul>
+                        <li>Qatar 40M -> 101M annual CO2 emissions (population growth 645.94K -> 2.7M)</li>
+                        <li>USA 6.01B -> 5.06B annual CO2 emissions (population growth 282.40M -> 338.29M) </li>
+                    </ul>
+                    
+                    What about the other countries?               
                     </p>
             </div>
         </div>
@@ -358,9 +367,11 @@
         <div id="window2_2_explenation" class="additional_window">
             <div class="window-content">
                 <span class="close-btn">&times;</span>
-                <h2>Explanation</h2>
+                <h2>How to read the chart?</h2>
                 <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa). 
-                    The chart uses color-scale bars to distinguish rankings within continents (1st to 5th) and express total population relation of each country. 
+                    The chart uses color-scale to distinguish the distribution of CO2 emissions per capita of countries within continents. 
+                    <br>By hovering each bar you can see the exact value of emission per capita, total emission and country's population.
+                    <br>
                     Additionally, an "Others" category represents the weighted average emission value of countries that fall outside the top five emitters in each continent, 
                     and a "Total" category shows the overall emissions per capita for each continent (also calculated as weighted average, based on countries populations).</p>
                 <p>
@@ -370,30 +381,14 @@
         <script src = "plots/plots_2.js"></script>
 
         <img src="../docs/assets/img/separator.png" id="separator_img">
-    
+        
         <div class="chart-section-wrapper">
             <div class="chart-section-container_2">
                 <section class="center-section_2">
                     <h2 id="title_section">
                         <bold>PERCENTAGE PLOT FROM CSV DATA</bold><br>
                     </h2>
-                    <div class="dropdown-container">
-                        <label for="year-select2_5">Select Year: </label>
-                        <select id="year-select2_5" class="year-select2_5">
-                            <option value="2022">2022</option>
-                            <option value="2020">2020</option>
-                            <option value="2015">2015</option>
-                            <option value="2010">2010</option>
-                            <option value="2000">2000</option>
-                        </select>
-                    </div>
-                    <div class="button-container">
-                        <button class="top-country-button" data-top="1">Top 1</button>
-                        <button class="top-country-button" data-top="2">Top 2</button>
-                        <button class="top-country-button" data-top="3">Top 3</button>
-                        <button class="top-country-button" data-top="4">Top 4</button>
-                        <button class="top-country-button" data-top="5">Top 5</button>
-                    </div>
+        
                     <div class="explanation" style="margin-bottom:2%">
                         <h3>Comment</h3>
                         <p>
@@ -407,10 +402,38 @@
                 </section>
             </div>
         
+            <!-- Dropdowns above the chart -->
+            <div class="dropdown-container" >
+                <label for="year-select2_5">Select Year: </label>
+                <select id="year-select2_5" class="year-select2_5">
+                    <option value="2022">2022</option>
+                    <option value="2020">2020</option>
+                    <option value="2015">2015</option>
+                    <option value="2010">2010</option>
+                    <option value="2000">2000</option>
+                </select>
+            </div>
+        
+            <div class="dropdown-container">
+                <label for="top-country-select">Select Top Countries: </label>
+                <select id="top-country-select" class="year-select2_5">
+                    <option value="5">Top 5</option>
+                    <option value="4">Top 4</option>
+                    <option value="3">Top 3</option>
+                    <option value="2">Top 2</option>
+                    <option value="1">Top 1</option>
+                </select>
+            </div>
+        
+            <!-- Plot -->
             <svg id="perc"></svg>
         </div>
+        
+        <script src="plots/plot2_5.js"></script>
+
+        <br><br><br><br><br>
+
     </div>
-    <script src="plots/plot2_5.js"></script>
 
     <div class="circle-container">
         <div class="circle">

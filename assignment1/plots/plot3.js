@@ -149,9 +149,9 @@ function loadData(year) {
         const legend = svg4.append("g")
             .attr("transform", `translate(${width3 + 10}, 0)`); // Position next to the heatmap
 
-        // Create a scale for the legend including negative values
+        // Create a scale for the legend with inverted domain (invert the colors)
         const legendScale = d3.scaleLinear()
-            .domain([d3.min(longData, d => d.value), d3.max(longData, d => d.value)])
+            .domain([d3.max(longData, d => d.value), d3.min(longData, d => d.value)]) // Invert domain
             .range([legendHeight, 0]);
 
         // Create the gradient rectangle for the legend
@@ -162,38 +162,39 @@ function loadData(year) {
             .attr("height", legendHeight)
             .style("fill", "url(#gradient)");
 
-        // Create a gradient for the legend with green, white, and red
+        // Create a gradient for the legend with red, white, and green (inverted)
         const gradient = svg4.append("defs").append("linearGradient")
             .attr("id", "gradient")
             .attr("x1", "0%")
             .attr("y1", "0%")
             .attr("x2", "0%")
             .attr("y2", "100%");
-        gradient.append("stop").attr("offset", "0%").attr("stop-color", "green");
-        gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");
-        gradient.append("stop").attr("offset", "100%").attr("stop-color", "red");
+        gradient.append("stop").attr("offset", "0%").attr("stop-color", "red");  // Start with red for positive emissions
+        gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");  // White for zero emissions
+        gradient.append("stop").attr("offset", "100%").attr("stop-color", "green");  // Green for negative emissions
 
-        // Add labels for the legend
+        // Add labels for the legend with inverted text
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", 10)
-            .text("Negative Emissions")
+            .text("Positive Emissions")  // Inverted label order
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
 
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", legendHeight / 2)
-            .text("Zero Emissions")
+            .text("Zero Emissions")  // Middle label stays as "Zero Emissions"
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
 
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", legendHeight - 10)
-            .text("Positive Emissions")
+            .text("Negative Emissions")  // Inverted label order
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
+
         // Add unit label at the bottom of the heatmap
         svg4.append("text")
         .attr("x", width3 / 2)  // Position it in the center horizontally

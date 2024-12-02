@@ -112,13 +112,75 @@
     </div>
     <div class="tooltip_map" id="tooltip_map"></div>
     <div class="tooltip_map-3" id="tooltip_map-3"></div>
+    <h1 id="separator">The way you see the world matters...</h1>
+    <h1 id="separator">World is not the same as we are used to...</h1><br><br>
+    <br><br><br>
+    <h1 id="intro">Below are two projections: Mercator on the left, and EqualEarth on the right.<br> <u>Which one are you more familiar with?</u></h1>
     <svg id="choropleth-map"></svg>
-    <svg id="choropleth-map-2"></svg>
+    
+    <section class="center-section">
+        <h2 class="title">
+            <span>Did you know that Africa is actually larger than North America?</span>
+        </h2>
+    
+        <div class="comments-explenation">
+            <div class="explanation" id="wide">
+                <p>
+                    Most people are used to the Mercator projection, but the Equal Earth 
+                    projection shows the true size of countries more accurately. 
+                    This makes it better for showing data such as CO₂ emissions, 
+                    where the actual size of a country is important for understanding the data. 
+                    <br><br>
+                    The Mercator projection is the one most people are familiar with 
+                    because it's often used in maps and applications like Google Maps. 
+                    But you should know that it distorts the size of countries, especially near the poles! 
+                    For example, Greenland and North America look much larger than they really are compared to Africa. 
+                    
+                    <br><br><strong>You can see these differences by looking at projections placed side by side!</strong> 
+                </p>
+            </div>
+        </div>
+
+        
+    </section>
+
+</div>
+
+<div id="window2_1_comment" class="additional_window">
+    <div class="window-content">
+        <span class="close-btn">&times;</span>
+        <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
+        <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
+            <ul>
+                <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+            </ul>
+            Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
+        </p>
+    </div>
+</div>
+
+<div id="window2_1_explenation" class="additional_window">
+    <div class="window-content">
+        <span class="close-btn">&times;</span>
+        <h2>How to read the chart?</h2>
+        <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
+            <br><br>Colors indicate the value of emission per person of each country.
+            Scale under chart present the distribution of emissions per capita across all countries: from 0 to their overall maximum. 
+            <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
+            Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
+        </p>
+        </div>
+</div>
+
+<br>
     <svg id="choropleth-map-3"></svg>
     <svg id="choropleth-map-4"></svg>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="plots/plot1.js"></script>
-    <script src="plots/plot1_2.js"></script>
     <script src="plots/plot2.js"></script>
     
     <div><script src="plots/plot2_2.js"></script></div>

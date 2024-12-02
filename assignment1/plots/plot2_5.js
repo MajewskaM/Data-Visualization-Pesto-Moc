@@ -67,7 +67,7 @@ function updateChart(year, topCount) {
 
     // Process each continent
     continentData.forEach(function(continent) {
-      // Sort the countries in each continent by CO2 emissions and select the top N based on the button clicked
+      // Sort the countries in each continent by CO2 emissions and select the top N based on the dropdown selection
       const sortedCountries = continent.countries.sort((a, b) => b.Annual_CO2_emissions_per_capita - a.Annual_CO2_emissions_per_capita);
       const topCountries = sortedCountries.slice(0, topCount);
 
@@ -169,12 +169,10 @@ document.getElementById('year-select2_5').addEventListener('change', function() 
   updateChart(selectedYear, selectedTop);
 });
 
-// Add event listeners for Top N buttons
-document.querySelectorAll('.top-country-button').forEach(button => {
-  button.addEventListener('click', function() {
-    selectedTop = parseInt(this.getAttribute('data-top'));
-    updateChart(selectedYear, selectedTop);
-  });
+// Add event listener for Top N dropdown
+document.getElementById('top-country-select').addEventListener('change', function() {
+  selectedTop = parseInt(this.value);
+  updateChart(selectedYear, selectedTop);
 });
 
 // Initial chart load
