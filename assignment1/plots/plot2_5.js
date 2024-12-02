@@ -1,7 +1,7 @@
 // Set up the chart dimensions and margins (increased size)
 const margin5 = { top: 60, right: 40, bottom: 60, left: 120 };  // Adjusted margins for better spacing
 const width5 = 1000 - margin5.left - margin5.right;  // Increased width
-const height5 = 600 - margin5.top - margin5.bottom;  // Increased height
+const height5 = 700 - margin5.top - margin5.bottom;  // Increased height
 
 const svg6 = d3.select('#perc') // Select the SVG element by ID
   .attr('width', width5 + margin5.left + margin5.right)
