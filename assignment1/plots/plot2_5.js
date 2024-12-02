@@ -1,7 +1,7 @@
-// Set up the chart dimensions and margins (increased size)
-const margin5 = { top: 100, right: 20, bottom: 60, left: 120 };  // Adjusted margins for better spacing
-const width5 = 1000 - margin5.left - margin5.right;  // Increased width
-const height5 = 600 - margin5.top - margin5.bottom;  // Increased height
+// Set up the chart dimensions and margins
+const margin5 = { top: 40, right: 30, bottom: 40, left: 90 };
+const width5 = 800 - margin5.left - margin5.right;
+const height5 = 500 - margin5.top - margin5.bottom;
 
 const svg6 = d3.select('#perc') // Select the SVG element by ID
   .attr('width', width5 + margin5.left + margin5.right)
@@ -63,7 +63,7 @@ function updateChart(year, topCount) {
       .attr('class', 'y axis')
       .call(d3.axisLeft(y).tickSize(0)) // Remove axis lines
       .selectAll('.tick text')
-      .style('font-size', '14px'); // Adjust font size for better readability
+      .style('font-size', '12px');
 
     // Process each continent
     continentData.forEach(function(continent) {
