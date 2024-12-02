@@ -1,7 +1,7 @@
-// Set up the chart dimensions and margins
-const margin5 = { top: 40, right: 30, bottom: 40, left: 90 };
-const width5 = 800 - margin5.left - margin5.right;
-const height5 = 500 - margin5.top - margin5.bottom;
+// Set up the chart dimensions and margins (increased size)
+const margin5 = { top: 60, right: 40, bottom: 60, left: 120 };  // Adjusted margins for better spacing
+const width5 = 1000 - margin5.left - margin5.right;  // Increased width
+const height5 = 600 - margin5.top - margin5.bottom;  // Increased height
 
 const svg6 = d3.select('#perc') // Select the SVG element by ID
   .attr('width', width5 + margin5.left + margin5.right)
@@ -63,11 +63,11 @@ function updateChart(year, topCount) {
       .attr('class', 'y axis')
       .call(d3.axisLeft(y).tickSize(0)) // Remove axis lines
       .selectAll('.tick text')
-      .style('font-size', '12px');
+      .style('font-size', '14px'); // Adjust font size for better readability
 
     // Process each continent
     continentData.forEach(function(continent) {
-      // Sort the countries in each continent by CO2 emissions and select the top N based on the button clicked
+      // Sort the countries in each continent by CO2 emissions and select the top N based on the dropdown selection
       const sortedCountries = continent.countries.sort((a, b) => b.Annual_CO2_emissions_per_capita - a.Annual_CO2_emissions_per_capita);
       const topCountries = sortedCountries.slice(0, topCount);
 
@@ -169,12 +169,10 @@ document.getElementById('year-select2_5').addEventListener('change', function() 
   updateChart(selectedYear, selectedTop);
 });
 
-// Add event listeners for Top N buttons
-document.querySelectorAll('.top-country-button').forEach(button => {
-  button.addEventListener('click', function() {
-    selectedTop = parseInt(this.getAttribute('data-top'));
-    updateChart(selectedYear, selectedTop);
-  });
+// Add event listener for Top N dropdown
+document.getElementById('top-country-select').addEventListener('change', function() {
+  selectedTop = parseInt(this.value);
+  updateChart(selectedYear, selectedTop);
 });
 
 // Initial chart load

@@ -1187,3 +1187,14 @@ svg {
     filter: brightness(50%);
 }
 
+.chart-section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.dropdown-container {
+    margin-bottom: 10px; 
+    
+    font-weight: bold; /* Make the text bold */
+}

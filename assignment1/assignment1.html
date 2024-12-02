@@ -374,30 +374,14 @@
         <script src = "plots/plots_2.js"></script>
 
         <img src="../docs/assets/img/separator.png" id="separator_img">
-    
+        
         <div class="chart-section-wrapper">
             <div class="chart-section-container_2">
                 <section class="center-section_2">
                     <h2 id="title_section">
                         <bold>PERCENTAGE PLOT FROM CSV DATA</bold><br>
                     </h2>
-                    <div class="dropdown-container">
-                        <label for="year-select2_5">Select Year: </label>
-                        <select id="year-select2_5" class="year-select2_5">
-                            <option value="2022">2022</option>
-                            <option value="2020">2020</option>
-                            <option value="2015">2015</option>
-                            <option value="2010">2010</option>
-                            <option value="2000">2000</option>
-                        </select>
-                    </div>
-                    <div class="button-container">
-                        <button class="top-country-button" data-top="1">Top 1</button>
-                        <button class="top-country-button" data-top="2">Top 2</button>
-                        <button class="top-country-button" data-top="3">Top 3</button>
-                        <button class="top-country-button" data-top="4">Top 4</button>
-                        <button class="top-country-button" data-top="5">Top 5</button>
-                    </div>
+        
                     <div class="explanation" style="margin-bottom:2%">
                         <h3>Comment</h3>
                         <p>
@@ -411,10 +395,36 @@
                 </section>
             </div>
         
+            <!-- Dropdowns above the chart -->
+            <div class="dropdown-container" >
+                <label for="year-select2_5">Select Year: </label>
+                <select id="year-select2_5" class="year-select2_5">
+                    <option value="2022">2022</option>
+                    <option value="2020">2020</option>
+                    <option value="2015">2015</option>
+                    <option value="2010">2010</option>
+                    <option value="2000">2000</option>
+                </select>
+            </div>
+        
+            <div class="dropdown-container">
+                <label for="top-country-select">Select Top Countries: </label>
+                <select id="top-country-select" class="year-select2_5">
+                    <option value="5">Top 5</option>
+                    <option value="4">Top 4</option>
+                    <option value="3">Top 3</option>
+                    <option value="2">Top 2</option>
+                    <option value="1">Top 1</option>
+                </select>
+            </div>
+        
+            <!-- Plot -->
             <svg id="perc"></svg>
         </div>
+        
+        <script src="plots/plot2_5.js"></script>
+
     </div>
-    <script src="plots/plot2_5.js"></script>
 
     <div class="circle-container">
         <div class="circle">
