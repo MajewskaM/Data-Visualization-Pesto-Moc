@@ -158,6 +158,15 @@ function updateChart(year, topCount) {
       .attr('text-anchor', 'middle')
       .attr('class', 'axis-label')
       .text('Continent');
+
+    svg6.append('text')
+      .attr('x', width5 / 2)
+      .attr('y', -margin5.top / 2)
+      .attr("text-anchor", "middle")
+      .attr('class', 'chart-title')
+      .attr("font-size", "20px")
+      .style("font-weight", "bold")
+      .text('CO₂ EMISSIONS BY CONTINENT AND COUNTRY (Percentage)');
   }).catch(error => {
     console.error(`Failed to load CSV for year ${year}:`, error);
   });

@@ -108,7 +108,7 @@
     <div id="window1" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
-            <h2>Explanation</h2>
+            <h2>Methodology</h2>
             <p>
                 The chart was created based on data from the file co-emission-per-capita.csv. <br><br>
                 The original dataset included a mixture of data types:
@@ -127,14 +127,14 @@
     <div id="window3" class="additional_window">
         <div class="window-content">
             <span class="close-btn">&times;</span>
-            <h2>Comment & Explanation</h2>
+            <h2>Comment & Methodology</h2>
             <p>
                 <b>Comment</b><br>
                 <li>This interactive bar chart displays the Top 10 Most Polluting Countries based on CO₂ emissions per capita.</li>
                 <li>The data is visualized for different time periods, such as the Last 5 Years (2018-2022), Last Decade (2013-2022), and Last 2 Decades (2003-2022).</li>
                 <li>The data is presented in tonnes per capita, which reflects the average CO₂ emissions per person in each country for the respective time period.</li><br><br>
 
-                <b>Explanation</b><br>
+                <b>Methodology</b><br>
                 The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data. <br>
                 The source dataset is stored in CSV files, each corresponding to different time ranges (5 years, 10 years, 20 years). Each CSV file contains data on CO₂ emissions per capita for various countries.
             </p>
@@ -148,19 +148,16 @@
     <div class="section2">
 
         <div class="data_preparation" id="preparation">
-            <h2>Data-preparation activities</h2>
-            <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
-            <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
-            World Population Dataset</a> (world_population.csv) with few adjustments.
-            <p>
-                <button class="openExplWindow" data-modal="window2_data">Read more</button>
-            </p>
+            <h2>Continents and their part in CO₂ emissions</h2>
+            <p>Our next step is to examine the global perspective. Each continent plays a significant role in contributing to CO₂ emissions. This is why we aim to present the distribution of emissions across continents, identify the largest emitters, and highlight the top five emitting countries within each continent.</p>
+            <br><br>
+            <p class="small_text_data_prep">What to know about data preparation activities? <u class="openExplWindow" data-modal="window2_data">click here</u></p>
         </div>
 
         <div id="window2_data" class="additional_window">
             <div class="window-content">
                 <span class="close-btn">&times;</span>
-                <h2>Explanation</h2>
+                <h2>Methodology</h2>
                 <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
                     <br><br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">
                     World Population Dataset</a> (world_population.csv) with few adjustments. The name of some countries were written in different way so we needed to change file mannually:
@@ -216,13 +213,10 @@
                 </div>
             </div>
 
-            
-
             <section class="center-section">
                 <h2 class="title">
                     <span>Qatar (Asia) leading over the years (2000-2022)</span><br>
                 </h2>
-            
                 <div class="comments-explenation">
                     <div class="explanation" id="wide">
                         <p>Asia has consistently led in CO₂ emissions per capita, with largest emitters:
@@ -233,40 +227,17 @@
                                 <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
                                 <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
                             </ul>
-                            <button class="openExplWindow" data-modal="window2_1_comment">Read more</button>
+                            Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
                         </p>
                     </div>
                     <div class="description" id="wide">
                         <h3>How to read the chart?</h3>
-                        <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents.</p>
-                        </p>
-                        
                         <p>
-                            <button class="openExplWindow" data-modal="window2_1_explenation">Read more</button>
+                            <button class="openExplWindow" data-modal="window2_1_explenation">Check here</button>
                         </p>
                     </div>
                 </div>
-
-                
             </section>
-        
-        </div>
-
-        <div id="window2_1_comment" class="additional_window">
-            <div class="window-content">
-                <span class="close-btn">&times;</span>
-                <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
-                <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
-                    <ul>
-                        <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
-                        <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
-                        <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
-                        <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
-                        <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
-                    </ul>
-                    Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
-                </p>
-            </div>
         </div>
 
         <div id="window2_1_explenation" class="additional_window">
@@ -325,12 +296,12 @@
                             maximum values in each continent are decreasing... <br><br>Is this the impact that we are starting to be more aware of emissions or is it just the growing population? 
                             Maybe the reason for lower emissions per capita is that we calculate it using greater and greater population? <br>
                             <br>
+                            <strong>Now it is your turn</strong> to discover the total emissions of each country, by hovering you can compare total annual emissions! <br><br>
                             <button class="openExplWindow" data-modal="window2_2_comments">Read more</button>
                         </p>
                     </div>
                     <div class="description">
                         <h3>How to read the chart?</h3>
-                        <p>The chart visualizes CO₂ emissions per capita for years 2022-2000, focusing on the top five CO₂-emitting countries across each continent (Asia, North America, Europe, Oceania, South America, and Africa).</p>
                         <p>
                             <button class="openExplWindow" data-modal="window2_2_explenation">Read more</button>
                         </p>
@@ -345,12 +316,7 @@
             <div class="window-content">
                 <span class="close-btn">&times;</span>
                 <h2>Population - The reason for lower emissions</h2>
-                <p>As we know the world population is increasing. Changing the year we see the trend of lower emissions per capita, 
-                    maximum values in each continent are decreasing... is this the impact that we are starting to be more aware of emissions or is it just the growing population? 
-                    Maybe the reason for lower emissions per capita is that we calculate it using greater and greater population?
-                    <br><br>
-                    <strong>Now it is your turn</strong> to discover the total emissions of each country, by hovering you can compare total annual emissions! 
-                    <br><br>
+                <p>
                     Take a look at <strong>Qatar</strong> and <strong>USA</strong>, at first glance they appear to be reducing their emissions per capita.
                     When you look at total emissions from 2000 to 2022, for Qatar, they actually have increased but for USA they lowered!
                     <ul>
@@ -382,55 +348,55 @@
         <img src="../docs/assets/img/separator.png" id="separator_img">
         
         <div class="chart-section-wrapper">
+            <!-- Plot -->
+            <svg id="perc"></svg>
+
+            <div class="timeChoice">
+                <div class="dropdown-container" >
+                    <label for="year-select2_5">Select Year: </label>
+                    <select id="year-select2_5" class="year-select2_5">
+                        <option value="2022">2022</option>
+                        <option value="2020">2020</option>
+                        <option value="2015">2015</option>
+                        <option value="2010">2010</option>
+                        <option value="2000">2000</option>
+                    </select>
+                </div>
+
+                <div class="dropdown-container">
+                    <label for="top-country-select">Select Top Countries: </label>
+                    <select id="top-country-select" class="year-select2_5">
+                        <option value="5">Top 5</option>
+                        <option value="4">Top 4</option>
+                        <option value="3">Top 3</option>
+                        <option value="2">Top 2</option>
+                        <option value="1">Top 1</option>
+                    </select>
+                </div>
+            </div>
+
+            <br><br><br><br><br>
             <div class="chart-section-container_2">
                 <section class="center-section_2">
-                    <h2 id="title_section">
-                        <bold>PERCENTAGE PLOT FROM CSV DATA</bold><br>
+                    <h2 >
+                        <bold>Percentage plot from csv data</bold>
                     </h2>
         
                     <div class="explanation" style="margin-bottom:2%">
-                        <h3>Comment</h3>
                         <p>
                             This bar chart provides a clear visual representation of CO2 emissions by continent for the year 2022. 
                         </p>
                     </div>
                     <div class="description">
-                        <h3>Explanation</h3>
+                        <h3>Methodology</h3>
                         <p>The chart is built using D3.js, a JavaScript library, to visualize the CO₂ emissions data.</p>
                     </div>
                 </section>
             </div>
-        
-            <!-- Dropdowns above the chart -->
-            <div class="dropdown-container" >
-                <label for="year-select2_5">Select Year: </label>
-                <select id="year-select2_5" class="year-select2_5">
-                    <option value="2022">2022</option>
-                    <option value="2020">2020</option>
-                    <option value="2015">2015</option>
-                    <option value="2010">2010</option>
-                    <option value="2000">2000</option>
-                </select>
-            </div>
-        
-            <div class="dropdown-container">
-                <label for="top-country-select">Select Top Countries: </label>
-                <select id="top-country-select" class="year-select2_5">
-                    <option value="5">Top 5</option>
-                    <option value="4">Top 4</option>
-                    <option value="3">Top 3</option>
-                    <option value="2">Top 2</option>
-                    <option value="1">Top 1</option>
-                </select>
-            </div>
-        
-            <!-- Plot -->
-            <svg id="perc"></svg>
+
         </div>
         
         <script src="plots/plot2_5.js"></script>
-
-        <br><br><br><br><br>
 
     </div>
 
@@ -454,28 +420,25 @@
 
     <div class="chart-section-container-wide">
         <section class="center-section">
-            <div>
-                <h2>Select year</h2>
-                <p>
-                    <select id="year-select3" class="year-select3">
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
-                        <option value="2016">2016</option>
-                        <option value="2015">2015</option>
-                        <option value="2014">2014</option>
-                        <option value="2013">2013</option>
-                        
-                    </select>
-                    <button id="load-data" class="top-country-button">Load Data</button>
+            <div class="timeChoice">
+                <label for="timeRange">Select Time Range: </label>
                 
-                </p>
+                <select id="year-select3" class="year-select3">
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    
+                </select>
+                <button id="load-data" class="top-country-button">Load Data</button>
             </div>
-            <div class="comments-explenation">
-                <h2>Comment</h2>
+            <div class="explanation">
                 <p>
                     The chart shows the top 10 countries in terms of CO2 emissions in 2022. It includes three categories: 
                     Annual CO2 emissions, Annual CO2 emissions from land-use change, and Annual CO2 emissions including land-use change. 
@@ -483,6 +446,8 @@
             </div>
         </section>
     </div>
+    
+
     <script src="plots/plot3.js"></script>
 
     <script src="plots/add_window_handl.js"></script>
