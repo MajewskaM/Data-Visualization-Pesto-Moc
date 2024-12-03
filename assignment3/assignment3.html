@@ -16,19 +16,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Dela+Gothic+One&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 
-    <style>
-        .svg-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px; /* Adjust gap as needed */
-            margin-bottom: 20px; /* Optional: Add space at the bottom of the container */
-        }
-
-        .svg-container svg {
-            width: 48%; /* Adjust the width to make sure both SVGs fit within the container */
-            height: auto;
-        }
-    </style>
 </head>
 <body>
     <div class="topbar">
@@ -51,55 +38,74 @@
         </div>
     </div>
 
-<main id="assignment1_site">
+    <main id="assignment1_site">
 
-    <div class="problem_description" id="background-image-div">
-        <h1>
-            Emissions on map
-        </h1>
-        <p>
-            Climate change is one of the most pressing challenges of our time, driven largely by CO₂ emissions from human activities.<br> 
-            These emissions primarily stem from the burning of fossil fuels and land-use changes, such as deforestation and agriculture.<br>
-            This website explores global emission patterns, using visualizations to highlight the contributions of different continents and their most significant polluting countries.
-        </p>
-    </div>
+        <div class="problem_description" id="background-image-div">
+            <h1>
+                Emissions on map
+            </h1>
+            <p>
+                Climate change is one of the most pressing challenges of our time, driven largely by CO₂ emissions from human activities.<br> 
+                These emissions primarily stem from the burning of fossil fuels and land-use changes, such as deforestation and agriculture.<br>
+                This website explores global emission patterns, using visualizations to highlight the contributions of different continents and their most significant polluting countries.
+            </p>
+        </div>
 
-    <div class="projections_expl_section">
-        <h1>Types of projection</h1>
-        <p>
-            For presenting the distribution of emission in total we used three different types of projections. Let's see what they are and how they differ:<br>
-        </p>
+        <div class="projections_expl_section">
+            <h1>Types of projection</h1>
+            <p>
+                For presenting the distribution of emission in total we used three different types of projections. Let's see what they are and how they differ:<br>
+            </p>
 
-        <section class="three-images-section">
-            <div class="image-container">
-                <img src="../docs/assets/img/maps/mercato.png" alt="mercato">
-                <p>
-                    <b>Mercato projection</b><br><br>
-                    Preserves angles and shapes, but distorts size, especially near the poles.
-                </p>
-            </div>
-            <div class="image-container">
-                <img src="../docs/assets/img/maps/equalearth.png" alt="equalearth">
-                <p>
-                    <b>Equal Earth Projection</b><br><br>
-                    Balances size and shape, offering a more accurate representation of landmass areas.
-                </p>
-            </div>
-            <div class="image-container">
-                <img src="../docs/assets/img/maps/orthographic.png" alt="orthographic" id="orthographic_proj">
-                <p>
-                    <b>Orthographic Projection</b><br><br>
-                    Mimics a globe-like appearance, offering a realistic, three-dimensional view of Earth.
-                </p>
-            </div>
-        </section>
+            <section class="three-images-section">
+                <div class="image-container">
+                    <img src="../docs/assets/img/maps/mercato.png" alt="mercato">
+                    <p>
+                        <b>Mercato projection</b><br><br>
+                        Preserves angles and shapes, but distorts size, especially near the poles.
+                    </p>
+                </div>
+                <div class="image-container">
+                    <img src="../docs/assets/img/maps/equalearth.png" alt="equalearth">
+                    <p>
+                        <b>Equal Earth Projection</b><br><br>
+                        Balances size and shape, offering a more accurate representation of landmass areas.
+                    </p>
+                </div>
+                <div class="image-container">
+                    <img src="../docs/assets/img/maps/orthographic.png" alt="orthographic" id="orthographic_proj">
+                    <p>
+                        <b>Orthographic Projection</b><br><br>
+                        Mimics a globe-like appearance, offering a realistic, three-dimensional view of Earth.
+                    </p>
+                </div>
+            </section>
 
-    </div>
+        </div>
+
+        <div class="tooltip_map" id="tooltip_map"></div>
+        <div class="tooltip_map-3" id="tooltip_map-3"></div>
+        <h1 id="separator">The way you see the world matters...</h1><br><br>
+        <br>
 
         <div class="chart-section-container-wide">
             <div class="data_preparation" id="preparation">
-                <h2>Data-preparation activities</h2>
-                <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
+                <p>
+                    The topic of CO₂ emissions visualized through world projections is both relevant and impactful, especially in the context of raising awareness 
+                    about climate change and its global implications. Using different map projections (Mercator, Equal Earth, Orthographic) adds depth to the understanding 
+                    of emissions distribution and highlights how cartographic choices influence perception.
+                </p>
+                <br><br>
+                <p class="small_text_data_prep">What to know about data preparation activities? <u class="openExplWindow" data-modal="window_data">click here</u></p>
+            </div>
+        </div>
+
+        <div id="window_data" class="additional_window">
+            <div class="window-content">
+                <span class="close-btn">&times;</span>
+                <h2>Methodology</h2>
+                <p>
+                    Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
                     <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">World Population Dataset</a>.
                     <br>To obtain total emissions we multiplied the population and emissions per capita.<br> 
                     Then we saved it to a separate file with data for each year (information about country, continent, total annual emissions, emissions per capita, and population).
@@ -110,20 +116,9 @@
             </div>
         </div>
 
-        <div id="window_data" class="additional_window">
-            <div class="window-content">
-                <span class="close-btn">&times;</span>
-                <h2>Explanation</h2>
-                <p></p>
-            </div>
-        </div>
-        <div class="tooltip_map" id="tooltip_map"></div>
-        <div class="tooltip_map-3" id="tooltip_map-3"></div>
-        <h1 id="separator">The way you see the world matters...</h1><br><br>
-        <br><br><br>
         <h1>Absolute emissions</h1>
         <h1 id="intro">Below are two projections: Mercator on the left, and EqualEarth on the right.<br> <u>Which one are you more familiar with?</u></h1>
-        <svg id="choropleth-map"></svg>
+        <svg id="choropleth-map"></svg><br><br>
 
         <section class="center-section">
             <h2 class="title">
@@ -178,6 +173,7 @@
         <script src="plots/plot1.js"></script>
         <script src="plots/plot2.js"></script>
         <script src="plots/plot2_2.js"></script>
+        <script src="../assignment1/plots/add_window_handl.js"></script>
     </main>
 
     <footer>
