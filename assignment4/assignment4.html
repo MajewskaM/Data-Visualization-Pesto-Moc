@@ -29,8 +29,8 @@
                 <a href="../index.html"> Home</a>
                 <a href="../assignment1/assignment1.html">Insights on CO₂ Emissions</a>
                 <a href="../assignment2/assignment2.html">Fossil fuels and land-use</a>
-                <a href="assignment3.html" class="active">Emissions on map</a>
-                <a href="../assignment4/assignment4.html">Climate Change</a>
+                <a href="../assignment3/assignment3.html">Emissions on map</a>
+                <a href="assignment4.html" class="active">Climate Change</a>
             </div>
         </div>
         
@@ -44,7 +44,7 @@
 
     <div class="problem_description" id="background-image-div">
         <h1>
-            <i class="fas fa-leaf" style="color: #2e7d32;"></i> Emissions on map
+            <i class="fas fa-leaf" style="color: #2e7d32;"></i> Climate Change
         </h1>
         <p>
             Climate change is one of the most pressing challenges of our time, driven largely by CO₂ emissions from human activities.<br> 
@@ -146,29 +146,38 @@
 
 </div>
 
+<div id="window2_1_comment" class="additional_window">
+    <div class="window-content">
+        <span class="close-btn">&times;</span>
+        <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
+        <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
+            <ul>
+                <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+            </ul>
+            Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
+        </p>
+    </div>
+</div>
+
+<div id="window2_1_explenation" class="additional_window">
+    <div class="window-content">
+        <span class="close-btn">&times;</span>
+        <h2>How to read the chart?</h2>
+        <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
+            <br><br>Colors indicate the value of emission per person of each country.
+            Scale under chart present the distribution of emissions per capita across all countries: from 0 to their overall maximum. 
+            <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
+            Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
+        </p>
+        </div>
+</div>
+
 <br>
     <svg id="choropleth-map-3"></svg>
-    <br>
-    <section class="center-section">
-        <h2 class="title">
-            <span>Did you know that the Sahara Desert was once a lush, green paradise?</span>
-        </h2>
-    
-        <div class="comments-explanation">
-            <div class="explanation" id="wide">
-                <p>
-                    It's hard to believe, but the Sahara Desert, one of the driest places on Earth, was once covered in lush vegetation and dotted with lakes. 
-                    This period, known as the African Humid Period, occurred around 10,000 to 5,000 years ago.
-                    <br><br>
-                    During this time, the region received much more rainfall, supporting a variety of plant and animal life. 
-                    Evidence of this can be seen in ancient rock paintings found in the Sahara, depicting animals like giraffes, elephants, and even crocodiles.
-                    <br><br><strong>Imagine the Sahara as a green paradise – it's a fascinating glimpse into Earth's dynamic climate history!</strong> 
-                </p>
-            </div>
-        </div>
-    </section>
-    
-    
     <svg id="choropleth-map-4"></svg>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="plots/plot1.js"></script>
