@@ -1,4 +1,6 @@
-const width3 = window.innerWidth, height4 = window.innerHeight;
+// Adjusted width and height for smaller plot
+const width3 = 1250;  // Reduced width
+const height4 = 900; // Reduced height
 
 function formatNumber(num) {
   if (Math.abs(num) >= 1e9) {
@@ -18,7 +20,7 @@ const svg4 = d3.select("#choropleth-map-4")
 
 // Projections
 const projections4 = {
-  Orthographic: d3.geoOrthographic().scale(200).translate([width3 / 2, height4 / 2])
+  Orthographic: d3.geoOrthographic().scale(150).translate([width3 / 2, height4 / 2]) // Reduced scale for smaller size
 };
 
 const tooltip_map4 = d3.select("#tooltip_map-3");

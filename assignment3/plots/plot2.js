@@ -1,4 +1,5 @@
-const width2 = window.innerWidth, height3 = window.innerHeight;
+const width2 = window.innerWidth * 0.45, // Smaller width (e.g., 75% of window width)
+  height3 = window.innerHeight * 0.6; // Smaller height (e.g., 60% of window height)
 
 function formatNumber(num) {
   if (Math.abs(num) >= 1e9) {
@@ -18,7 +19,7 @@ const svg3 = d3.select("#choropleth-map-3")
 
 // Projections
 const projections3 = {
-  Mercator: d3.geoMercator().scale(200).translate([width2 / 2, height3 / 2]),
+  Mercator: d3.geoMercator().scale(150).translate([width2 / 2, height3 / 2]), // Adjust scale and translate
 };
 
 const tooltip_map3 = d3.select("#tooltip_map-3");
@@ -58,7 +59,7 @@ Promise.all([
     .domain([0, 2, 4, 6, 8, 10, 37])  // Adjusted thresholds
     .range(["#ffffff", "#ffcccc", "#ff9999", "#ff6666", "#ff3333", "#800000", "#330000"]); // Keeping dark red and adding a more distinct color for the highest emissions
 
-  const path = d3.geoPath().projection(d3.geoMercator().scale(200).translate([width2 / 2, height3 / 2]));
+  const path = d3.geoPath().projection(d3.geoMercator().scale(150).translate([width2 / 2, height3 / 2]));
 
   let xOffset = 0;
   Object.entries(projections3).forEach(([name, projection]) => {
@@ -117,7 +118,7 @@ Promise.all([
       });
 
     // Add the updated legend
-    const legend = svg3.append("g").attr("transform", `translate(${width2 - 350}, ${height3 - 180})`);
+    const legend = svg3.append("g").attr("transform", `translate(${width2 - 250}, ${height3 - 180})`); // Adjust position of legend
     const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Updated legend values
 
     legend.selectAll("rect")
