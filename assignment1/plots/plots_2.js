@@ -1,7 +1,7 @@
 
         const transitionDuration = 800;
         const windowWidth = window.innerWidth;
-        const margin1 = { top: 100, right: 100, bottom: 50, left: 110};
+        const margin1 = { top: 100, right: 100, bottom: 120, left: 110};
         const width1 = windowWidth - margin1.left - margin1.right;
         const height1 = window.innerHeight * 0.7 - margin1.top - margin1.bottom;
         
@@ -313,6 +313,25 @@
                 .attr("y", legendHeight1 - 30)
                 .style("font-size", "14px")
                 .style("font-weight", "bold");
+
+            svg1.append("rect")
+                .attr("x", width1/2 - 490)
+                .attr("y", height1 + 140 + legendHeight1)
+                .attr("width", 1000)
+                .attr("height", 50) 
+                .attr("rx", 20)
+                .attr("ry", 20)
+                .attr("fill", "#f2f2f2")
+                .attr("stroke", "#595959")
+                .attr("stroke-width", 1);
+
+            svg1.append("text")
+                .attr("x", width1/2 - 470) 
+                .attr("y", height1 + 170 + legendHeight1)
+                .style("font-size", "16px")
+                .style("font-weight", "bold")
+                .style("fill", "#2b2b2b")
+                .text("Discover details by hovering over the bars! Which is the leading country in each continent? And how has it changed over time?");
 
         }
 
