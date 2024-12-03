@@ -388,6 +388,11 @@ footer p {
     line-height: 1.6;
     color: #4e4e4e; /* A soft gray for less strain on the eyes */
     font-family: 'Fira Sans', sans-serif;
+    text-align: justify;
+}
+
+.data_preparation .small_text_data_prep{
+    font-size: 0.8rem;
 }
 
 #background-image-div {
@@ -860,6 +865,7 @@ footer p {
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    margin-right: 40px;
 }
 
 .button-container {
@@ -1141,6 +1147,7 @@ svg {
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 5%;
 }
 
 .text {
@@ -1248,3 +1255,49 @@ svg {
     
     font-weight: bold; /* Make the text bold */
 }
+
+/* Assignment 3 */
+
+.projections_expl_section {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: -5%;
+}
+
+.projections_expl_section p {
+    margin-bottom: 10px;
+}
+
+.three-images-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 200px;
+    margin: 10px auto;
+    max-width: 80%;
+    background-color: #f5f5f5;
+    box-shadow: none;
+}
+
+.image-container {
+    flex: 1;
+    max-width: 250px;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#orthographic_proj{
+    max-width: 90%;
+}
+
+.image-container p {
+    font-size: 1rem;
+    color: #333;
+}
+
