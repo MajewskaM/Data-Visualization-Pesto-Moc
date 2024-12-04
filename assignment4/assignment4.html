@@ -6,7 +6,8 @@
     <title>Project | PestoMoc</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
      <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <link rel="icon" href="../docs/assets/img/pestomoc_logo.jpg" type="image/jpg">
     <link rel="stylesheet" href="../docs/assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Fira+Sans:wght@400;500&display=swap">
@@ -44,7 +45,7 @@
 
     <div class="problem_description" id="background-image-div">
         <h1>
-            <i class="fas fa-leaf" style="color: #2e7d32;"></i> Climate Change
+            Climate Change
         </h1>
         <p>
             Climate change is one of the most pressing challenges of our time, driven largely by CO₂ emissions from human activities.<br> 
@@ -52,35 +53,6 @@
             This website explores global emission patterns, using visualizations to highlight the contributions of different continents and their most significant polluting countries.
         </p>
     </div>
-
-    <div class="facts_container">
-        <div class="text">
-            <p>What you should know</p>
-        </div>
-        <div class="image-gallery">
-            <div class="gall_img">
-                <img src="../docs/assets/img/fossil_em1.jpg" alt="Fossil Fuel Emissions">
-                <span class="default-text">Hover here</span>
-                <span class="hover-text">In 2022, more than 70% of all global greenhouse gas emissions came from fossil fuels.</span>
-            </div>
-            <div class="gall_img">
-                <img src="../docs/assets/img/land_use1.jpg" alt="Image 1">
-                <span class="default-text">Hover here</span>
-                <span class="hover-text">Tropical deforestation alone is responsible for emitting 1.5 billion tons of CO₂ annually, equivalent to the emissions of 400 million cars</span>
-            </div>
-            <div class="gall_img">
-                <img src="../docs/assets/img/fossil_em2.jpg" alt="Image 2">
-                <span class="default-text">Hover here</span>
-                <span class="hover-text">Cumulative emissions from land use changes since 1850 are estimated to be around 190 GtCO₂, compared to over 1,000 GtCO₂ from fossil fuels</span>
-            </div>
-            <div class="gall_img">
-                <img src="../docs/assets/img/land_use2.jpg" alt="Image 3">
-                <span class="default-text">Hover here</span>
-                <span class="hover-text">Between 2000 and 2020, the world lost nearly 100 million hectares of forest due to agricultural expansion, urbanization, and logging</span>
-            </div>
-        </div>
-    </div>
-    
     
 
     <div class="chart-section-container-wide">
@@ -144,54 +116,59 @@
         
     </section>
 
-</div>
-
-<div id="window2_1_comment" class="additional_window">
-    <div class="window-content">
-        <span class="close-btn">&times;</span>
-        <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
-        <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
-            <ul>
-                <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
-                <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
-                <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
-                <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
-                <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
-            </ul>
-            Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
-        </p>
     </div>
-</div>
 
-<div id="window2_1_explenation" class="additional_window">
-    <div class="window-content">
-        <span class="close-btn">&times;</span>
-        <h2>How to read the chart?</h2>
-        <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
-            <br><br>Colors indicate the value of emission per person of each country.
-            Scale under chart present the distribution of emissions per capita across all countries: from 0 to their overall maximum. 
-            <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
-            Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
-        </p>
+    <div id="window2_1_comment" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>Qatar (Asia) leading over the years (2000-2022)</h2>
+            <p>Asia has consistently led in CO₂ emissions per capita, with largest emitter:
+                <ul>
+                    <li>2000: Qatar - 62,41 CO<sub>2</sub> per capita</li>
+                    <li>2010: Qatar - 42,85 CO<sub>2</sub> per capita</li>
+                    <li>2015: Qatar - 37,77 CO<sub>2</sub> per capita</li>
+                    <li>2020: Qatar - 37,13 CO<sub>2</sub> per capita</li>
+                    <li>2022: Qatar - 37,60 CO<sub>2</sub> per capita</li>
+                </ul>
+                Overall trend: decrease in CO₂ emissions per capita over the years in each continent!
+            </p>
         </div>
-</div>
+    </div>
 
-<br>
-    <svg id="choropleth-map-3"></svg>
-    <svg id="choropleth-map-4"></svg>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="plots/plot1.js"></script>
-    <script src="plots/plot2.js"></script>
-    
-    <div><script src="plots/plot2_2.js"></script></div>
-    
-    
-</main>
+    <div id="window2_1_explenation" class="additional_window">
+        <div class="window-content">
+            <span class="close-btn">&times;</span>
+            <h2>How to read the chart?</h2>
+            <p>Chart represent TOP 5 countires with largest annual CO<sub>2</sub> emissions per person, groupped by continents. 
+                <br><br>Colors indicate the value of emission per person of each country.
+                Scale under chart present the distribution of emissions per capita across all countries: from 0 to their overall maximum. 
+                <br><br>After hovering specific bar, emission per capita value, country name and its population is displayed.
+                Emissions for "Others" category is calculated using weighted average of each country that is not included as one of TOP 5 emitters (using population of each country).
+            </p>
+            </div>
+    </div>
 
-<footer>
-    <p>&copy; Data Visualization | Unige 2024/2025</p>
-    <img src="../docs/assets/img/pesto_logo.png" alt="Logo" class="footer-img">
-</footer>
+    <div id="yearCheckboxContainer"></div>
+    <canvas id="temperatureRadar" width="400" height="400"></canvas>
+
+    <script src="./assignment4/plots/plot2.js"></script>
+
+    <br>
+        <svg id="choropleth-map-3"></svg>
+        <svg id="choropleth-map-4"></svg>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="plots/plot1.js"></script>
+        <script src="plots/plot2.js"></script>
+        
+        <div><script src="plots/plot2_2.js"></script></div>
+        <script src="radar-chart.js"></script>
+        
+    </main>
+
+    <footer>
+        <p>&copy; Data Visualization | Unige 2024/2025</p>
+        <img src="../docs/assets/img/pesto_logo.png" alt="Logo" class="footer-img">
+    </footer>
 
 </body>
 </html>

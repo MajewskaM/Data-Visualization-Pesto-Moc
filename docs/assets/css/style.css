@@ -1313,3 +1313,11 @@ svg {
     height: auto;
 }
 
+/* Assignment 4 */
+#temperatureRadar{
+    width: 80%; /* Adjust width relative to the parent container */
+    height: auto; /* Adjust height */
+    max-width: 600px; /* Optional: set a maximum width */
+    margin: 0 auto;
+}
+
