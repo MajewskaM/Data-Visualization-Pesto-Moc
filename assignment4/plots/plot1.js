@@ -1,151 +1,294 @@
-const width = window.innerWidth, height = window.innerHeight*0.9;
 
-function formatNumber(num) {
-  if (Math.abs(num) >= 1e9) {
-    return (num / 1e9).toFixed(2) + "Bt";
-  } else if (Math.abs(num) >= 1e6) {
-    return (num / 1e6).toFixed(2) + " Mt";
-  } else if (Math.abs(num) >= 1e3) {
-    return (num / 1e3).toFixed(2) + " Kt";
-  } else {
-    return num.toFixed(2) + "t"; 
-  }
+const availableYears = [2023, 2018, 2013, 2008, 2003, 1998, 1993, 1988, 1983, 1978  ];
+
+const checkboxContainer = d3.select("#checkbox-container");
+availableYears.forEach(year => {
+
+    if (year === 2023 || year === 1978) {
+        checkboxContainer.append("label")
+        .html(`<input type="checkbox" value="${year}" checked> ${year}`)
+        .style("margin-bottom", "30px");
+    }
+    else{
+        checkboxContainer.append("label")
+        .html(`<input type="checkbox" value="${year}"> ${year}`)
+        .style("margin-right", "10px");
+    }
+    
+});
+
+
+const margin = { top: 20, right: 100, bottom: 50, left: 100 };
+const width = window.innerWidth*0.8 - margin.left - margin.right;
+const height = window.innerHeight*0.7 - margin.top - margin.bottom;
+
+const svg = d3.select("#line-plot")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const x = d3.scaleLinear().domain([0, 11]).range([0, width]);
+const y = d3.scaleLinear().range([height, 0]);
+
+const lineMin = d3.line()
+    .x(d => x(d.Month - 1))
+    .y(d => y(d["Min Temp"]));
+
+const lineMax = d3.line()
+    .x(d => x(d.Month - 1))
+    .y(d => y(d["Max Temp"]));
+
+function loadData(selectedYears) {
+    const promises = selectedYears.map(year => {
+        const filePath = `./dataset/temperature_data_${year}.csv`;
+        console.log(`Loading file: ${filePath}`);
+        return d3.csv(filePath).then(data => {
+            data.forEach(d => {
+                d.Year = +d.Year;
+                d.Month = +d.Month;
+
+                // Convert temperatures to Celsius
+                d["Min Temp"] = ((+d["Min Temp"] - 32) * 5) / 9;
+                d["Max Temp"] = ((+d["Max Temp"] - 32) * 5) / 9;
+                d["Avg Temp"] = ((+d["Avg Temp"] - 32) * 5) / 9;
+            });
+
+            return data;
+        });
+    });
+    return Promise.all(promises).then(yearlyData => yearlyData.flat());
 }
-
-const svg = d3.select("#choropleth-map")
-  .attr("width", width) 
-  .attr("height", height);
-
-let mapWidth = width / 2;
-let xOffset = 0; 
-
-// Projections
-const projections = {
-  Mercator: d3.geoMercator().scale(110).translate([mapWidth / 2, 350]),
-  EqualEarth: d3.geoEqualEarth().scale(130).translate([mapWidth/2 - 50, 200])
-};
     
 
-    // Color scale
-    // const colorScale = d3.scaleThreshold()
-    //   .domain([1000000, 10000000, 50000000, 100000000, 500000000])
-    //   .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#800000"]);
+function updateChart() {
+    const selectedYears = [...document.querySelectorAll("input[type='checkbox']:checked")]
+        .map(cb => +cb.value);
+
+    loadData(selectedYears).then(data => {
+
+        y.domain([
+            d3.min(data, d => d["Min Temp"]),
+            d3.max(data, d => d["Max Temp"])
+        ]);
 
 
-    //const tooltip = d3.select(".tooltip");
-    // https://geojson-maps.kyd.au/
-    // Tooltip
-    const tooltip_map = d3.select("#tooltip_map");
+        svg.selectAll("*").remove();
+        const tooltip_temp = d3.select("#tooltip_temp");
 
-    // Load data: GeoJSON and emissions CSV
-    Promise.all([
-      d3.json("./dataset/world.geo.json"), 
-      d3.csv("./dataset/country_total_emissions_2022.csv")
-    ]).then(([geojson, csvData]) => {
-      const emissions = {};
-      csvData.forEach(d => {
-        emissions[d.Entity] = +d.Total_CO2_emissions;
-      });
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(i => d3.timeFormat("%B")(new Date(2000, i, 1))))
+            .selectAll("text")
+            .style("text-anchor", "middle")
+            .style("font-size", "14px");
 
-      geojson.features.forEach(feature => {
-        const countryName = feature.properties.name; 
-        feature.properties.emissions = emissions[countryName];
-      });
 
-  
-      const maxEmissions = d3.max(geojson.features, d => d.properties.emissions);
-      console.log(formatNumber(maxEmissions*0.1))
-      console.log(formatNumber(maxEmissions*0.001))
-      const colorScale = d3.scaleThreshold()
-        .domain([0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions])
-        .range(["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#cc0000", "#800000"]);
+        svg.append("g")
+        .call(d3.axisLeft(y))
+        .selectAll("text")
+        .style("font-size", "14px");
 
-   
-      let xOffset = 0;
-  Object.entries(projections).forEach(([name, projection]) => {
-    const path = d3.geoPath().projection(projection);
+        svg.selectAll("grid-line")
+        .data(y.ticks())
+        .enter()
+        .append("line")
+        .attr("class", "grid-line")
+        .attr("x1", 0)
+        .attr("x2", width)
+        .attr("y1", d => y(d))
+        .attr("y2", d => y(d))
+        .attr("stroke", "black")
+        .attr("opacity", 0.2)
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "2");
+        
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("x2", width)
+            .attr("y1", y(0))
+            .attr("y2", y(0))
+            .attr("stroke", "black")
+            .attr("stroke-width", 1);
 
-  const group = svg.append("g")
-        .attr("transform", `translate(${xOffset}, 0)`);
-    xOffset += mapWidth;
 
-    group.selectAll("path")
-    .data(geojson.features)
-    .enter()
-    .append("path")
-    .attr("d", path)
-    .attr("fill", d => {
-      const emission = d.properties.emissions;
-      return emission ? colorScale(emission) : "#ccc";
-    })
-    .attr("stroke", "#333")
-    .on("mouseover", function (event, d) {
-      console.log("Mouseover on:", d.properties.name); 
-      const country = d.properties.name;
-      const emission = d.properties.emissions;
-  
-      d3.select(this).style("opacity", 1).style("stroke-width", "2px");
-  
-      group.selectAll("path")
-        .filter(pathData => pathData !== d)
-        .style("opacity", 0.3);
-  
-      tooltip_map.transition().duration(200).style("opacity", 0.9);
-      tooltip_map
-        .html(`<b>Country:</b> ${country}<br><b>Total Emissions:</b> ${emission ? formatNumber(emission) : "No data"}`)
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY - 20) + "px");
-    })
-    .on("mousemove", function (event) {
-      tooltip_map
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY - 20) + "px");
-    })
-    .on("mouseout", function () {
+        const color = d3.scaleOrdinal(d3.schemeCategory10).domain(selectedYears);
+        
 
-      group.selectAll("path")
-        .style("opacity", 1)
-        .style("stroke-width", "1px");
-  
+        selectedYears.forEach(year => {
+            const yearData = data.filter(d => d.Year === year);
 
-      tooltip_map.transition().duration(200).style("opacity", 0);
+
+            svg.append("path")
+                .datum(yearData)
+                .attr("fill", "none")
+                .attr("stroke", color(year))
+                .attr("stroke-width", 1.5)
+                .attr("d", lineMin);
+
+
+            svg.append("path")
+                .datum(yearData)
+                .attr("fill", "none")
+                .attr("stroke", d3.color(color(year)).brighter(1))
+                .attr("stroke-width", 1.5)
+                .attr("d", lineMax);
+
+            svg.selectAll(`.dot-${year}`)
+                .data(yearData)
+                .enter()
+                .append("circle")
+                .attr("cx", d => x(d.Month - 1))
+                .attr("cy", d => y(d["Avg Temp"]))
+                .attr("r", 6)
+                .attr("opacity", 0.7)
+                .attr("fill", color(year))
+                .attr("stroke", "white")
+                .on("mouseover", function(event, d) {
+
+                    tooltip_temp.transition().duration(200).style("opacity", 1);
+
+                    tooltip_temp
+            .html(`
+                <div class="tooltip-header" style="color: ${color(year)}">
+                    <strong>${year}</strong> ${d3.timeFormat("%d %b")(new Date(d.Year, d.Month - 1))}
+                </div>
+                <div class="tooltip-body">
+                    <strong>Avg Temp:</strong> <span class="tooltip-value">${d["Avg Temp"].toFixed(1)}°C</span>
+                </div>
+                <div class="tooltip-body">
+                    <strong>Min:</strong> <span class="tooltip-value" style="color: ${color(year)}">${d["Min Temp"].toFixed(1)}°C</span>
+                </div>
+                <div class="tooltip-body">
+                    <strong>Max:</strong> <span class="tooltip-value" style="color: ${color(year)}">${d["Max Temp"].toFixed(1)}°C</span>
+                </div>
+            `)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+
+                    
+
+                    console.log("tooltip")
+                })
+                .on("mousemove", function(event) {
+                    tooltip_temp
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 20) + "px");
+                })
+                .on("mouseout", function(){
+                    tooltip_temp.transition().duration(200).style("opacity", 0);
+                });
+
+            svg.selectAll(`.marker-min-${year}`)
+            .data(yearData)
+            .enter()
+            .append("circle")
+            .attr("class", `marker-min-${year}`)
+            .attr("cx", d => x(d.Month - 1))
+            .attr("cy", d => y(d["Min Temp"]))
+            .attr("r", 6)
+            .attr("opacity", 0.7)
+            .attr("fill", color(year))
+            .on("mouseover", function(event, d) {
+
+                tooltip_temp.transition().duration(200).style("opacity", 1);
+
+                tooltip_temp
+                .html(`
+                    <div class="tooltip-header" style="color: ${color(year)}">
+                    <strong>${year}</strong> ${d3.timeFormat("%d %b")(new Date(d.Year, d.Month - 1))}
+                </div>
+                <div class="tooltip-body">
+                    <strong>Min:</strong> <span class="tooltip-value" style="color: ${color(year)}">${d["Min Temp"].toFixed(1)}°C</span>
+                </div>
+
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 20) + "px");
+
+                
+
+                console.log("tooltip")
+            })
+            .on("mousemove", function(event) {
+                tooltip_temp
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 20) + "px");
+            })
+            .on("mouseout", function(){
+                tooltip_temp.transition().duration(200).style("opacity", 0);
+            });
+
+
+            svg.selectAll(`.marker-max-${year}`)
+            .data(yearData)
+            .enter()
+            .append("circle")
+            .attr("class", `marker-max-${year}`)
+            .attr("cx", d => x(d.Month - 1))
+            .attr("cy", d => y(d["Max Temp"]))
+            .attr("r", 6)
+            .attr("opacity", 0.7)
+            .attr("fill", d3.color(color(year)).brighter(1))
+            .on("mouseover", function(event, d) {
+
+                tooltip_temp.transition().duration(200).style("opacity", 1);
+
+                tooltip_temp
+                .html(`
+                    <div class="tooltip-header" style="color: ${color(year)}">
+                    <strong>${year}</strong> ${d3.timeFormat("%d %b")(new Date(d.Year, d.Month - 1))}
+                </div>
+
+                <div class="tooltip-body">
+                    <strong>Max:</strong> <span class="tooltip-value" style="color: ${color(year)}">${d["Max Temp"].toFixed(1)}°C</span>
+                </div>
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 20) + "px");
+
+                
+
+                console.log("tooltip")
+            })
+            .on("mousemove", function(event) {
+                tooltip_temp
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 20) + "px");
+            })
+            .on("mouseout", function(){
+                tooltip_temp.transition().duration(200).style("opacity", 0);
+            });
+
+
+            
+
+
+            
+
+        });
+            
+        const legendContainer = svg.append("g")
+        .attr("transform", `translate(${width + 20}, 0)`);
+        selectedYears.forEach((year, i) => {
+        legendContainer.append("rect")
+            .attr("x", 0)
+            .attr("y", i * 25)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", color(year));
+
+        legendContainer.append("text")
+            .attr("x", 25)
+            .attr("y", i * 25 + 10)
+            .text(year)
+            .style("font-size", "12px")
+            .attr("alignment-baseline", "middle");
+        });
+
     });
+}
 
+d3.selectAll("input[type='checkbox']").on("change", updateChart);
 
-  const legend = svg.append("g").attr("transform", `translate(${width - 600}, ${height - 200})`);
-  const legendSections = colorScale.domain();
-
-  const legendValues = [0, maxEmissions * 0.001, maxEmissions * 0.01, maxEmissions * 0.05, maxEmissions * 0.1, maxEmissions]; // Adjust ranges as needed
-
-  legend.selectAll("rect")
-    .data(legendValues)
-    .enter()
-    .append("rect")
-    .attr("x", (d, i) => i * 60)
-    .attr("y", 0)
-    .attr("width", 60)
-    .attr("height", 20)
-    .attr("fill", (d, i) => colorScale(d));
-
-
-  legend.selectAll("text")
-    .data(legendValues)
-    .enter()
-    .append("text")
-    .attr("x", (d, i) => i == legendValues.length - 1 ? i * 60 + 60 : i * 60)
-    .attr("y", 30)
-    .attr("text-anchor", "middle")
-    .style("font-size", "10px")
-    .text(d => formatNumber(d) + "t");
-
-  legend.append("text")
-    .text("Total Emissions [tons of CO₂]")
-    .attr("x", 0)
-    .attr("y", -10)
-    .style("font-size", "12px")
-    .style("font-weight", "bold");
-}).catch(err => console.error("Error loading data:", err));
-
-
-  });
-
+updateChart();
