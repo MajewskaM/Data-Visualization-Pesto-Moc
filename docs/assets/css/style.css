@@ -1364,3 +1364,12 @@ svg {
     margin: 0 auto;
 }
 
+#yearCheckboxContainer {
+    display: flex;
+    flex-wrap: wrap;
+     /* Optional, to add space between checkboxes */
+}
+
+#yearCheckboxContainer label {
+    margin-right: 20px; /* Add space between the checkboxes if needed */
+}
