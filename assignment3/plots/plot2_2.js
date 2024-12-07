@@ -1,5 +1,5 @@
 // Adjusted width and height for smaller plot
-const width3 = 1250;  // Reduced width
+const width3 = 950;  // Reduced width
 const height4 = 900; // Reduced height
 
 function formatNumber(num) {

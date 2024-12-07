@@ -118,34 +118,35 @@ Promise.all([
       });
 
     // Add the updated legend
-    const legend = svg3.append("g").attr("transform", `translate(${width2 - 250}, ${height3 - 180})`); // Adjust position of legend
-    const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Updated legend values
+const legend = svg3.append("g")
+.attr("transform", `translate(${width2 / 2 - 100}, ${height3 + 80})`); // Adjust position below the plot
+const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Updated legend values
 
-    legend.selectAll("rect")
-      .data(legendValues)
-      .enter()
-      .append("rect")
-      .attr("x", (d, i) => i * 50)
-      .attr("y", 0)
-      .attr("width", 50)
-      .attr("height", 20)
-      .attr("fill", (d, i) => colorScale(d));
+legend.selectAll("rect")
+.data(legendValues)
+.enter()
+.append("rect")
+.attr("x", (d, i) => i * 50)
+.attr("y", 0)
+.attr("width", 50)
+.attr("height", 20)
+.attr("fill", (d, i) => colorScale(d));
 
-    legend.selectAll("text")
-      .data(legendValues)
-      .enter()
-      .append("text")
-      .attr("x", (d, i) => i == legendValues.length - 1 ? i * 50 + 50 : i * 50)
-      .attr("y", 30)
-      .attr("text-anchor", "middle")
-      .style("font-size", "10px")
-      .text(d => formatNumber(d));
+legend.selectAll("text")
+.data(legendValues)
+.enter()
+.append("text")
+.attr("x", (d, i) => i == legendValues.length - 1 ? i * 50 + 50 : i * 50)
+.attr("y", 30)
+.attr("text-anchor", "middle")
+.style("font-size", "10px")
+.text(d => formatNumber(d));
 
-    legend.append("text")
-      .text("Legend (Per Capita CO₂ Emissions)")
-      .attr("x", 0)
-      .attr("y", -10)
-      .style("font-size", "12px")
-      .style("font-weight", "bold");
+legend.append("text")
+.text("Legend (Per Capita CO₂ Emissions)")
+.attr("x", 0)
+.attr("y", -10)
+.style("font-size", "12px")
+.style("font-weight", "bold");
   });
 }).catch(err => console.error("Error loading data:", err));
