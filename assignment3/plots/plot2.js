@@ -118,7 +118,7 @@ Promise.all([
       });
 
     // Add the updated legend
-const legend = svg3.append("g")
+/*const legend = svg3.append("g")
 .attr("transform", `translate(${width2 / 2 - 100}, ${height3 + 80})`); // Adjust position below the plot
 const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Updated legend values
 
@@ -147,6 +147,6 @@ legend.append("text")
 .attr("x", 0)
 .attr("y", -10)
 .style("font-size", "12px")
-.style("font-weight", "bold");
+.style("font-weight", "bold");*/
   });
 }).catch(err => console.error("Error loading data:", err));
