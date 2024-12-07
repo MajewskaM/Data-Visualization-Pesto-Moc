@@ -118,7 +118,7 @@ Promise.all([
       });
 
     // Add the updated legend
-    const legend = svg4.append("g").attr("transform", `translate(${width3 - 650}, ${height4 - 180})`);
+    const legend = svg4.append("g").attr("transform", `translate(${width3 - 650}, ${height4 - 200})`);
     const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Adjusted legend values
 
     legend.selectAll("rect")
