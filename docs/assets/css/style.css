@@ -1356,3 +1356,20 @@ svg {
     height: auto;
 }
 
+/* Assignment 4 */
+#temperatureRadar{
+    width: 80%; /* Adjust width relative to the parent container */
+    height: auto; /* Adjust height */
+    max-width: 600px; /* Optional: set a maximum width */
+    margin: 0 auto;
+}
+
+#yearCheckboxContainer {
+    display: flex;
+    flex-wrap: wrap;
+     /* Optional, to add space between checkboxes */
+}
+
+#yearCheckboxContainer label {
+    margin-right: 20px; /* Add space between the checkboxes if needed */
+}
