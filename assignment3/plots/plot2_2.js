@@ -1,5 +1,5 @@
 // Adjusted width and height for smaller plot
-const width3 = 1250;  // Reduced width
+const width3 = 950;  // Reduced width
 const height4 = 900; // Reduced height
 
 function formatNumber(num) {
@@ -118,7 +118,7 @@ Promise.all([
       });
 
     // Add the updated legend
-    const legend = svg4.append("g").attr("transform", `translate(${width3 - 350}, ${height4 - 180})`);
+    const legend = svg4.append("g").attr("transform", `translate(${width3 - 650}, ${height4 - 180})`);
     const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Adjusted legend values
 
     legend.selectAll("rect")
@@ -139,14 +139,16 @@ Promise.all([
       .attr("y", 30)
       .attr("text-anchor", "middle")
       .style("font-size", "10px")
-      .text(d => formatNumber(d));
+      .text(d => formatNumber(d))
+      .style("user-select", "none"); 
 
     legend.append("text")
       .text("Legend (Per Capita CO₂ Emissions)")
       .attr("x", 0)
       .attr("y", -10)
       .style("font-size", "12px")
-      .style("font-weight", "bold");
+      .style("font-weight", "bold")
+      .style("user-select", "none"); 
 
     // Add rotation functionality
     let lastX = 0;
