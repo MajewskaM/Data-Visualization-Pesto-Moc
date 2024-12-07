@@ -86,18 +86,8 @@
     <div class="chart-section-container-wide">
         <div class="data_preparation" id="preparation">
             <h2>Data-preparation activities</h2>
-            <p>Plots are based on <a href="https://ourworldindata.org/grapher/co-emissions-per-capita">Per capita CO₂ emissions dataset</a> (countries_data.csv).
-                <br>To combine it with continents and population additionally we used another dataset <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset">World Population Dataset</a>.
-                    <br>To obtain total emissions we multipied the population and emissions per capita.<br> 
-                    Then we saved it to separate file with data for each year (inforamtion about country, continent, total annual emissions, emissions per capita and population).
-                    To get the boudaries of each country we used world.geo.json file generated from <a href="https://geojson-maps.kyd.au/">geojson-maps</a> with the lowest resolution (clear visualization purposes).
-                    <br><br>Additionally we needed to modify names of some countries that they will refer to the ones from our dataset.
-                    There were also no data for population of some countries in all given years (Cote d'Ivoire, 
-                    Bonaire Sint Eustatius and Saba, 
-                    Saint Helena, 
-                    Kosovo and some of them didn't have data for emissions Puerto Rico, N. Cyprus, Falkland Is., 
-                    Somaliland, 
-                    W. Sahara, Antarctica, Fr. S. Antarctic Lands)
+            <p>Plots are based on <a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series">Time-series Data For New York</a>.
+                <br>We extracted minimum, average and maximum temperature for each month of New York state. Then we created .csv file for each year (1978-2023)
 
         </div>
     </div>
@@ -116,7 +106,7 @@
 
     <h1 id="separator">What is the effect of emissions?</h1><br><br>
     <br><br><br>
-    <h1>Temperature Change in New York (1979-2024)</h1>
+    <h1>Temperature Change in New York 1978-2023 (°C)</h1>
     <svg id="line-plot"></svg>
     
     <div class="checkbox-container" id="checkbox-container"></div>
