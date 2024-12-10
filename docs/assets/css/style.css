@@ -357,7 +357,7 @@ footer p {
     color: #4e4e4e;
     font-family: 'Fira Sans', sans-serif;
     text-align: left !important;
-    width: 100%;
+    width: 90%;
     margin-left: 5%;
 }
 
@@ -1347,29 +1347,36 @@ svg {
 .svg-container {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* Adjust gap as needed */
-    margin-bottom: 20px; /* Optional: Add space at the bottom of the container */
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
 .svg-container svg {
-    width: 48%; /* Adjust the width to make sure both SVGs fit within the container */
+    width: 48%;
     height: auto;
 }
 
 /* Assignment 4 */
 #temperatureRadar{
-    width: 80%; /* Adjust width relative to the parent container */
-    height: auto; /* Adjust height */
-    max-width: 600px; /* Optional: set a maximum width */
+    width: 80%;
+    height: auto;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 #yearCheckboxContainer {
     display: flex;
     flex-wrap: wrap;
-     /* Optional, to add space between checkboxes */
+    margin-bottom: 5%;
 }
 
 #yearCheckboxContainer label {
-    margin-right: 20px; /* Add space between the checkboxes if needed */
+    margin-right: 20px;
+}
+
+#separator_img2{
+    width: 10%;
+    height: auto;
+    margin-bottom: -5%;
+    margin-top: -10%;
 }
