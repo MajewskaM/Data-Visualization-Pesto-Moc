@@ -1,6 +1,6 @@
-// Function to format numbers (e.g., 1e6 to 1M, 1e9 to 1B, etc.)
+
 function formatNumber(value) {
-    const absValue = Math.abs(value); // Get the absolute value
+    const absValue = Math.abs(value);
 
     if (absValue >= 1e12) {
         return (absValue / 1e12).toFixed(2) + "T"; // Trillion
@@ -11,11 +11,10 @@ function formatNumber(value) {
     } else if (absValue >= 1e3) {
         return (absValue / 1e3).toFixed(2) + "K"; // Thousand
     } else {
-        return absValue.toFixed(2); // No formatting needed for smaller numbers
+        return absValue.toFixed(2); 
     }
 }
 
-// Set the dimensions and margins of the graph
 const margin3 = { top: 60, right: 220, bottom: 60, left: 400 },
     width3 = 1500 - margin3.left - margin3.right,
     height3 = 600 - margin3.top - margin3.bottom;
@@ -26,13 +25,10 @@ const svg4 = d3.select("#heatmap")
     .append("g")
     .attr("transform", `translate(${margin3.left},${margin3.top})`);
 
-// Function to load and render the data
 function loadData(year) {
-    // Load the data for the selected year
     const fileName = `dataset/1_3/top_10_countries_${year}.csv`;
     
     d3.csv(fileName).then(data => {
-        // Process the data
         const countries = Array.from(new Set(data.map(d => d.Entity)));
         const types = [
             "Annual CO2 emissions including land-use change",
@@ -40,7 +36,6 @@ function loadData(year) {
             "Annual CO2 emissions"
         ];
 
-        // Transform data to long format
         const longData = [];
         data.forEach(d => {
             types.forEach(type => {
@@ -52,10 +47,9 @@ function loadData(year) {
             });
         });
 
-        // Clear any existing heatmap content
         svg4.selectAll("*").remove();
 
-        // Build X scales and axis
+
         const x = d3.scaleBand()
             .range([0, width3])
             .domain(countries)
@@ -67,7 +61,6 @@ function loadData(year) {
             .call(d3.axisBottom(x).tickSize(0))
             .select(".domain").remove();
 
-        // Build Y scales and axis
         const y = d3.scaleBand()
             .range([height3, 0])
             .domain(types)
@@ -78,17 +71,14 @@ function loadData(year) {
             .call(d3.axisLeft(y).tickSize(0))
             .select(".domain").remove();
 
-        // Define color scale with green, white, and red
         const colorScale = d3.scaleLinear()
             .domain([d3.min(longData, d => d.value), 0, d3.max(longData, d => d.value)])
-            .range(["green", "white", "red"]);  // Green for negative, white for zero, red for positive
+            .range(["green", "white", "red"]);  
 
-        // Create a tooltip3
         const tooltip3 = d3.select("body").append("div")
             .style("opacity", 0)
             .attr("class", "tooltip3");
 
-        // Mouse events for tooltip
         const mouseover = function (event, d) {
             rects.style("opacity", 0.5);
             d3.select(this).style("opacity", 1);
@@ -107,7 +97,6 @@ function loadData(year) {
             tooltip3.style("opacity", 0);
         };
 
-        // Add the squares (rectangles)
         const rects = svg4.selectAll()
             .data(longData, function (d) { return d.Entity + ':' + d.type; })
             .enter()
@@ -124,37 +113,31 @@ function loadData(year) {
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
 
-        // Add text inside each rectangle (centered text)
         svg4.selectAll("text")
             .data(longData, function (d) { return d.Entity + ':' + d.type; })
             .enter()
             .append("text")
-            .attr("x", d => x(d.Entity) + x.bandwidth() / 2)  // Center horizontally
-            .attr("y", d => y(d.type) + y.bandwidth() / 2)    // Center vertically
-            .attr("dy", ".35em")  // Adjust vertical alignment to center
-            .attr("text-anchor", "middle")  // Center the text horizontally
+            .attr("x", d => x(d.Entity) + x.bandwidth() / 2)  
+            .attr("y", d => y(d.type) + y.bandwidth() / 2)    
+            .attr("dy", ".35em")  
+            .attr("text-anchor", "middle")  
             .text(d => {
-                // Only display formatted value if it's a valid number
                 return d.value ? formatNumber(d.value) : "";
             })
-            .style("fill", "black")  // Set text color
-            .style("font-size", "12px")  // Adjust text size if necessary
-            .style("font-weight", "bold"); // Make text bold for visibility
+            .style("fill", "black")  
+            .style("font-size", "12px")  
+            .style("font-weight", "bold"); 
 
-        // Set legend dimensions
         const legendWidth = 10;  
         const legendHeight = 200; 
 
-        // Append a group for the legend
         const legend = svg4.append("g")
-            .attr("transform", `translate(${width3 + 10}, 0)`); // Position next to the heatmap
+            .attr("transform", `translate(${width3 + 10}, 0)`); 
 
-        // Create a scale for the legend with inverted domain (invert the colors)
         const legendScale = d3.scaleLinear()
-            .domain([d3.max(longData, d => d.value), d3.min(longData, d => d.value)]) // Invert domain
+            .domain([d3.max(longData, d => d.value), d3.min(longData, d => d.value)]) 
             .range([legendHeight, 0]);
 
-        // Create the gradient rectangle for the legend
         legend.append("rect")
             .attr("x", 0)
             .attr("y", 0)
@@ -162,55 +145,50 @@ function loadData(year) {
             .attr("height", legendHeight)
             .style("fill", "url(#gradient)");
 
-        // Create a gradient for the legend with red, white, and green (inverted)
         const gradient = svg4.append("defs").append("linearGradient")
             .attr("id", "gradient")
             .attr("x1", "0%")
             .attr("y1", "0%")
             .attr("x2", "0%")
             .attr("y2", "100%");
-        gradient.append("stop").attr("offset", "0%").attr("stop-color", "red");  // Start with red for positive emissions
-        gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");  // White for zero emissions
-        gradient.append("stop").attr("offset", "100%").attr("stop-color", "green");  // Green for negative emissions
+        gradient.append("stop").attr("offset", "0%").attr("stop-color", "red");  
+        gradient.append("stop").attr("offset", "50%").attr("stop-color", "white");  
+        gradient.append("stop").attr("offset", "100%").attr("stop-color", "green");  
 
-        // Add labels for the legend with inverted text
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", 10)
-            .text("Positive Emissions")  // Inverted label order
+            .text("Positive Emissions")  
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
 
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", legendHeight / 2)
-            .text("Zero Emissions")  // Middle label stays as "Zero Emissions"
+            .text("Zero Emissions")  
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
 
         legend.append("text")
             .attr("x", legendWidth + 15)
             .attr("y", legendHeight - 10)
-            .text("Negative Emissions")  // Inverted label order
+            .text("Negative Emissions")  
             .style("font-size", "12px")
             .style("dominant-baseline", "middle");
 
-        // Add unit label at the bottom of the heatmap
         svg4.append("text")
-        .attr("x", width3 / 2)  // Position it in the center horizontally
-        .attr("y", height3 + 40)  // Position it slightly below the heatmap
-        .attr("text-anchor", "middle")  // Center the text
-        .style("font-size", "14px")  // Adjust font size
-        .style("font-weight", "bold")  // Make the text bold for better visibility
+        .attr("x", width3 / 2)  
+        .attr("y", height3 + 40)  
+        .attr("text-anchor", "middle")  
+        .style("font-size", "14px")  
+        .style("font-weight", "bold")  
         .text("Unit: Tons");
 
     });
 }
 
-// Initial load with the default year (2022)
 loadData(2022);
 
-// Add event listener for the year selection dropdown and the "Load Data" button
 document.getElementById("load-data").addEventListener("click", () => {
     const selectedYear = document.getElementById("year-select3").value;
     loadData(selectedYear);
