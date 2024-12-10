@@ -7,9 +7,7 @@ let temperatureRadarChart = null;
                 availableYears.push(year);
             }
 
-            const sortedYears = availableYears.sort((a, b) => b - a);
-
-            sortedYears.forEach(year => {
+            availableYears.forEach(year => {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.value = year;
@@ -44,7 +42,8 @@ let temperatureRadarChart = null;
                                 results.data.forEach(row => {
                                     const month = parseInt(row['Month']) - 1;
                                     const value = parseFloat(row['Avg Temp']);
-                                    monthlyData[month] = value;
+                                    const valueCelsius = ((value - 32) * 5 / 9).toFixed(1);
+                                    monthlyData[month] = valueCelsius;
                                 });
                                 resolve({ year, data: monthlyData });
                             },
@@ -118,7 +117,7 @@ let temperatureRadarChart = null;
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Monthly Average Temperature (°F)',  // Title text
+                                text: 'Monthly Average Temperature (°C)',  // Title text
                                 font: {
                                     size: 18,  // Customize the font size
                                     weight: 'bold'  // Set the font weight
@@ -139,7 +138,7 @@ let temperatureRadarChart = null;
                                         const year = tooltipItem.chart.data.datasets[datasetIndex].label.split(' ')[1];
                                         
                                         const value = tooltipItem.raw;
-                                        return `Year ${year}: ${value} F`;
+                                        return `Year ${year}: ${value}°C`;
                                     }
                                 }
                             }
