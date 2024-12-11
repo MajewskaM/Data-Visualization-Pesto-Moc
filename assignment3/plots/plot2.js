@@ -79,8 +79,8 @@ Promise.all([
           .style("opacity", 0.3);
 
         // Show the tooltip
-        tooltip_map3.transition().duration(200).style("opacity", 0.9);
-        tooltip_map3
+        d3.select("#tooltip_map-3").transition().duration(200).style("opacity", 0.9);
+        d3.select("#tooltip_map-3")
           .html(` 
             <b>Country:</b> ${country}<br>
             <b>Per Capita Emissions:</b> ${emission ? formatNumber(emission) : "No data"}<br>
@@ -90,7 +90,7 @@ Promise.all([
           .style("top", (event.pageY - 20) + "px");
       })
       .on("mousemove", function (event) {
-        tooltip_map3
+        d3.select("#tooltip_map-3")
           .style("left", (event.pageX + 10) + "px")
           .style("top", (event.pageY - 20) + "px");
       })
@@ -101,7 +101,8 @@ Promise.all([
           .style("stroke-width", "1px");
 
         // Hide the tooltip after mouseout
-        tooltip_map3.transition().duration(200).style("opacity", 0);
+        d3.select("#tooltip_map-3").transition().duration(200).style("opacity", 0);
       });
   });
 }).catch(err => console.error("Error loading data:", err));
+
