@@ -2,9 +2,10 @@
 const width3 = 950;  // Reduced width
 const height4 = 900; // Reduced height
 
+// Function to format numbers with appropriate units (e.g., K, M, B)
 function formatNumber(num) {
   if (Math.abs(num) >= 1e9) {
-    return (num / 1e9).toFixed(2) + " B"; // Billions
+    return (num / 1e9).toFixed(2);  // Display values in billions
   } else if (Math.abs(num) >= 1e6) {
     return (num / 1e6).toFixed(2) + " M"; // Millions
   } else if (Math.abs(num) >= 1e3) {
@@ -20,7 +21,9 @@ const svg4 = d3.select("#choropleth-map-4")
 
 // Projections
 const projections4 = {
-  Orthographic: d3.geoOrthographic().scale(150).translate([width3 / 2, height4 / 2]) // Reduced scale for smaller size
+  Orthographic: d3.geoOrthographic()
+    .scale(250) // Increased scale for a larger globe
+    .translate([width3 / 4 +100, height4 / 4 +100]) // Move the globe towards the top-left (adjusted to shift the globe)
 };
 
 const tooltip_map4 = d3.select("#tooltip_map-3");
@@ -118,7 +121,7 @@ Promise.all([
       });
 
     // Add the updated legend
-    const legend = svg4.append("g").attr("transform", `translate(${width3 - 650}, ${height4 - 200})`);
+    const legend = svg4.append("g").attr("transform", `translate(${width3 - 780}, ${height4 - 250})`);
     const legendValues = [0, 2, 4, 6, 8, 10, 37];  // Adjusted legend values
 
     legend.selectAll("rect")
@@ -131,6 +134,7 @@ Promise.all([
       .attr("height", 20)
       .attr("fill", (d, i) => colorScale(d));
 
+    // Add text with "Billion tons" as the unit
     legend.selectAll("text")
       .data(legendValues)
       .enter()
@@ -139,8 +143,8 @@ Promise.all([
       .attr("y", 30)
       .attr("text-anchor", "middle")
       .style("font-size", "10px")
-      .text(d => formatNumber(d))
-      .style("user-select", "none"); 
+      .text(d => formatNumber(d) + " B t")  // Add the unit here
+      .style("user-select", "none");
 
     legend.append("text")
       .text("Legend (Per Capita CO₂ Emissions)")
@@ -148,7 +152,7 @@ Promise.all([
       .attr("y", -10)
       .style("font-size", "12px")
       .style("font-weight", "bold")
-      .style("user-select", "none"); 
+      .style("user-select", "none");
 
     // Add rotation functionality
     let lastX = 0;
