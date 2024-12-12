@@ -1,6 +1,6 @@
 const margin2 = { top: 40, right: 30, bottom: 20, left: 110 },
     width2 = 960 - margin2.left - margin2.right,
-    height2 = 1500 - margin2.top - margin2.bottom;
+    height2 = 900 - margin2.top - margin2.bottom;
 
 const svg2 = d3.select("#Ridgeline")
     .attr("width", width2 + margin2.left + margin2.right)
