@@ -21,7 +21,6 @@ d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
         const data = d3.merge([minData, maxData]);
 
         const filteredData = data.filter(d => {
-            // Select data for the 5 years before each year in selectedYears
             return selectedYears.some(year => +d.Date.slice(0, 4) >= +year - 5 && +d.Date.slice(0, 4) <= +year);
         });
 
@@ -36,7 +35,7 @@ d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
         svg2.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", `translate(0,${height2})`)
-            .call(d3.axisBottom(x2).ticks(5).tickFormat(d => `${d}°C`)) // Display °C on x-axis
+            .call(d3.axisBottom(x2).ticks(5).tickFormat(d => `${d}°C`)) 
             .append("text")
             .attr("class", "label")
             .attr("x", width2)
@@ -60,16 +59,14 @@ d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
         const kde = kernelDensityEstimator(kernelEpanechnikov(1), x2.ticks(40));
 
         selectedYears.forEach(year => {
-            const yearRange = d3.range(+year - 5, +year + 1); // Get the range of the 5 previous years plus the selected year
+            const yearRange = d3.range(+year - 5, +year + 1);
 
             const minYearData = minData.filter(d => yearRange.includes(+d.Date.slice(0, 4))).map(d => +d.Value);
             const maxYearData = maxData.filter(d => yearRange.includes(+d.Date.slice(0, 4))).map(d => +d.Value);
 
-            // Convert to Celsius if necessary (assuming the data is in Fahrenheit)
             const minYearDataCelsius = minYearData.map(d => (d - 32) * 5 / 9);
             const maxYearDataCelsius = maxYearData.map(d => (d - 32) * 5 / 9);
 
-            // Density computation
             const minDensity = kde(minYearDataCelsius);
             const maxDensity = kde(maxYearDataCelsius);
 
@@ -98,16 +95,45 @@ d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
                 .attr("stroke-width", 1.5)
                 .attr("d", d3.line()
                     .curve(d3.curveBasis)
-                    .x(d => x2(d[0])) // Map x value to x2 scale
+                    .x(d => x2(d[0])) 
                     .y(d => y2(year) + y2.bandwidth() / 2 - y2.bandwidth() * d[1] / 2));
         });
 
-        // Update the Y-axis labels to show the year range (e.g., "2018-2023")
         svg2.selectAll(".axis--y text")
             .text(function(d) {
-                const yearRange = d + "-" + (+d + 5); // Create the year range label
+                const yearRange = d + "-" + (+d + 5);
                 return yearRange;
             });
+
+        // Add a simple legend for min and max temperature
+        const legend = svg2.append("g")
+            .attr("transform", `translate(${width2 - 150},${height2 - 850})`);
+
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", color(0)); // Min temperature color
+
+        legend.append("text")
+            .attr("x", 25)
+            .attr("y", 15)
+            .attr("text-anchor", "start")
+            .text("Min Temperature");
+
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 30)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", color(1)); // Max temperature color
+
+        legend.append("text")
+            .attr("x", 25)
+            .attr("y", 45)
+            .attr("text-anchor", "start")
+            .text("Max Temperature");
 
     });
 });
