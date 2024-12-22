@@ -13,7 +13,7 @@ const y2 = d3.scaleBand().range([height2, 0]).padding(0.2);
 
 const color = d3.scaleOrdinal().range(["#1f77b4", "#ff7f0e"]);
 
-const selectedYears = ["2023", "2018", "2013", "2008", "2003", "1998", "1993", "1988", "1983", "1978"];
+const selectedYears = ["2018", "2013", "2008", "2003", "1998", "1993", "1988", "1983", "1978"];
 
 d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
     d3.csv("./dataset/new_york_1978-2023_max.csv").then(maxData => {
@@ -28,7 +28,7 @@ d3.csv("./dataset/new_york_1978-2023_min.csv").then(minData => {
 
         const minValue = d3.min(filteredData, d => d.Value);
         const maxValue = d3.max(filteredData, d => d.Value);
-        x2.domain([Math.min(minValue, -20), Math.max(maxValue, 50)]); 
+        x2.domain([Math.min(minValue, -20), Math.max(maxValue, 45)]); 
 
         svg2.selectAll("*").remove(); 
 
